@@ -7,3 +7,35 @@ body {
 .pageHeader{
   text-align: center;
 }
+
+.formRow{
+  display: flex;
+  justify-content: space-between;
+  
+}
+.formRow > .formElement{
+  width: 45%;
+}
+
+.formInput{
+  padding: .5em  1em;
+  width: 100%;
+  font-family: Arial;
+}
+
+.formLabel{
+   margin-bottom: .5em;
+}
+
+.card {
+  padding: 1em;
+}
+
+.wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.registerControl {
+    margin-bottom: "2em"
+}

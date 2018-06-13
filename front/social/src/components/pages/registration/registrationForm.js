@@ -5,73 +5,59 @@ import { withStyles } from '@material-ui/core/styles';
 import {  FormControl, FormHelperText, Button, MenuItem,
       TextField, Select, Grid, Paper, Input  } from '@material-ui/core'; 
 
+import {nameValidate, dateValidate, emailValidate, sexValidate} from "./validate"
 
 
-const styles = theme => ({
-    card: {
-      padding: "1em"
-    },
-
-    wrapper: {
-        maxWidth: 600,
-        margin: "0 auto"
-    },
-
-    registerControl: {
-        "margin-bottom": "2em"
-    }
-
-});
-
+const MALE = "male";
+const FEMALE = "female";
 
 class RegistrationForm extends Component {
 
-    state = { 
-      
-        firstname: {
-            value: "",
-            isError: false,
-            conditions() {
-                return /^[a-zA-Z]{2,32}$/.test(this.value);
-            }
-        },
-        surname: {
-            value: "",
-            isError: false,
-            conditions() {
-                return /^[a-zA-Z]{2,32}$/.test(this.value);
-            }
-        },
-        fathername: {
-            value: "",
-            isError: false,
-            conditions() {
-                return /^[a-zA-Z]{2,32}$/.test(this.value);
-            }
-        },
-        email: {
-            value: "",
-            isError: false,
-            conditions() {
-                return false;
-            }
-        },
-        sex: {
-            value: "",
-            isError: false,
-            conditions() {
-                return this.value == "male" || this.value == 'female';
-            }
-        },
-        date: {
-            value: Date.now(),
-            isError: false,
-            conditions() {
-                return false;
-            }
-        }       
-    };
 
+    constructor(props){
+        super(props);
+    
+
+        this.state = {
+
+            firstname: "",
+            surname: "",
+            parrentname: "",
+            email: "",
+            date: Date.now(),
+            sex: "",
+
+            validateState: {
+                firstname: {
+                    isError: false,
+                    message: "Укажите ваше имя"
+                },
+                surname: {
+                    isError: false,
+                    message: "Укажите вашу фамилию"
+                },
+                parrentname: {
+                    isError: false,
+                    message: "Укажите ваше отчество"
+                },
+                email: {
+                    isError: false,
+                    message: "Укажите вашу почту"
+                },
+                date: {
+                    isError: false,
+                    message: "Укажите вашу дату рождения"
+                },
+                sex: {
+                    isError: false,
+                    message: "Укажите ваш пол"
+                }
+            }
+        } 
+    }
+
+    
+    
 
     handleChange = name => event => {
         this.setState({ [name]: event.target.value });
@@ -79,38 +65,56 @@ class RegistrationForm extends Component {
 
     sexChange = event => {
         this.setState(prev => ({
-            sex:{
-                ...prev.sex,
-                value: event.target.value
-            }
+           ...prev,
+           sex: event.target.value
         }))
     } 
 
     onSubmit = event => {
         event.preventDefault();
-    
+
+        var newValidateState = {
+            firstname: nameValidate(this.state.firstname,true, "firstname"),
+            surname: nameValidate(this.state.surname,true, "surname"),
+            parrentname: nameValidate(this.state.parrentname,false, "parrentname"),
+            email: emailValidate(this.state.email),
+            date: dateValidate(this.state.date),
+            sex: sexValidate(this.state.sex)
+        }
+
+        this.setState(prevState => ({
+            ...prevState,
+            validateState: newValidateState
+        }))
+
+        var isFormValid = true;
+
+        for(var field in newValidateState )
+        {
+            isFormValid = isFormValid && !newValidateState[field].isError
+        }
+        console.log(isFormValid);
     }
+
 
     render() {
     
     const { classes } = this.props;
     
     return (
-        <div className={classes.wrapper}>
+        <div className="wrapper">
         <form onSubmit={this.onSubmit}>
-                <Paper className={classes.card}>
+                <Paper className="card">
                     <Grid container spacing={24}>
                         <Grid item xs={12} sm={6}>
                             <FormControl required fullWidth>
                                 <TextField 
-                                    
                                     label="Имя" 
-                                    helperText="Укажите ваше имя"
-                                    value={this.state.firstname.value}
+                                    helperText={this.state.validateState.surname.message}
+                                    value={this.state.firstname}
                                     onChange={this.handleChange('firstname')}
                                     required
-                                    id="nameForm"
-                                    error={this.state.firstname.isError}
+                                    error={this.state.validateState.firstname.isError}
                                     />
                             </FormControl>
                         </Grid>
@@ -119,34 +123,27 @@ class RegistrationForm extends Component {
                                 <TextField 
                                     label="Фамилия" 
                                     fullWidth
-                                    helperText="Укажите вашу фамилию"
+                                    helperText={this.state.validateState.surname.message}
                                     required
                                     value={this.state.surname.value}
                                     onChange={this.handleChange('surname')}
-                                    InputProps={
-                                        { 
-                                            inputProps: { maxLength: 32, minLength: 2 } 
-                                        }
-                                    }
+                                    error={this.state.validateState.surname.isError}
                                     />
                             </FormControl>
                         </Grid>
                     </Grid>
                     
-                    <Grid container spacing={24}>
+                     <Grid container spacing={24}>
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth>
                                 <TextField 
                                     label="Отчество" 
                                     fullWidth
-                                    helperText="Укажите ваше отчество"
-                                    value={this.state.fathername.value}
-                                    onChange={this.handleChange('fathername')}
-                                    InputProps={
-                                        { 
-                                            inputProps: { pattern: "^[a-zA-Z]+$" } 
-                                        }
-                                    }
+                                    helperText={this.state.validateState.parrentname.message}
+                                    value={this.state.parrentname}
+                                    onChange={this.handleChange('parrentname')}
+                                    error={this.state.validateState.parrentname.isError}
+                                   
                                     />
                             </FormControl>
                         </Grid>
@@ -155,41 +152,43 @@ class RegistrationForm extends Component {
                         </Grid>
                     </Grid>
                     
-                    <FormControl className={classes.registerControl} fullWidth>
+                    <FormControl className="registerControl" fullWidth>
                         <TextField 
                             label="Почта" 
                             required
                             fullWidth
-                            helperText="Укажите ваш email"
+                            helperText={this.state.validateState.email.message}
                             value={this.state.email.value}
                             onChange={this.handleChange('email')}
                             type="email"
+                            error={this.state.validateState.email.isError}
                             
                         
                             />
                     </FormControl>
 
                     
-                    <FormControl className={classes.registerControl} fullWidth>
+                    <FormControl className="registerControl" fullWidth>
                         <TextField 
                             label="Дата рождения" 
                             required
                             fullWidth
-                            helperText="Укажите вашу дату рождения"
-                            value={this.state.date.value}
+                            helperText={this.state.validateState.date.message}
+                            value={this.state.date}
                             onChange={this.handleChange('date')}
                             type="date"
+                            error={this.state.validateState.date.isError}
+                            inputProps= {{
+                                min:"1920-00-01",
+                                 max:"2017-12-31"
+                            }}
                             />
                     </FormControl>
-                    
-                    
-                    
                    
-                   
-                    <FormControl className={classes.registerControl} fullWidth>
+                    <FormControl className="registerControl" fullWidth error={this.state.validateState.sex.isError} >
                         <Select 
                             required
-                            value={this.state.sex.value}
+                            value={this.state.sex}
                             onChange={this.sexChange}
                             displayEmpty
                             name='sex'
@@ -197,13 +196,13 @@ class RegistrationForm extends Component {
                              >
 
                             <MenuItem value="" disabled>Пол</MenuItem>
-                            <MenuItem value={"male"}>Мужской</MenuItem>
-                            <MenuItem value={"female"}>Женский</MenuItem>
+                            <MenuItem value={MALE}>Мужской</MenuItem>
+                            <MenuItem value={FEMALE}>Женский</MenuItem>
                         </Select>
                         <FormHelperText>Укажите ваш пол</FormHelperText>
-                    </FormControl>
-                    <Grid container justify="center">
-                        <Button onClick={this.onSubmit} type="submit" variant="contained" color="primary">Регистрация</Button>
+                    </FormControl> 
+                    <Grid container justify="flex-end">
+                        <Button onClick={this.onSubmit} type="submit" variant="contained" color="primary">Далее</Button>
                     </Grid>
                 </Paper>
             </form>
@@ -216,4 +215,4 @@ RegistrationForm.propTypes = {
     classes: PropTypes.object.isRequired,
   };
 
-export default withStyles(styles)(RegistrationForm);
+export default RegistrationForm;
