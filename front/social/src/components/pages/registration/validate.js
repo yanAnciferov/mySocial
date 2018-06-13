@@ -8,7 +8,7 @@ export function nameValidate(name, required, typeField) {
             noError: "Укажите вашу фамилию"
         },
         parrentname: {
-            noError: "Укажите ваше отчество"
+            noError: "Укажите ваше отчество(не обязательно)"
         }
     }
 
@@ -67,6 +67,12 @@ export function emailValidate(email) {
 
 
 export function dateValidate(date) {
+
+    if(date == "") 
+        return {
+            isError: true,
+            message: "Это поле должно быть заполнено"
+        }
 
     if(new Date(date).getFullYear() < new Date("1920-01-01").getFullYear())
         return {

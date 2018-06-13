@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 
 import {  FormControl, FormHelperText, Button, MenuItem,
       TextField, Select, Grid, Paper, Input  } from '@material-ui/core'; 
 
 import {nameValidate, dateValidate, emailValidate, sexValidate} from "./validate"
+import { connect } from 'react-redux';
 
 
 const MALE = "male";
@@ -13,93 +13,35 @@ const FEMALE = "female";
 
 class RegistrationForm extends Component {
 
-
     constructor(props){
         super(props);
-    
-
+        
         this.state = {
-
-            firstname: "",
-            surname: "",
-            parrentname: "",
-            email: "",
-            date: Date.now(),
-            sex: "",
-
-            validateState: {
-                firstname: {
-                    isError: false,
-                    message: "Укажите ваше имя"
-                },
-                surname: {
-                    isError: false,
-                    message: "Укажите вашу фамилию"
-                },
-                parrentname: {
-                    isError: false,
-                    message: "Укажите ваше отчество"
-                },
-                email: {
-                    isError: false,
-                    message: "Укажите вашу почту"
-                },
-                date: {
-                    isError: false,
-                    message: "Укажите вашу дату рождения"
-                },
-                sex: {
-                    isError: false,
-                    message: "Укажите ваш пол"
-                }
-            }
-        } 
+            sex: ""
+        }
     }
 
     
-    
-
-    handleChange = name => event => {
-        this.setState({ [name]: event.target.value });
-    }
-
     sexChange = event => {
-        this.setState(prev => ({
-           ...prev,
-           sex: event.target.value
-        }))
-    } 
+        this.setState({sex: event.target.value });
+    }
+     
 
     onSubmit = event => {
         event.preventDefault();
-
-        var newValidateState = {
-            firstname: nameValidate(this.state.firstname,true, "firstname"),
-            surname: nameValidate(this.state.surname,true, "surname"),
-            parrentname: nameValidate(this.state.parrentname,false, "parrentname"),
-            email: emailValidate(this.state.email),
-            date: dateValidate(this.state.date),
-            sex: sexValidate(this.state.sex)
-        }
-
-        this.setState(prevState => ({
-            ...prevState,
-            validateState: newValidateState
-        }))
-
-        var isFormValid = true;
-
-        for(var field in newValidateState )
-        {
-            isFormValid = isFormValid && !newValidateState[field].isError
-        }
-        console.log(isFormValid);
+        this.props.onSubmit({
+            firstname: this.firstname.value,
+            surname: this.surname.value,
+            parrentname: this.parrentname.value,
+            email: this.email.value,
+            date: this.date.value,
+            sex: this.state.sex
+        });
     }
 
 
     render() {
     
-    const { classes } = this.props;
     
     return (
         <div className="wrapper">
@@ -110,11 +52,10 @@ class RegistrationForm extends Component {
                             <FormControl required fullWidth>
                                 <TextField 
                                     label="Имя" 
-                                    helperText={this.state.validateState.surname.message}
-                                    value={this.state.firstname}
-                                    onChange={this.handleChange('firstname')}
+                                    helperText={this.props.register.validateState.firstname.message}
+                                    inputRef={(input) => { this.firstname = input } }
                                     required
-                                    error={this.state.validateState.firstname.isError}
+                                    error={this.props.register.validateState.firstname.isError}
                                     />
                             </FormControl>
                         </Grid>
@@ -123,26 +64,24 @@ class RegistrationForm extends Component {
                                 <TextField 
                                     label="Фамилия" 
                                     fullWidth
-                                    helperText={this.state.validateState.surname.message}
+                                    helperText={this.props.register.validateState.surname.message}
                                     required
-                                    value={this.state.surname.value}
-                                    onChange={this.handleChange('surname')}
-                                    error={this.state.validateState.surname.isError}
+                                    inputRef={(input) => { this.surname = input } }
+                                    error={this.props.register.validateState.surname.isError}
                                     />
                             </FormControl>
                         </Grid>
                     </Grid>
                     
-                     <Grid container spacing={24}>
+                      <Grid container spacing={24}>
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth>
                                 <TextField 
                                     label="Отчество" 
                                     fullWidth
-                                    helperText={this.state.validateState.parrentname.message}
-                                    value={this.state.parrentname}
-                                    onChange={this.handleChange('parrentname')}
-                                    error={this.state.validateState.parrentname.isError}
+                                    helperText={this.props.register.validateState.parrentname.message}
+                                    inputRef={(input) => { this.parrentname = input } }
+                                    error={this.props.register.validateState.parrentname.isError}
                                    
                                     />
                             </FormControl>
@@ -157,11 +96,11 @@ class RegistrationForm extends Component {
                             label="Почта" 
                             required
                             fullWidth
-                            helperText={this.state.validateState.email.message}
-                            value={this.state.email.value}
-                            onChange={this.handleChange('email')}
+                            helperText={this.props.register.validateState.email.message}
+                            required
+                            inputRef={(input) => { this.email = input } }
+                            error={this.props.register.validateState.email.isError}
                             type="email"
-                            error={this.state.validateState.email.isError}
                             
                         
                             />
@@ -170,28 +109,29 @@ class RegistrationForm extends Component {
                     
                     <FormControl className="registerControl" fullWidth>
                         <TextField 
-                            label="Дата рождения" 
                             required
                             fullWidth
-                            helperText={this.state.validateState.date.message}
-                            value={this.state.date}
-                            onChange={this.handleChange('date')}
                             type="date"
-                            error={this.state.validateState.date.isError}
+
+                            helperText={this.props.register.validateState.date.message}
+                            required
+                            inputRef={(input) => { this.date = input } }
+                            error={this.props.register.validateState.date.isError}
+                            
                             inputProps= {{
                                 min:"1920-00-01",
-                                 max:"2017-12-31"
+                                max:"2017-12-31"
                             }}
                             />
                     </FormControl>
                    
-                    <FormControl className="registerControl" fullWidth error={this.state.validateState.sex.isError} >
+                    <FormControl className="registerControl" fullWidth error={this.props.register.validateState.sex.isError} >
                         <Select 
                             required
                             value={this.state.sex}
-                            onChange={this.sexChange}
                             displayEmpty
                             name='sex'
+                            onChange={this.sexChange}
                             fullWidth
                              >
 
@@ -200,10 +140,10 @@ class RegistrationForm extends Component {
                             <MenuItem value={FEMALE}>Женский</MenuItem>
                         </Select>
                         <FormHelperText>Укажите ваш пол</FormHelperText>
-                    </FormControl> 
+                    </FormControl>
                     <Grid container justify="flex-end">
                         <Button onClick={this.onSubmit} type="submit" variant="contained" color="primary">Далее</Button>
-                    </Grid>
+                    </Grid> 
                 </Paper>
             </form>
         </div>
@@ -211,8 +151,18 @@ class RegistrationForm extends Component {
     }
 }
 
-RegistrationForm.propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
 
-export default RegistrationForm;
+
+export default connect(
+        state => ({
+            register: state.registerModel
+        }),
+        dispatch => ({
+            onSubmit: (model) => {
+                dispatch({ type: 'ON_SUBMIT', payload: model})
+            },
+            onChange: (name) => {
+                dispatch({ type: 'ON_CHANGE', payload: name})
+            }
+        })
+)(RegistrationForm);

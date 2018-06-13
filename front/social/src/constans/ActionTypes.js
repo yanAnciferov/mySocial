@@ -1,1 +1,3 @@
 export const REGISTRATION = 'REGISTRATION';
+export const HANDLE_CHANGE = 'HANDLE_CHANGE';
+export const SEX_CHANGE = 'SEX_CHANGE';
