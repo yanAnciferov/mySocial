@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 
-import registerModel from './registrationModel'
+import register from './registration'
 
 export default combineReducers({
     routing: routerReducer,
-    registerModel
+    register
 })

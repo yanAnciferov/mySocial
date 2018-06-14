@@ -1,41 +1,49 @@
+import  * as consts  from '../../../constans/registration'
+
 export function nameValidate(name, required, typeField) {
+
 
     var messages = {
         firstname: {
-            noError: "Укажите ваше имя"
+            noError: consts.ENTER_NAME
         },
         surname: {
-            noError: "Укажите вашу фамилию"
+            noError: consts.ENTER_SURNAME
         },
         parrentname: {
-            noError: "Укажите ваше отчество(не обязательно)"
+            noError: consts.ENTER_PARRENTNAME
         }
     }
 
-    if(name.length == "" && required == true)
+   
+    if(typeof name !== "string" )
         return {
             isError: true,
-            message: "Это поле должно быть заполнено"
+            message: consts.INVALIDATE_ENTRY_PARAM
         }
-
-    if(name.length == "" && required == false)
+    
+    if(name.length == 0)
+    {
         return {
-            isError: false,
-            message: messages[typeField].noError
-        }
+            isError: required,
+            message: (required) ? consts.REQUIRED : messages[typeField].noError
+        } 
+    }
+       
+        
 
     if(name.length < 2 || name.length > 32)
         return {
             isError: true,
-            message: "Значение поля должно быть длинной от 2 до 32 символов"
+            message: consts.NAME_LENGTH_MESSAGE
         }
 
 
 
-    if(/[a-zA-Zа-яА-Я]/.test(name) == false)
+    if(consts.NAME_REGEX.test(name) == false)
         return {
             isError: true,
-            message: "Это поле должно состоять из букв латинницы или крилицы и не содержать пробелов"
+            message: consts.NAME_OPTION_MESSAGE
         }
 
     return {
@@ -46,49 +54,67 @@ export function nameValidate(name, required, typeField) {
 
 export function emailValidate(email) {
 
-    if(email.length == "")
+
+    if(typeof email !== "string" )
         return {
             isError: true,
-            message: "Это поле должно быть заполнено"
+            message: consts.INVALIDATE_ENTRY_PARAM
         }
 
-        if(/[a-zA-Z]{2,}@[a-zA-Z](\.?)[a-zA-Z]/.test(email) == false)
+    if(email.length == 0)
         return {
             isError: true,
-            message: "Email должен быть указан в формате domain@username.hostname"
+            message: consts.REQUIRED
+        }
+
+        if(consts.EMAIL_REGEX.test(email) == false)
+        return {
+            isError: true,
+            message: consts.EMAIL_OPTION_MESSAGE
         }
 
     return {
         isError: false,
-        message: "Укажите ваш Email"
+        message: consts.ENTER_EMAIL
     }
 }
 
 
 
-export function dateValidate(date) {
+export function dateValidate(dateParam) {
 
-    if(date == "") 
+    if(dateParam == "") 
         return {
             isError: true,
-            message: "Это поле должно быть заполнено"
+            message: consts.REQUIRED
         }
 
-    if(new Date(date).getFullYear() < new Date("1920-01-01").getFullYear())
+    var date = new Date(dateParam);
+    if(date == 'Invalid Date'){
         return {
             isError: true,
-            message: "Минимальная дата - 1 января 1920 года"
+            message: consts.INVALIDATE_ENTRY_PARAM
+        }
+    }
+
+    var min = new Date(consts.MIN_DATE)
+    var max = new Date(consts.MAX_DATE)
+
+    if(date.getFullYear() < min.getFullYear())
+        return {
+            isError: true,
+            message: consts.MIN_DATE_MESSAGE
         }
 
-    if(new Date(date).getFullYear() > new Date("2017-01-01").getFullYear())
+    if(date.getFullYear() > max.getFullYear())
         return {
             isError: true,
-            message: "Максимальная дата - 31 декабря 2017 года"
+            message: consts.MAX_DATE_MESSAGE
         }
 
     return {
         isError: false,
-        message: "Укажите вашу дату рождения"
+        message: consts.ENTER_BIRTHDATE
     }
 }
 
@@ -98,13 +124,54 @@ export function sexValidate(sex) {
     if(sex == "")
         return {
             isError: true,
-             message: "Укажите ваш пол"
+            message: consts.REQUIRED
+        }
+    
+    
+  
+    if([consts.MALE,consts.FEMALE].indexOf(sex) !== -1)
+        return {
+            isError: false,
+            message: consts.ENTER_SEX
+        }
+    else return {
+        isError: true,
+        message: consts.INVALIDATE_ENTRY_PARAM
+    }
+}
+
+
+export function imageValidation(file, isSubmit) {
+
+    if(file == null){
+        return {
+            isError: isSubmit,
+            message: consts.ENTER_FILE
+        } 
+    }
+
+   
+    if({}.toString.call(file.__proto__) !== "[object File]")
+        return {
+            isError: true,
+            message: consts.INVALIDATE_ENTRY_PARAM
         }
 
-  
+    if(["image/jpeg", "image/jpg", "image/png"].indexOf(file.type) == -1)
+        return {
+            isError: true,
+            message: consts.IMAGE_INVALIDATE_FORMAT
+        }
 
-    return {
+    if(file.size / 1024 < 40 || file.size / 1024 > (5 * 1024) * 1024)
+        return {
+            isError: true,
+            message: consts.IMAGE_INVALIDATE_SIZE
+        }
+
+    else return {
         isError: false,
-        message: "Укажите ваш пол"
+        message: consts.ENTER_FILE
     }
+
 }

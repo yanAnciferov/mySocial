@@ -4,38 +4,107 @@ body {
   font-family: sans-serif;
 }
 
-.pageHeader{
+.formWrapper .pageHeader{
   text-align: center;
 }
 
-.formRow{
+.formWrapper .formRow{
   display: flex;
   justify-content: space-between;
   
 }
-.formRow > .formElement{
+.formWrapper .formRow > .formElement{
   width: 45%;
 }
 
-.formInput{
+.formWrapper .formInput{
   padding: .5em  1em;
   width: 100%;
   font-family: Arial;
 }
 
-.formLabel{
+.formWrapper .formLabel{
    margin-bottom: .5em;
 }
 
-.card {
-  padding: 1em;
-}
-
-.wrapper {
+.formWrapper .wrapper {
     max-width: 600px;
     margin: 0 auto;
 }
 
-.registerControl {
+.formWrapper .registerControl {
     margin-bottom: 2em;
+}
+
+.steps-wrapper .card{
+  width: 600px;
+  padding: 1em;
+}
+
+.registration-page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.file-input-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.file-input-wrapper label{
+
+  display: flex;
+  align-items: flex-end;
+}
+
+.file-input-wrapper label .error{
+margin-left: 1em;
+color: red;
+}
+
+.file-input-wrapper > input[type="file"] {
+  
+  width: 90px;
+  height: 36px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.file-input-wrapper > .btn-file-input {
+  display: inline-block;
+  
+
+  border: 2px dashed #1f8da8;
+  border-radius: 15px;
+  background-color: white;
+
+}
+
+.file-input-wrapper > input[type="file"]:hover + .btn-file-input{
+    font-size: 1.1em;
+}
+
+.editor-canvas{
+  border: 2px dashed rgb(24, 146, 184);
+  border-radius: 15px;
+}
+
+.avatar-zoom{
+  margin-top: 1em;
+}
+
+.registrationFormHeader{
+  margin: 0;
+  margin-bottom: .6em;
+  font-weight: normal;
+}
+
+.avatar-buttons{
+  display: flex;
+  justify-content: space-between;
 }

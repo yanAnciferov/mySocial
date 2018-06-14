@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RegistrationForm from "./registrationForm"
+import RegistrationAvatar from "./registrationAvatar"
+import LoaderWindow from "./registrationLoading"
+import { connect } from 'react-redux';
 
-import {  MobileStepper  } from '@material-ui/core'; 
+import {  Paper  } from '@material-ui/core'; 
 
 
 const styles = theme => ({
@@ -27,46 +30,36 @@ const styles = theme => ({
 });
 
 class RegistrationStepper extends React.Component {
-  state = {
-    activeStep: 0
-  };
 
-  handleNext = () => {
-    this.setState(prevState => ({
-      activeStep: prevState.activeStep + 1
-    }));
-  };
-
-  handleBack = () => {
-    this.setState(prevState => ({
-      activeStep: prevState.activeStep - 1
-    }));
-  };
 
   render() {
-
     const registrationSteps = [
       {
         component: <RegistrationForm />
       },
       {
-        component: <button>2</button>
+        component: <RegistrationAvatar />
       }
     ];
 
+    const activeStep = this.props.step;
     
-    const { activeStep } = this.state;
-
-    const maxSteps = 0;
-
     return (
-      <div>
-          {registrationSteps[activeStep].component}
+      <div className="steps-wrapper"> 
+        <Paper className="card">
+          <div>
+              {registrationSteps[activeStep].component}
+          </div>
+        </Paper>
+        <LoaderWindow open={this.props.isLoading} />
       </div>
     );
   }
 }
 
-
-
-export default RegistrationStepper;
+export default connect(
+  state => ({
+      step: state.register.step,
+      isLoading: state.register.isLoading
+  })
+)(RegistrationStepper);

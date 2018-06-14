@@ -7,7 +7,7 @@ import RegistrationSteps from './registrationSteps'
 class Registration extends Component {
     render() {
     return (
-      <div>
+      <div className="registration-page">
          <h1 className="pageHeader">Регистрация</h1>
          <RegistrationSteps />
       </div>
