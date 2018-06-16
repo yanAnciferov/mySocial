@@ -7,19 +7,21 @@ import * as consts from "../constans/registration"
 
 const initialState = {
 
-    [consts.MODEL_FIRSTNAME]: "",
-    [consts.MODEL_SURNAME]: "",
-    [consts.MODEL_PARRENTNAME]: "",
-    [consts.MODEL_EMAIL]: "",
-    [consts.MODEL_BIRTHDATE]: "",
-    [consts.MODEL_SEX]: "",
+    [consts.MODEL_FIRSTNAME]: "zz",
+    [consts.MODEL_SURNAME]: "zz",
+    [consts.MODEL_PARRENTNAME]: "zz",
+    [consts.MODEL_EMAIL]: "zzz@zzz",
+    [consts.MODEL_BIRTHDATE]: "11-11-2011",
+    [consts.MODEL_SEX]: "male",
 
     image: {
-        file: null
+        file: null,
+        rect: null
     },
 
     step: 0,
     isLoading: false,
+    isValid: false,
     
     validateState: {
         [consts.MODEL_FIRSTNAME]: {
@@ -85,7 +87,8 @@ export default function (state = initialState, action) {
         return {
             ...state,
             validateState: newValidateState,
-            step: newStep
+            step: newStep,
+            isValid: isFormValid
         }
     }
 
@@ -112,12 +115,6 @@ export default function (state = initialState, action) {
         }
     }
 
-    if(action.type === actionTypes.NEXT_STEP){
-        return {
-            ...state
-        }
-    }
-
     if(action.type === actionTypes.PREV_STEP){
         return {
             ...state,
@@ -128,14 +125,18 @@ export default function (state = initialState, action) {
     if(action.type === actionTypes.AVATAR_SUBMIT){
 
         var imageValide = imageValidation(state.image.file, true)
-        var isLoading;
+        var isValid;
         if(imageValide.isError)
-            isLoading = false        
-        else isLoading = true
+            isValid = false        
+        else isValid = true
         console.log(imageValide)
         return {
             ...state,
-            isLoading,
+            isValid,
+            image: {
+                ...state.image,
+                rect: action.payload
+            },
             validateState: {
                 ...state.validateState,
                 image: imageValide
@@ -145,12 +146,20 @@ export default function (state = initialState, action) {
 
 
     if(action.type === actionTypes.AVATAR_SKIP){
-
-        
+        var imageValide = imageValidation(state.image.file, false)
+        var isValid;
+        if(imageValide.isError)
+            isValid = false        
+        else isValid = true
+        console.log(imageValide)
         return {
             ...state,
-            isLoading: true
-        }        
+            isValid,
+            validateState: {
+                ...state.validateState,
+                image: imageValide
+            }
+        }       
     }
 
     return state;

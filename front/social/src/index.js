@@ -5,12 +5,13 @@ import { withStyles } from '@material-ui/core/styles';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import thunk from 'redux-thunk'
 
 import { Provider } from "react-redux"
-import { createStore } from "redux"
+import { createStore, applyMiddleware } from "redux"
 import Reducers from "./reducers/index"
 
-const store = createStore(Reducers);
+const store = createStore(Reducers, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>

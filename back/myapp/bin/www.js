@@ -15,7 +15,7 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var upload = multer();
-
+var cors = require('cors');
 
 var mongoose = require('mongoose');
 

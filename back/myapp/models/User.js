@@ -1,4 +1,6 @@
+
 var mongoose = require('mongoose');
+var crypto = require('crypto')
 var Schema = mongoose.Schema;
 
 
@@ -7,15 +9,72 @@ var  userScheme = new Schema({
     surname: {type: String, required: true },
     parrentname: {type: String, required: false },
     email: { type: String, unique: true, required: true },
+    sex: { type: String, required: true },
     birthdate: { type: Date, required: false},
-    password: { type: String, required: true},
-    avatarUrl: { type: String, required: false, default: "http://www.zimphysio.org.zw/wp-content/uploads/2018/01/default-avatar-2.jpg"},
-    id: { type: String, unique: true, required: true }
+    hashPassword: { type: String, required: true},
+    salt: {
+        type: String,
+        required: true
+    }
 });
 
+userScheme.virtual("password")
+    .set(function(password){
+        console.log("!");
+        this.salt = Math.random() + 'salt',
+        this.hashPassword = this.encryptPassword(password);
+    });
+
+userScheme.methods = {
+    encryptPassword(password){
+        return crypto.createHmac('sha256', this.salt).update(password).digest('hex');
+    },
+    checkPassword(password){
+        return this.encryptPassword(password) === this.hashPassword;
+    }
+}
+
+userScheme.statics = {
+    // authorize(username, password, callback){
+    //     var User = this;
+    //     async.waterfall([
+    //         callback => {
+    //             if(username){
+    //                 User.findOne({username}, callback);
+    //             }
+    //         },
+    //         (admin, callback) => {
+    //             if(admin){
+    //                 if(admin.checkPassword(password)){
+    //                     callback(null, admin);
+    //                 } else { callback(403) }
+    //             }else { callback(403) }
+    //         }
+    //     ], callback);
+    // },
+
+    createUser: function(user, callback){
+
+        var User = this;
+        console.log("111");
+        var forNewUser = {
+            firstname: user.firstname,
+            parrentname: user.parrentname,
+            surname: user.surname,
+            sex: user.sex,
+            email: user.email,
+            birthdate: new Date(user.birthdate),
+            password: user.password
+        };
+        console.log(forNewUser);
+        var newUser = new User(forNewUser);
+
+        console.log("222");
+
+        newUser.save(callback);
+    }
+}
 
 
-var User = mongoose.model("User", userScheme);
-
-module.exports(User);
+exports.User = mongoose.model("User", userScheme);
 

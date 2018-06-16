@@ -22,7 +22,7 @@ export const NAME_LENGTH_MESSAGE = "Значение поля должно бы�
 export const NAME_OPTION_MESSAGE = "Это поле должно состоять из букв латинницы или крилицы и не содержать пробелов"
 export const EMAIL_OPTION_MESSAGE = "Email должен быть указан в формате domain@username.hostname"
 
-export const EMAIL_REGEX = /[a-zA-Z]{2,}@[a-zA-Z](\.?)[a-zA-Z]/
+export const EMAIL_REGEX = /[a-zA-Z0-9._%+-]{2,}@[a-zA-Z](\.?)[a-zA-Z]/
 export const NAME_REGEX = /[a-zA-Zа-яА-Я]/
 
 

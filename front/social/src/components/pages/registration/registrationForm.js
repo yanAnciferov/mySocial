@@ -45,7 +45,7 @@ class RegistrationForm extends Component {
 
     return (
         <div className="formWrapper">
-        <h3 className="registrationFormHeader">Общая инофрмация</h3>
+        <h3 className="registrationFormHeader">Общая информация</h3>
         <form onSubmit={this.onSubmit}>
                     <Grid container spacing={24}>
                         <Grid item xs={12} sm={6}>

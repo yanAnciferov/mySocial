@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^1.2.1",
     "@material-ui/lab": "^1.0.0-alpha.5",
+    "axios": "^0.18.0",
     "onsenui": "^2.10.1",
     "react": "^16.4.0",
     "react-avatar-editor": "^11.0.3",
@@ -20,7 +21,8 @@
     "react-router-redux": "^4.0.8",
     "react-scripts": "1.1.4",
     "react-validation": "^3.0.7",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

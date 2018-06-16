@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core"
 import Slider from '@material-ui/lab/Slider'
 import { connect } from 'react-redux'
 import * as actionTypes from "../../../constans/ActionTypes"
+import { registration } from "../../../actions/Account"
 
 class RegistrationAvatar extends React.Component {
   state = {
@@ -58,6 +59,8 @@ class RegistrationAvatar extends React.Component {
   }
 
   render() {
+
+    let {register} = this.props
 
     var valid = this.props.register.validateState.image;
     var model = this.props.register.image.file;
@@ -140,9 +143,11 @@ export default connect(
             },
             registration: (rect) => {
               dispatch({ type: actionTypes.AVATAR_SUBMIT, payload: rect})
+              dispatch(registration());
             },
             skip: (rect) => {
               dispatch({ type: actionTypes.AVATAR_SKIP})
+              dispatch(registration());
             }
         })
 )(RegistrationAvatar);
