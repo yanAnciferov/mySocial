@@ -2,8 +2,9 @@
 
 import axios from "axios"
 import * as consts from "../constans/registration"
+import { REGISTRATION_QUERY_ERROR, REGISTRATION_QUERY_START, REGISTRATION_QUERY_SUCCESS } from "../constans/ActionTypes"
 
-axios.defaults.baseURL = 'http://127.0.0.1:3001';
+axios.defaults.baseURL = 'http://localhost:3001';
 
 
 export const registration = () => (dispatch, getState) => {
@@ -38,14 +39,21 @@ export const registration = () => (dispatch, getState) => {
 
    console.log(params);
 
+   dispatch({
+     type: REGISTRATION_QUERY_START
+   })
 
-  axios.post('/registration',params)
-       .then((res) => {
-         console.log(res);
-       })
-       .catch((err) => {
-         console.log(err);
-       })
-
-
+  axios.post('/api/account/registration',params)
+      .then((res) => {
+        console.log(res);
+        dispatch({
+        type: REGISTRATION_QUERY_SUCCESS
+      })
+      })
+      .catch((err) => {
+        dispatch({
+        type: REGISTRATION_QUERY_ERROR,
+        err
+      })
+      })
 }

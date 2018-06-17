@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {  FormControl, FormHelperText, Button, MenuItem,
-      TextField, Select, Grid, Paper, Input  } from '@material-ui/core'; 
+      TextField, Select, Grid, Paper, Input, Typography  } from '@material-ui/core'; 
 
 import {nameValidate, dateValidate, emailValidate, sexValidate} from "./validate"
 import { connect } from 'react-redux';
@@ -45,7 +45,9 @@ class RegistrationForm extends Component {
 
     return (
         <div className="formWrapper">
-        <h3 className="registrationFormHeader">Общая информация</h3>
+        <Typography variant="title" color="inherit">
+            Общая информация
+        </Typography>
         <form onSubmit={this.onSubmit}>
                     <Grid container spacing={24}>
                         <Grid item xs={12} sm={6}>
@@ -75,7 +77,7 @@ class RegistrationForm extends Component {
                         </Grid>
                     </Grid>
                     
-                      <Grid container spacing={24}>
+                      <Grid className="registerControl" container spacing={24}>
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth>
                                 <TextField 

@@ -4,8 +4,17 @@ body {
   font-family: sans-serif;
 }
 
+a{
+  color: white;
+  text-decoration: none;
+}
+
 .formWrapper .pageHeader{
   text-align: center;
+}
+
+.create-avatar .stepHeader{
+  margin-bottom: 1em;
 }
 
 .formWrapper .formRow{
@@ -33,7 +42,18 @@ body {
 }
 
 .formWrapper .registerControl {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
+}
+
+.registration-result .gotoprofile{
+  margin-top: 2em;
+  margin-bottom: 0;
+  display: flex;
+}
+
+.header-toolbar{
+  display: flex;
+  justify-content: space-between;
 }
 
 .steps-wrapper .card{
@@ -105,6 +125,14 @@ color: red;
 }
 
 .avatar-buttons{
+  margin-top: 3em;
   display: flex;
+  justify-content: space-between;
+}
+
+.avatar-controll{
+  height: 96%;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }

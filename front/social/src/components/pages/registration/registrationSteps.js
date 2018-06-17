@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import RegistrationForm from "./registrationForm"
 import RegistrationAvatar from "./registrationAvatar"
+import RegistrationSuccess from "./registrationSuccess"
 import LoaderWindow from "./registrationLoading"
 import { connect } from 'react-redux';
 
@@ -39,6 +40,9 @@ class RegistrationStepper extends React.Component {
       },
       {
         component: <RegistrationAvatar />
+      },
+      {
+        component: <RegistrationSuccess />
       }
     ];
 

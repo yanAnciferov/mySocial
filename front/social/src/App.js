@@ -4,16 +4,13 @@ import { Route, Link } from 'react-router-dom';
 
 import Welcome from "./components/pages/helloWorld.js"
 import Registration from "./components/pages/registration/registration"
+import Header from "./components/common/header"
 
 class App extends Component {
   render() {
     return (
       <div>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/registration">Registration</Link></li>
-        </ul>
-
+        <Header />
         <Route path="/" exact component={Welcome}/>
         <Route path="/registration" component={Registration}/>
       </div>

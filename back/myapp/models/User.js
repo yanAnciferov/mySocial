@@ -12,6 +12,7 @@ var  userScheme = new Schema({
     sex: { type: String, required: true },
     birthdate: { type: Date, required: false},
     hashPassword: { type: String, required: true},
+    avatar: { type: String, default: null},
     salt: {
         type: String,
         required: true
@@ -35,28 +36,9 @@ userScheme.methods = {
 }
 
 userScheme.statics = {
-    // authorize(username, password, callback){
-    //     var User = this;
-    //     async.waterfall([
-    //         callback => {
-    //             if(username){
-    //                 User.findOne({username}, callback);
-    //             }
-    //         },
-    //         (admin, callback) => {
-    //             if(admin){
-    //                 if(admin.checkPassword(password)){
-    //                     callback(null, admin);
-    //                 } else { callback(403) }
-    //             }else { callback(403) }
-    //         }
-    //     ], callback);
-    // },
-
     createUser: function(user, callback){
 
         var User = this;
-        console.log("111");
         var forNewUser = {
             firstname: user.firstname,
             parrentname: user.parrentname,
@@ -66,10 +48,7 @@ userScheme.statics = {
             birthdate: new Date(user.birthdate),
             password: user.password
         };
-        console.log(forNewUser);
         var newUser = new User(forNewUser);
-
-        console.log("222");
 
         newUser.save(callback);
     }

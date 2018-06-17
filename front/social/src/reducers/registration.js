@@ -7,12 +7,12 @@ import * as consts from "../constans/registration"
 
 const initialState = {
 
-    [consts.MODEL_FIRSTNAME]: "zz",
-    [consts.MODEL_SURNAME]: "zz",
-    [consts.MODEL_PARRENTNAME]: "zz",
-    [consts.MODEL_EMAIL]: "zzz@zzz",
-    [consts.MODEL_BIRTHDATE]: "11-11-2011",
-    [consts.MODEL_SEX]: "male",
+    [consts.MODEL_FIRSTNAME]: "",
+    [consts.MODEL_SURNAME]: "",
+    [consts.MODEL_PARRENTNAME]: "",
+    [consts.MODEL_EMAIL]: "",
+    [consts.MODEL_BIRTHDATE]: "",
+    [consts.MODEL_SEX]: "",
 
     image: {
         file: null,
@@ -160,6 +160,65 @@ export default function (state = initialState, action) {
                 image: imageValide
             }
         }       
+    }
+
+    if(action.type === actionTypes.REGISTRATION_QUERY_START){
+        return {
+            ...state,
+           isLoading: true
+        }    
+    }
+
+    if(action.type === actionTypes.REGISTRATION_QUERY_ERROR){
+        if(action.err.response == undefined)
+        return {
+            ...state,
+            isLoading: false,
+            step: 0
+        } 
+
+        if(action.err.response.data == "Invalid email")
+            return {
+                ...state,
+                isLoading: false,
+                step: 0,
+                validateState: {
+                    ...state.validateState,
+                    email: {
+                        isError: true,
+                        message: "Указанный email не действительный"
+                    }
+                }
+            } 
+
+        if(action.err.response.data == "email busy")
+            return {
+                ...state,
+                isLoading: false,
+                step: 0,
+                validateState: {
+                    ...state.validateState,
+                    email: {
+                        isError: true,
+                        message: "Указанный email занят другим пользователем"
+                    }
+                }
+            } 
+
+        return {
+            ...state,
+            isLoading: false,
+            step: 0
+        } 
+
+    }
+
+    if(action.type === actionTypes.REGISTRATION_QUERY_SUCCESS){
+        return {
+            ...state,
+           isLoading: false,
+           step: ++state.step
+        } 
     }
 
     return state;

@@ -1,5 +1,5 @@
-import  * as consts  from '../../../constans/registration'
-
+import  * as consts   from '../../../constans/registration'
+import { IMAGE_SIZE } from '../../../constans/common'
 export function nameValidate(name, required, typeField) {
 
 
@@ -157,13 +157,13 @@ export function imageValidation(file, isSubmit) {
             message: consts.INVALIDATE_ENTRY_PARAM
         }
 
-    if(["image/jpeg", "image/jpg", "image/png"].indexOf(file.type) == -1)
+    if(consts.ARRAY_IMAGE_FORMATS.indexOf(file.type) == -1)
         return {
             isError: true,
             message: consts.IMAGE_INVALIDATE_FORMAT
         }
 
-    if(file.size / 1024 < 40 || file.size / 1024 > (5 * 1024) * 1024)
+    if(file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB < IMAGE_SIZE.MIN_IMAGE_SIZE_IN_KB || file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB > IMAGE_SIZE.MAX_IMAGE_SOZE_IN_BYTE)
         return {
             isError: true,
             message: consts.IMAGE_INVALIDATE_SIZE

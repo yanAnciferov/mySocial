@@ -2,11 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactAvatarEditor from 'react-avatar-editor'
 import Dropzone from 'react-dropzone'
-import { Button } from "@material-ui/core"
+import { Button, Typography, Grid } from "@material-ui/core"
 import Slider from '@material-ui/lab/Slider'
 import { connect } from 'react-redux'
 import * as actionTypes from "../../../constans/ActionTypes"
 import { registration } from "../../../actions/Account"
+import AppBar from '@material-ui/core/AppBar/AppBar';
+import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 
 class RegistrationAvatar extends React.Component {
   state = {
@@ -66,56 +68,69 @@ class RegistrationAvatar extends React.Component {
     var model = this.props.register.image.file;
     return (
       <div className="create-avatar">
-        <h3 className="registrationFormHeader">Установка аватара</h3>
-        <Dropzone
-          onDrop={this.handleDrop}
-          disableClick
-          multiple={false}
-          style={{ width: this.state.width, height: this.state.height, marginBottom:'70px' }}
-        >
-          <div>
-            <ReactAvatarEditor
-              ref={this.setEditorRef}
-              scale={parseFloat(this.state.scale)}
-              width={this.state.width}
-              height={this.state.height}
-              position={this.state.position}
-              onPositionChange={this.handlePositionChange}
-              onLoadFailure={this.logCallback.bind(this, 'onLoadFailed')}
-              onLoadSuccess={this.logCallback.bind(this, 'onLoadSuccess')}
-              onImageReady={this.logCallback.bind(this, 'onImageReady')}
-              image={model}
-              className="editor-canvas"
-              color={[255,255,255,128]}
-            />
-          </div>
-        </Dropzone>
-        <div className="file-input-wrapper">
-            <input
-                accept="image/*"
-                id="contained-button-file"
-                multiple
-                type="file"
-                onChange={this.handleNewImage}
-            />
-            <label htmlFor="contained-button-file">
-                <Button variant="contained" component="span" >
-                    Загрузить файл
-                </Button>
-                <span className="error">{(valid.isError) ? valid.message : ""}</span>
-            </label>
-        </div>
-        <div className="avatar-zoom"> 
-            <span>Zoom:</span>
-            <Slider
-                min={1}
-                max={2}
-                step={0.01}
-                defaultValue={1}
-                onChange={this.handleScaleMy}
-                value={this.state.scale}
-            />
-        </div>
+        <Toolbar>
+          <Typography variant="headline" className="stepHeader" color="inherit">
+            Установка аватара
+          </Typography>
+        </Toolbar>
+        <Grid container spacing={0}>
+          <Grid item xs={7}>
+            <Dropzone
+              onDrop={this.handleDrop}
+              disableClick
+              multiple={false}
+              style={{ width: this.state.width, height: this.state.height, marginBottom:'70px' }}
+            >
+              <div>
+                <ReactAvatarEditor
+                  ref={this.setEditorRef}
+                  scale={parseFloat(this.state.scale)}
+                  width={this.state.width}
+                  height={this.state.height}
+                  position={this.state.position}
+                  onPositionChange={this.handlePositionChange}
+                  onLoadFailure={this.logCallback.bind(this, 'onLoadFailed')}
+                  onLoadSuccess={this.logCallback.bind(this, 'onLoadSuccess')}
+                  onImageReady={this.logCallback.bind(this, 'onImageReady')}
+                  image={model}
+                  className="editor-canvas"
+                  color={[255,255,255,128]}
+                />
+              </div>
+            </Dropzone>         
+          </Grid>
+          <Grid item xs={4}>
+            <div className="avatar-controll">
+              <div className="avatar-zoom"> 
+                  <span>Масштаб:</span>
+                  <Slider
+                      min={1}
+                      max={2}
+                      step={0.01}
+                      defaultValue={1}
+                      onChange={this.handleScaleMy}
+                      value={this.state.scale}
+                  />
+              </div>
+              <div className="file-input-wrapper">
+                <input
+                    accept="image/*"
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    onChange={this.handleNewImage}
+                />
+                <label htmlFor="contained-button-file">
+                    <Button variant="contained" component="span" >
+                        Загрузить файл
+                    </Button>
+                    <span className="error">{(valid.isError) ? valid.message : ""}</span>
+                </label>
+              </div>
+            </div>
+          </Grid>
+        </Grid>
+       
         <div className="avatar-buttons">
             <Button variant="contained" onClick={this.backHandle} color="primary">Назад</Button>
             <div>
