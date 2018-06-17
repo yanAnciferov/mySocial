@@ -1,7 +1,7 @@
 //import * as types from '../constants/ActionTypes';
 
 import axios from "axios"
-import * as consts from "../constans/registration"
+import { MODEL_NAMES } from "../constans/registration"
 import { REGISTRATION_QUERY_ERROR, REGISTRATION_QUERY_START, REGISTRATION_QUERY_SUCCESS } from "../constans/ActionTypes"
 
 axios.defaults.baseURL = 'http://localhost:3001';
@@ -28,12 +28,12 @@ export const registration = () => (dispatch, getState) => {
 
    console.log(firstname)
 
-   params.append([consts.MODEL_FIRSTNAME], firstname);
-   params.append([consts.MODEL_SURNAME], surname);
-   params.append([consts.MODEL_PARRENTNAME], parrentname);
-   params.append([consts.MODEL_EMAIL], email);
-   params.append([consts.MODEL_SEX], sex);
-   params.append([consts.MODEL_BIRTHDATE], birthdate);
+   params.append([MODEL_NAMES.FIRSTNAME], firstname);
+   params.append([MODEL_NAMES.SURNAME], surname);
+   params.append([MODEL_NAMES.PARRENTNAME], parrentname);
+   params.append([MODEL_NAMES.EMAIL], email);
+   params.append([MODEL_NAMES.SEX], sex);
+   params.append([MODEL_NAMES.BIRTHDATE], birthdate);
    params.append("imageFile", file);
    params.append("imageRect", JSON.stringify(rect));
 
@@ -55,5 +55,5 @@ export const registration = () => (dispatch, getState) => {
         type: REGISTRATION_QUERY_ERROR,
         err
       })
-      })
+  })
 }

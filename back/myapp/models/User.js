@@ -12,6 +12,7 @@ var  userScheme = new Schema({
     sex: { type: String, required: true },
     birthdate: { type: Date, required: false},
     hashPassword: { type: String, required: true},
+    minAvatar: { type: String, default: null},
     avatar: { type: String, default: null},
     salt: {
         type: String,
@@ -33,6 +34,7 @@ userScheme.methods = {
     checkPassword(password){
         return this.encryptPassword(password) === this.hashPassword;
     }
+
 }
 
 userScheme.statics = {

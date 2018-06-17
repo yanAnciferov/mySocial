@@ -3,16 +3,16 @@ import {nameValidate, dateValidate, emailValidate, sexValidate , imageValidation
 
 import * as actionTypes from "../constans/ActionTypes"
 
-import * as consts from "../constans/registration"
+import { DATE, MODEL_NAMES, MESSAGE, SEX_TYPES } from "../constans/registration"
 
 const initialState = {
 
-    [consts.MODEL_FIRSTNAME]: "",
-    [consts.MODEL_SURNAME]: "",
-    [consts.MODEL_PARRENTNAME]: "",
-    [consts.MODEL_EMAIL]: "",
-    [consts.MODEL_BIRTHDATE]: "",
-    [consts.MODEL_SEX]: "",
+    [MODEL_NAMES.FIRSTNAME]: "",
+    [MODEL_NAMES.SURNAME]: "",
+    [MODEL_NAMES.PARRENTNAME]: "",
+    [MODEL_NAMES.EMAIL]: "",
+    [MODEL_NAMES.BIRTHDATE]: "",
+    [MODEL_NAMES.SEX]: "",
 
     image: {
         file: null,
@@ -24,33 +24,33 @@ const initialState = {
     isValid: false,
     
     validateState: {
-        [consts.MODEL_FIRSTNAME]: {
+        [MODEL_NAMES.FIRSTNAME]: {
             isError: false,
-            message: consts.ENTER_NAME
+            message: MESSAGE.ENTER_NAME
         },
-        [consts.MODEL_SURNAME]: {
+        [MODEL_NAMES.SURNAME]: {
             isError: false,
-            message: consts.ENTER_SURNAME
+            message: MESSAGE.ENTER_SURNAME
         },
-        [consts.MODEL_PARRENTNAME]: {
+        [MODEL_NAMES.PARRENTNAME]: {
             isError: false,
-            message: consts.ENTER_PARRENTNAME
+            message: MESSAGE.ENTER_PARRENTNAME
         },
-        [consts.MODEL_EMAIL]: {
+        [MODEL_NAMES.EMAIL]: {
             isError: false,
-            message: consts.ENTER_EMAIL
+            message: MESSAGE.ENTER_EMAIL
         },
-        [consts.MODEL_BIRTHDATE]: {
+        [MODEL_NAMES.BIRTHDATE]: {
             isError: false,
-            message: consts.ENTER_BIRTHDATE
+            message: MESSAGE.ENTER_BIRTHDATE
         },
-        [consts.MODEL_SEX]: {
+        [MODEL_NAMES.SEX]: {
             isError: false,
-            message: consts.ENTER_SEX
+            message: MESSAGE.ENTER_SEX
         },
         image: {
             isError: false,
-            message: consts.ENTER_FILE
+            message: MESSAGE.ENTER_FILE
         }
     }
 } 
@@ -63,12 +63,12 @@ export default function (state = initialState, action) {
 
         var newValidateState = {
             ...state.validateState,
-            [consts.MODEL_FIRSTNAME]: nameValidate(state.firstname,true, consts.MODEL_FIRSTNAME),
-            [consts.MODEL_SURNAME]: nameValidate(state.surname,true, consts.MODEL_SURNAME),
-            [consts.MODEL_PARRENTNAME]: nameValidate(state.parrentname,false, consts.MODEL_PARRENTNAME),
-            [consts.MODEL_EMAIL]: emailValidate(state.email),
-            [consts.MODEL_BIRTHDATE]: dateValidate(state.birthdate),
-            [consts.MODEL_SEX]: sexValidate(state.sex)
+            [MODEL_NAMES.FIRSTNAME]: nameValidate(state.firstname,true, MODEL_NAMES.FIRSTNAME),
+            [MODEL_NAMES.SURNAME]: nameValidate(state.surname,true, MODEL_NAMES.SURNAME),
+            [MODEL_NAMES.PARRENTNAME]: nameValidate(state.parrentname,false, MODEL_NAMES.PARRENTNAME),
+            [MODEL_NAMES.EMAIL]: emailValidate(state.email),
+            [MODEL_NAMES.BIRTHDATE]: dateValidate(state.birthdate),
+            [MODEL_NAMES.SEX]: sexValidate(state.sex)
         }
 
         var isFormValid = true;
@@ -186,7 +186,7 @@ export default function (state = initialState, action) {
                     ...state.validateState,
                     email: {
                         isError: true,
-                        message: "Указанный email не действительный"
+                        message: MESSAGE.EMAIL_NOT_EXISTENCE
                     }
                 }
             } 
@@ -200,7 +200,7 @@ export default function (state = initialState, action) {
                     ...state.validateState,
                     email: {
                         isError: true,
-                        message: "Указанный email занят другим пользователем"
+                        message: MESSAGE.EMAIL_BUSY
                     }
                 }
             } 

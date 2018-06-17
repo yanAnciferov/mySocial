@@ -7,7 +7,7 @@ import {  FormControl, FormHelperText, Button, MenuItem,
 import {nameValidate, dateValidate, emailValidate, sexValidate} from "./validate"
 import { connect } from 'react-redux';
 
-import * as consts from '../../../constans/registration'
+import { MODEL_NAMES, DATE, SEX_TYPES, MESSAGE } from '../../../constans/registration'
 import * as actionTypes from '../../../constans/ActionTypes'
 
 
@@ -34,9 +34,7 @@ class RegistrationForm extends Component {
 
     render() {
     
-    var validateState = {
-        ...this.props.register.validateState
-    }
+    var { sex, email, firstname, surname, parrentname, birthdate } = this.props.register.validateState
 
     var state = {
         ...this.props.register
@@ -54,11 +52,11 @@ class RegistrationForm extends Component {
                             <FormControl required fullWidth>
                                 <TextField 
                                     label="Имя" 
-                                    helperText={validateState.firstname.message}
-                                    onChange={(e) => this.fieldCange(consts.MODEL_FIRSTNAME,e)}
+                                    helperText={firstname.message}
+                                    onChange={(e) => this.fieldCange(MODEL_NAMES.FIRSTNAME,e)}
                                     value={state.firstname}
                                     required
-                                    error={validateState.firstname.isError}
+                                    error={firstname.isError}
                                     />
                             </FormControl>
                         </Grid>
@@ -67,11 +65,11 @@ class RegistrationForm extends Component {
                                 <TextField 
                                     label="Фамилия" 
                                     fullWidth
-                                    helperText={validateState.surname.message}
+                                    helperText={surname.message}
                                     required
                                     value={state.surname}
-                                    onChange={(e) => this.fieldCange(consts.MODEL_SURNAME,e)}
-                                    error={validateState.surname.isError}
+                                    onChange={(e) => this.fieldCange(MODEL_NAMES.SURNAME,e)}
+                                    error={surname.isError}
                                     />
                             </FormControl>
                         </Grid>
@@ -84,9 +82,9 @@ class RegistrationForm extends Component {
                                     label="Отчество" 
                                     fullWidth
                                     value={state.parrentname}
-                                    helperText={validateState.parrentname.message}
-                                    onChange={(e) => this.fieldCange(consts.MODEL_PARRENTNAME,e)}
-                                    error={validateState.parrentname.isError}
+                                    helperText={parrentname.message}
+                                    onChange={(e) => this.fieldCange(MODEL_NAMES.PARRENTNAME,e)}
+                                    error={parrentname.isError}
                                    
                                     />
                             </FormControl>
@@ -101,10 +99,10 @@ class RegistrationForm extends Component {
                             label="Почта" 
                             required
                             fullWidth
-                            helperText={validateState.email.message}
+                            helperText={email.message}
                             required
-                            onChange={(e) => this.fieldCange(consts.MODEL_EMAIL,e)}
-                            error={validateState.email.isError}
+                            onChange={(e) => this.fieldCange(MODEL_NAMES.EMAIL,e)}
+                            error={email.isError}
                             value={state.email}
                             type="email"
                             
@@ -119,32 +117,32 @@ class RegistrationForm extends Component {
                             fullWidth
                             type="date"
 
-                            helperText={validateState.birthdate.message}
+                            helperText={birthdate.message}
                             required
-                            onChange={(e) => this.fieldCange(consts.MODEL_BIRTHDATE,e)}
-                            error={validateState.birthdate.isError}
+                            onChange={(e) => this.fieldCange(MODEL_NAMES.BIRTHDATE,e)}
+                            error={birthdate.isError}
                             value={state.birthdate}
                             
                             inputProps= {{
-                                min: consts.MIN_DATE,
-                                max: consts.MAX_DATE
+                                min: DATE.MIN,
+                                max: DATE.MAX
                             }}
                             />
                     </FormControl>
                    
-                    <FormControl className="registerControl" fullWidth error={validateState.sex.isError} >
+                    <FormControl className="registerControl" fullWidth error={sex.isError} >
                         <Select 
                             required
                             value={state.sex}
                             displayEmpty
                             name='sex'
-                            onChange={(e) => this.fieldCange(consts.MODEL_SEX,e)}
+                            onChange={(e) => this.fieldCange(MODEL_NAMES.SEX,e)}
                             fullWidth
                              >
 
                             <MenuItem value="" disabled>Пол</MenuItem>
-                            <MenuItem value={consts.MALE}>Мужской</MenuItem>
-                            <MenuItem value={consts.FEMALE}>Женский</MenuItem>
+                            <MenuItem value={SEX_TYPES.MALE}>Мужской</MenuItem>
+                            <MenuItem value={SEX_TYPES.FEMALE}>Женский</MenuItem>
                         </Select>
                         <FormHelperText>Укажите ваш пол</FormHelperText>
                     </FormControl>

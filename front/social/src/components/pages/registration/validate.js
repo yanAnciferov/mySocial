@@ -1,17 +1,17 @@
-import  * as consts   from '../../../constans/registration'
+import  { MESSAGE, REGEX, SEX_TYPES, IMAGE, DATE }   from '../../../constans/registration'
 import { IMAGE_SIZE } from '../../../constans/common'
 export function nameValidate(name, required, typeField) {
 
 
     var messages = {
         firstname: {
-            noError: consts.ENTER_NAME
+            noError: MESSAGE.ENTER_NAME
         },
         surname: {
-            noError: consts.ENTER_SURNAME
+            noError: MESSAGE.ENTER_SURNAME
         },
         parrentname: {
-            noError: consts.ENTER_PARRENTNAME
+            noError: MESSAGE.ENTER_PARRENTNAME
         }
     }
 
@@ -19,14 +19,14 @@ export function nameValidate(name, required, typeField) {
     if(typeof name !== "string" )
         return {
             isError: true,
-            message: consts.INVALIDATE_ENTRY_PARAM
+            message: MESSAGE.INVALIDATE_ENTRY_PARAM
         }
     
     if(name.length == 0)
     {
         return {
             isError: required,
-            message: (required) ? consts.REQUIRED : messages[typeField].noError
+            message: (required) ? MESSAGE.REQUIRED : messages[typeField].noError
         } 
     }
        
@@ -35,15 +35,15 @@ export function nameValidate(name, required, typeField) {
     if(name.length < 2 || name.length > 32)
         return {
             isError: true,
-            message: consts.NAME_LENGTH_MESSAGE
+            message: MESSAGE.NAME_LENGTH
         }
 
 
 
-    if(consts.NAME_REGEX.test(name) == false)
+    if(REGEX.NAME_REGEX.test(name) == false)
         return {
             isError: true,
-            message: consts.NAME_OPTION_MESSAGE
+            message: MESSAGE.NAME_OPTION
         }
 
     return {
@@ -58,24 +58,24 @@ export function emailValidate(email) {
     if(typeof email !== "string" )
         return {
             isError: true,
-            message: consts.INVALIDATE_ENTRY_PARAM
+            message: MESSAGE.INVALIDATE_ENTRY_PARAM
         }
 
     if(email.length == 0)
         return {
             isError: true,
-            message: consts.REQUIRED
+            message: MESSAGE.REQUIRED
         }
 
-        if(consts.EMAIL_REGEX.test(email) == false)
+        if(REGEX.EMAIL_REGEX.test(email) == false)
         return {
             isError: true,
-            message: consts.EMAIL_OPTION_MESSAGE
+            message: MESSAGE.EMAIL_OPTION
         }
 
     return {
         isError: false,
-        message: consts.ENTER_EMAIL
+        message: MESSAGE.ENTER_EMAIL
     }
 }
 
@@ -86,35 +86,35 @@ export function dateValidate(dateParam) {
     if(dateParam == "") 
         return {
             isError: true,
-            message: consts.REQUIRED
+            message: MESSAGE.REQUIRED
         }
 
     var date = new Date(dateParam);
     if(date == 'Invalid Date'){
         return {
             isError: true,
-            message: consts.INVALIDATE_ENTRY_PARAM
+            message: MESSAGE.INVALIDATE_ENTRY_PARAM
         }
     }
 
-    var min = new Date(consts.MIN_DATE)
-    var max = new Date(consts.MAX_DATE)
+    var min = new Date(DATE.MIN_DATE)
+    var max = new Date(DATE.MAX_DATE)
 
     if(date.getFullYear() < min.getFullYear())
         return {
             isError: true,
-            message: consts.MIN_DATE_MESSAGE
+            message: MESSAGE.MIN_DATE
         }
 
     if(date.getFullYear() > max.getFullYear())
         return {
             isError: true,
-            message: consts.MAX_DATE_MESSAGE
+            message: MESSAGE.MAX_DATE
         }
 
     return {
         isError: false,
-        message: consts.ENTER_BIRTHDATE
+        message: MESSAGE.ENTER_BIRTHDATE
     }
 }
 
@@ -124,19 +124,19 @@ export function sexValidate(sex) {
     if(sex == "")
         return {
             isError: true,
-            message: consts.REQUIRED
+            message: MESSAGE.REQUIRED
         }
     
     
   
-    if([consts.MALE,consts.FEMALE].indexOf(sex) !== -1)
+    if([SEX_TYPES.MALE, SEX_TYPES.FEMALE].indexOf(sex) !== -1)
         return {
             isError: false,
-            message: consts.ENTER_SEX
+            message: MESSAGE.ENTER_SEX
         }
     else return {
         isError: true,
-        message: consts.INVALIDATE_ENTRY_PARAM
+        message: MESSAGE.INVALIDATE_ENTRY_PARAM
     }
 }
 
@@ -146,7 +146,7 @@ export function imageValidation(file, isSubmit) {
     if(file == null){
         return {
             isError: isSubmit,
-            message: consts.ENTER_FILE
+            message: MESSAGE.ENTER_FILE
         } 
     }
 
@@ -154,24 +154,24 @@ export function imageValidation(file, isSubmit) {
     if({}.toString.call(file.__proto__) !== "[object File]")
         return {
             isError: true,
-            message: consts.INVALIDATE_ENTRY_PARAM
+            message: MESSAGE.INVALIDATE_ENTRY_PARAM
         }
 
-    if(consts.ARRAY_IMAGE_FORMATS.indexOf(file.type) == -1)
+    if(IMAGE.ARRAY_FORMATS.indexOf(file.type) == -1)
         return {
             isError: true,
-            message: consts.IMAGE_INVALIDATE_FORMAT
+            message: MESSAGE.IMAGE_INVALIDATE_FORMAT
         }
 
     if(file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB < IMAGE_SIZE.MIN_IMAGE_SIZE_IN_KB || file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB > IMAGE_SIZE.MAX_IMAGE_SOZE_IN_BYTE)
         return {
             isError: true,
-            message: consts.IMAGE_INVALIDATE_SIZE
+            message: MESSAGE.IMAGE_INVALIDATE_SIZE
         }
 
     else return {
         isError: false,
-        message: consts.ENTER_FILE
+        message: MESSAGE.ENTER_FILE
     }
 
 }
