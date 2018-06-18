@@ -9,5 +9,5 @@ export const errors = {
     EMAIL_BUSY,
     INVALID_EMAIL,
     NETWORK_ERROR,
-    DB_NOT_CONNECTED
+    DB_NOT_CONNECTED,
 }

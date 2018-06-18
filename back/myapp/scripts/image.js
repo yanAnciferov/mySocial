@@ -4,6 +4,7 @@ var { User } = require('../models/User')
 var sharp = require('sharp');
 var fs = require('fs')
 var mongoose = require("mongoose");
+var { USER_ERRORS } = require("../constants/errors");
 
 
 function saveImage(req,res,next){
@@ -43,25 +44,24 @@ function saveImage(req,res,next){
         let minAvatar = `${generateRandString(32, -10)}.${metadata.format}`;
         let avatar = `${generateRandString(32, -10)}.${metadata.format}`;
 
-        croped.extract(rectForCrop)
-            .toFile(`${dir}/${avatar}`).then(data=>console.log(data)).catch(err=>console.log(err))
-
-        croped.extract(rectForCrop)
-            .resize(300,300)
-            .toFile(`${dir}/${minAvatar}`).then(data=>console.log(data)).catch(err=>console.log(err))
-
-        User.update({email: newUser.email}, {avatar, minAvatar}, function(err, result){
-            mongoose.disconnect();
-            if(err) return console.log(err);
-        });
-
+        Promise.all( [croped.extract(rectForCrop).toFile(`${dir}/${avatar}`),
+                      croped.extract(rectForCrop).resize(300,300).toFile(`${dir}/${minAvatar}`)])
+               .then(value => {
+                User.update({email: newUser.email}, {avatar, minAvatar}, function(err, result){
+                    mongoose.disconnect();
+                    if(err) return console.log(err);
+                });
+                fs.unlink(image.path);
+               })
+        
     })
     .then(data => {
+        
         res.send("ok");
     }).catch((error) => {
-        console.log(error);
+        User.deleteOne({email: newUser.email});
         res.statusCode = 403;
-        res.send("save file error");
+        next(USER_ERRORS.SAVE_FILE_ERROR);
     });
     })
 }

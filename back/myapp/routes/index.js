@@ -6,6 +6,10 @@ var { User } = require('../models/User')
 var { start , checkMailInDB, createUser, checkMailForExistence, validate  } = require('../scripts/registration');
 var { sendPassword } = require('../scripts/email');
 var { saveImage } = require('../scripts/image')
+var fs = require('fs')
+
+var {deleteFolder} = require('../scripts/utils')
+var {paths} = require("../constants/common")
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -32,6 +36,22 @@ router.get('/all', function(req, res, next) {
 });
 
 
-router.post("/api/account/registration", uploads.any(), [start, validate, checkMailForExistence, checkMailInDB, createUser, sendPassword, saveImage ] );
+router.post("/api/account/registration", uploads.any(), [start, validate, checkMailForExistence, checkMailInDB, createUser, sendPassword, saveImage ])
+        .use(function(err,req,res,next){
+          console.log("ERROR", err)
+
+          for(var file in req.files){
+            file = req.files[file];
+            fs.unlink(file.path, (err) => {
+              if (err) console.log(err);
+            });
+
+          User.find({email: req.newUser.email}, (err, result) => {
+            deleteFolder(`${paths.PATH_TO_USER_DATA}${result.toString(16)}`)
+          });
+          User.deleteOne({email: req.newUser.email});
+          res.send(res.message)
+          }
+        });
 
 module.exports = router;

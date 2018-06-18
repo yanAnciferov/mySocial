@@ -1,4 +1,4 @@
-import  { MESSAGE, REGEX, SEX_TYPES, IMAGE, DATE }   from '../../../constans/registration'
+import  { MESSAGE, REGEX, SEX_TYPES, IMAGE, DATE, MODEL_NAMES }   from '../../../constans/registration'
 import { IMAGE_SIZE } from '../../../constans/common'
 export function nameValidate(name, required, typeField) {
 
@@ -15,13 +15,19 @@ export function nameValidate(name, required, typeField) {
         }
     }
 
-   
-    if(typeof name !== "string" )
+    let string = "string";
+    if(typeof name !== string || typeof typeField !== string || typeof required !== 'boolean')
         return {
             isError: true,
             message: MESSAGE.INVALIDATE_ENTRY_PARAM
         }
-    
+
+    if([MODEL_NAMES.FIRSTNAME,MODEL_NAMES.SURNAME,MODEL_NAMES.PARRENTNAME].indexOf(typeField) == -1)
+        return {
+            isError: true,
+            message: MESSAGE.INVALIDATE_ENTRY_PARAM
+        }
+
     if(name.length == 0)
     {
         return {
@@ -83,6 +89,7 @@ export function emailValidate(email) {
 
 export function dateValidate(dateParam) {
 
+
     if(dateParam == "") 
         return {
             isError: true,
@@ -90,15 +97,15 @@ export function dateValidate(dateParam) {
         }
 
     var date = new Date(dateParam);
-    if(date == 'Invalid Date'){
+    if(date == 'Invalid Date' || dateParam === null){
         return {
             isError: true,
             message: MESSAGE.INVALIDATE_ENTRY_PARAM
         }
     }
 
-    var min = new Date(DATE.MIN_DATE)
-    var max = new Date(DATE.MAX_DATE)
+    var min = new Date(DATE.MIN)
+    var max = new Date(DATE.MAX)
 
     if(date.getFullYear() < min.getFullYear())
         return {
@@ -134,6 +141,7 @@ export function sexValidate(sex) {
             isError: false,
             message: MESSAGE.ENTER_SEX
         }
+        
     else return {
         isError: true,
         message: MESSAGE.INVALIDATE_ENTRY_PARAM
@@ -160,13 +168,13 @@ export function imageValidation(file, isSubmit) {
     if(IMAGE.ARRAY_FORMATS.indexOf(file.type) == -1)
         return {
             isError: true,
-            message: MESSAGE.IMAGE_INVALIDATE_FORMAT
+            message: IMAGE.INVALIDATE_FORMAT
         }
 
     if(file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB < IMAGE_SIZE.MIN_IMAGE_SIZE_IN_KB || file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB > IMAGE_SIZE.MAX_IMAGE_SOZE_IN_BYTE)
         return {
             isError: true,
-            message: MESSAGE.IMAGE_INVALIDATE_SIZE
+            message: MESSAGE.INVALIDATE_SIZE
         }
 
     else return {

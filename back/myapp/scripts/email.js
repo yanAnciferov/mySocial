@@ -1,5 +1,7 @@
 var appEmail = require('../constants/email');
 var email = require("emailjs");
+var { USER_ERRORS } = require("../constants/errors")
+var { User } = require("../models/User")
 
 function sendPasswordToEmail(req,res,next){
   
@@ -7,30 +9,26 @@ function sendPasswordToEmail(req,res,next){
     var server 	= email.server.connect({
       user:     appEmail.email,
       password: appEmail.password,
-      host:     "smtp.gmail.com",
+      host:     appEmail.protocol,
       ssl:      true
    });
-   console.log("!!!!")
   
    server.send({
-    from:       "Социальная сеть Яна Анциферова",
+    from:       appEmail.from,
     to:         newUser.email,
-    subject:	"Регистрация на сайте",
+    subject:	  appEmail.subject,
     attachment:
      [
-        {data:`<html>
-                  <p>Здравствуйте, ${newUser.firstname}. Вы успешно прошли регистрацию на сайте.</p>
-                  <p>Ваш логин: ${newUser.email}<br/>
-                     Ваш пароль: ${newUser.password}
-                  </p>
-                </html>`, alternative:true}
+        {data: appEmail.getHTMLMessage(newUser), alternative:true}
      ]
   
   }, (err, message) => {
     if(err){
         res.statusCode = 403;
         console.log(err);
-        res.send("failed send message to email");
+        User.deleteOne({email: newUser.email});
+        res.message = USER_ERRORS.FAILED_SEND_MESSAGE_TO_EMAIL;
+        next(USER_ERRORS.FAILED_SEND_MESSAGE_TO_EMAIL)
     } else {
       next();
     }

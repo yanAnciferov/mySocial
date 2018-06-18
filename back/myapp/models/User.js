@@ -38,7 +38,7 @@ userScheme.methods = {
 }
 
 userScheme.statics = {
-    createUser: function(user, callback){
+    createUser(user, callback){
 
         var User = this;
         var forNewUser = {

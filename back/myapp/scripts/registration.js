@@ -8,12 +8,14 @@ var {generateRandString} = require("../scripts/utils");
 
 var { validateUser } = require("./validation")
 
+var { USER_ERRORS } = require("../constants/errors")
+
 function start(req, res, next) {
 
     if(mongoose.connection.readyState == 0){
         res.statusCode = 500;
-        console.log("db not connected")
-        res.send("db not connected");
+        res.message = USER_ERRORS.DB_NOT_CONNECTED;
+        next(res.message)
     }
     console.log(req.body)
 
@@ -33,12 +35,13 @@ function validate(req, res, next) {
 
     var result = validateUser(newUser);
     console.log(result)
-    if(result.isError == false)
+    if(result.isError == false){
+        console.log("Valid")
         next();
-    else {
+    } else {
         res.statusCode = 403;
-        console.log(`${result.field}: ${result.message}`)
-        res.send(`${result.field}: ${result.message}`);
+        res.message = `${result.field}: ${result.message}`
+        throw res.message
     }
 }
 
@@ -50,8 +53,8 @@ function checkMailForExistence(req, res, next){
         next();
       } else {
         res.statusCode = 403;
-        console.log("Invalid email")
-        res.send("Invalid email");
+        res.message = USER_ERRORS.INVALID_EMAIL;
+        next(res.message)
       }
     });
 }
@@ -59,11 +62,18 @@ function checkMailForExistence(req, res, next){
 function checkMailInDB(req,res,next){
 
     User.findOne({email: req.newUser.email}, (err, user) => {
-      if(user !== null){
+      if(user === null){
+        console.log("Email not contained in DB")
+        next();
+      }
+      else 
+      { 
         res.statusCode = 403;
-        res.send("email busy");
-        console.log("email busy")
-      }else next();
+        console.log(USER_ERRORS.EMAIL_BUSY)
+        res.message = USER_ERRORS.EMAIL_BUSY;
+        next(res.message);
+        
+      }
     })
 }
   
@@ -77,9 +87,11 @@ function createUser(req,res,next){
     User.createUser(newUser, (err, user) => {
         if (err){
               res.statusCode = 403;
-              console.log(err);
-              res.send(err);
+              console.log(err)
+              res.message = err;
+              next(res.message);
         } else {
+            console.log("User created")
            next();
         }
     });

@@ -28,7 +28,7 @@ const FAILED_SEND_MESSAGE_TO_EMAIL = "Не удалось отправить с�
 
 
 const EMAIL_REGEX = /[a-zA-Z0-9._%+-]{2,}@[a-zA-Z]{2,}(\.)[a-zA-Z]{1,}/
-const NAME_REGEX = /[a-zA-Zа-яА-Я]/
+const NAME_REGEX = /^[a-zA-Zа-яА-Я]+$/
 
 
 const FIRSTNAME = "firstname"

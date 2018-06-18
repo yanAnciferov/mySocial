@@ -7,6 +7,8 @@ import { errors } from "../constans/errors"
 import { DATE, MODEL_NAMES, MESSAGE, SEX_TYPES } from "../constans/registration"
 import errorWindow from "../components/common/errorWindow";
 
+import { COMMON_MESSAGE } from "../constans/common"
+
 const initialState = {
 
     [MODEL_NAMES.FIRSTNAME]: "",
@@ -254,6 +256,10 @@ export default function (state = initialState, action) {
         return {
             ...state,
             isLoading: false,
+            errorWindow: {
+                isVisible: true,
+                message: COMMON_MESSAGE.UNEXPECTED_ERROR_MESSAGE
+            },
             step: 0
         } 
 

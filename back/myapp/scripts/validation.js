@@ -1,7 +1,8 @@
 
 var { IMAGE_SIZE, REGEX, SEX_TYPES, DATE, IMAGE } = require('../constants/common');
 var { USER } = require("../constants/modelNames");
-var { errors } = require("../constants/errors");
+var { USER_ERRORS } = require("../constants/errors");
+var fs = require("fs");
 
 module.exports.validateUser = function(newUser){
     
@@ -36,7 +37,7 @@ module.exports.validateUser = function(newUser){
 
     return {
         isError: false,
-        message: errors.NO_ERROR
+        message: USER_ERRORS.NO_ERROR
     }
 
 }
@@ -49,7 +50,7 @@ function nameValidate(name, required, typeField) {
         return {
             isError: true,
             field: typeField,
-            message: errors.INVALIDATE_ENTRY_PARAM
+            message: USER_ERRORS.INVALIDATE_ENTRY_PARAM
         }
     
     if(name.length == 0)
@@ -57,7 +58,7 @@ function nameValidate(name, required, typeField) {
         return {
             isError: required,
             field: typeField,
-            message: (required) ? `${errors.REQUIRED}` : errors.NO_ERROR
+            message: (required) ? `${USER_ERRORS.REQUIRED}` : USER_ERRORS.NO_ERROR
         } 
     }
        
@@ -67,7 +68,7 @@ function nameValidate(name, required, typeField) {
         return {
             isError: true,
             field: typeField,
-            message: `${errors.NAME_LENGTH}`
+            message: `${USER_ERRORS.NAME_LENGTH}`
         }
 
 
@@ -76,7 +77,7 @@ function nameValidate(name, required, typeField) {
         return {
             isError: true,
             field: typeField,
-            message: `${errors.NAME_OPTION}`
+            message: `${USER_ERRORS.NAME_OPTION}`
         }
 
     return {
@@ -93,7 +94,7 @@ function dateValidate(dateParam) {
         return {
             isError: true,
             field: USER.BIRTHDATE,
-            message: errors.REQUIRED
+            message: USER_ERRORS.REQUIRED
         }
 
     var date = new Date(dateParam);
@@ -101,7 +102,7 @@ function dateValidate(dateParam) {
         return {
             isError: true,
             field: USER.BIRTHDATE,
-            message: errors.INVALIDATE_ENTRY_PARAM
+            message: USER_ERRORS.INVALIDATE_ENTRY_PARAM
         }
     }
 
@@ -112,20 +113,20 @@ function dateValidate(dateParam) {
         return {
             isError: true,
             field: USER.BIRTHDATE,
-            message: errors.MIN_DATE
+            message: USER_ERRORS.MIN_DATE
         }
 
     if(date.getFullYear() > max.getFullYear())
         return {
             isError: true,
             field: USER.BIRTHDATE,
-            message: errors.MAX_DATE
+            message: USER_ERRORS.MAX_DATE
         }
 
     return {
         isError: false,
         field: USER.BIRTHDATE,
-        message: errors.NO_ERROR
+        message: USER_ERRORS.NO_ERROR
     }
 }
 
@@ -136,7 +137,7 @@ function sexValidate(sex) {
         return {
             isError: true,
             field: USER.SEX,
-            message: errors.REQUIRED
+            message: USER_ERRORS.REQUIRED
         }
     
     
@@ -145,12 +146,12 @@ function sexValidate(sex) {
         return {
             isError: false,
             field: USER.SEX,
-            message: errors.NO_ERROR
+            message: USER_ERRORS.NO_ERROR
         }
     else return {
         isError: true,
         field: USER.SEX,
-        message: errors.INVALIDATE_ENTRY_PARAM
+        message: USER_ERRORS.INVALIDATE_ENTRY_PARAM
     }
 }
 
@@ -160,7 +161,7 @@ function imageValidation(file) {
     if(file == undefined){
         return {
             isError: false,
-            message: errors.NO_ERROR
+            message: USER_ERRORS.NO_ERROR
         } 
     }
    
@@ -168,27 +169,30 @@ function imageValidation(file) {
         return {
             isError: true,
             field: USER.IMAGE,
-            message: errors.INVALIDATE_ENTRY_PARAM
+            message: USER_ERRORS.INVALIDATE_ENTRY_PARAM
         }
 
-    if(IMAGE.ARRAY_FORMATS.indexOf(file.mimetype) == -1)
+    if(IMAGE.ARRAY_FORMATS.indexOf(file.mimetype) == -1){
+
+        
         return {
             isError: true,
             field: USER.IMAGE,
-            message: errors.IMAGE_INVALIDATE_FORMAT
+            message: USER_ERRORS.IMAGE_INVALIDATE_FORMAT
         }
+    }
 
     if(file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB < IMAGE_SIZE.MIN_IMAGE_SIZE_IN_KB || file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB > IMAGE_SIZE.MAX_IMAGE_SOZE_IN_BYTE)
         return {
             isError: true,
             field: USER.IMAGE,
-            message: errors.IMAGE_INVALIDATE_SIZE
+            message: USER_ERRORS.IMAGE_INVALIDATE_SIZE
         }
 
     else return {
         isError: false,
         field: USER.IMAGE,
-        message: errors.NO_ERROR
+        message: USER_ERRORS.NO_ERROR
     }
 
 }
@@ -199,32 +203,32 @@ function rectValidation(rect, file) {
         return {
             isError: file !== undefined,
             field: USER.RECT,
-            message: errors.INVALIDATE_ENTRY_PARAM
+            message: USER_ERRORS.INVALIDATE_ENTRY_PARAM
         }
         console.log(rect.x.toString())
     if(rect.x === undefined || rect.y === undefined || rect.width === undefined  || rect.height === undefined)
     return {
         isError: true,
         field: USER.RECT,
-        message: errors.RECT_FORMAT_ERROR
+        message: USER_ERRORS.RECT_FORMAT_ERROR
     }
 
     var propValid = 
-        (rect.x < 1 && rect.x > 0 &&
-            rect.y < 1 && rect.y > 0 && 
-            rect.height < 1 && rect.height > 0 &&
-                rect.width < 1 && rect.width > 0)
+        (rect.x <= 1 && rect.x >= 0 &&
+            rect.y <= 1 && rect.y >= 0 && 
+            rect.height <= 1 && rect.height >= 0 &&
+                rect.width <= 1 && rect.width >= 0)
 
     if(propValid == false)
         return {
             isError: true,
             field: USER.RECT,
-            message: errors.RECT_FIELD_ERROR
+            message: USER_ERRORS.RECT_FIELD_ERROR
         }
 
     return {
         isError: false,
         field: USER.RECT,
-        message: errors.NO_ERROR
+        message: USER_ERRORS.NO_ERROR
     }
 }
