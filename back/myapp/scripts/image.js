@@ -56,7 +56,6 @@ function saveImage(req,res,next){
         
     })
     .then(data => {
-        
         res.send("ok");
     }).catch((error) => {
         User.deleteOne({email: newUser.email});
