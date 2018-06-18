@@ -3,7 +3,7 @@ var router = express.Router();
 var multer = require('multer');
 var { User } = require('../models/User')
 
-var { start , checkMailInDB, createUser, checkMailForExistence  } = require('../scripts/registration');
+var { start , checkMailInDB, createUser, checkMailForExistence, validate  } = require('../scripts/registration');
 var { sendPassword } = require('../scripts/email');
 var { saveImage } = require('../scripts/image')
 
@@ -32,6 +32,6 @@ router.get('/all', function(req, res, next) {
 });
 
 
-router.post("/api/account/registration", uploads.any(), [start, checkMailForExistence, checkMailInDB, createUser, sendPassword, saveImage ] );
+router.post("/api/account/registration", uploads.any(), [start, validate, checkMailForExistence, checkMailInDB, createUser, sendPassword, saveImage ] );
 
 module.exports = router;

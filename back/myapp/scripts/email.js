@@ -13,8 +13,8 @@ function sendPasswordToEmail(req,res,next){
    console.log("!!!!")
   
    server.send({
-    from:    "Социальная сеть Яна Анциферова",
-    to:       newUser.email,
+    from:       "Социальная сеть Яна Анциферова",
+    to:         newUser.email,
     subject:	"Регистрация на сайте",
     attachment:
      [
@@ -28,9 +28,9 @@ function sendPasswordToEmail(req,res,next){
   
   }, (err, message) => {
     if(err){
-        res.statusCode = 500;
+        res.statusCode = 403;
         console.log(err);
-        res.send("Invalid email");
+        res.send("failed send message to email");
     } else {
       next();
     }

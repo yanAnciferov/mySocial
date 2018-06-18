@@ -4,8 +4,9 @@ import RegistrationForm from "./registrationForm"
 import RegistrationAvatar from "./registrationAvatar"
 import RegistrationSuccess from "./registrationSuccess"
 import LoaderWindow from "./registrationLoading"
+import ErrorWindow from "../../common/errorWindow"
 import { connect } from 'react-redux';
-
+import * as actionTypes from "../../../constans/ActionTypes"
 import {  Paper  } from '@material-ui/core'; 
 
 
@@ -31,7 +32,14 @@ const styles = theme => ({
 });
 
 class RegistrationStepper extends React.Component {
-
+  
+  constructor(props){
+    super(props);
+  }
+  
+  handleClose = () => {
+    
+  }
 
   render() {
     const registrationSteps = [
@@ -45,17 +53,17 @@ class RegistrationStepper extends React.Component {
         component: <RegistrationSuccess />
       }
     ];
-
-    const activeStep = this.props.step;
-    
+    const {onCloseErrorWindow} = this.props;
+    const { step, isLoading, errorWindow } = this.props.register
     return (
       <div className="steps-wrapper"> 
         <Paper className="card">
           <div>
-              {registrationSteps[activeStep].component}
+              {registrationSteps[step].component}
           </div>
         </Paper>
-        <LoaderWindow open={this.props.isLoading} />
+        <LoaderWindow open={isLoading} />
+        <ErrorWindow onClose={onCloseErrorWindow} open={errorWindow.isVisible} value={errorWindow.message} />
       </div>
     );
   }
@@ -63,7 +71,11 @@ class RegistrationStepper extends React.Component {
 
 export default connect(
   state => ({
-      step: state.register.step,
-      isLoading: state.register.isLoading
+      register: state.register
+  }),
+  dispatch => ({
+    onCloseErrorWindow: () => {
+        dispatch({ type: actionTypes.CLOSE_ERROR_WINDOW})
+    }
   })
 )(RegistrationStepper);

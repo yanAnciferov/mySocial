@@ -2,8 +2,10 @@ import {HANDLE_CHANGE, SEX_CHANGE} from "../constans/ActionTypes"
 import {nameValidate, dateValidate, emailValidate, sexValidate , imageValidation} from "../components/pages/registration/validate"
 
 import * as actionTypes from "../constans/ActionTypes"
+import { errors } from "../constans/errors"
 
 import { DATE, MODEL_NAMES, MESSAGE, SEX_TYPES } from "../constans/registration"
+import errorWindow from "../components/common/errorWindow";
 
 const initialState = {
 
@@ -17,6 +19,11 @@ const initialState = {
     image: {
         file: null,
         rect: null
+    },
+
+    errorWindow: {
+        isVisible: false,
+        message: ""
     },
 
     step: 0,
@@ -144,6 +151,16 @@ export default function (state = initialState, action) {
         }        
     }
 
+    if(action.type === actionTypes.CLOSE_ERROR_WINDOW){
+        return {
+            ...state,
+            errorWindow: {
+                isVisible: false,
+                message: ""
+            }
+        }     
+    }
+
 
     if(action.type === actionTypes.AVATAR_SKIP){
         var imageValide = imageValidation(state.image.file, false)
@@ -170,14 +187,29 @@ export default function (state = initialState, action) {
     }
 
     if(action.type === actionTypes.REGISTRATION_QUERY_ERROR){
-        if(action.err.response == undefined)
-        return {
-            ...state,
-            isLoading: false,
-            step: 0
-        } 
+        
+        var {err} = action;
+        var {response} = err;
+        if(err.message == errors.NETWORK_ERROR || response.data == errors.DB_NOT_CONNECTED)
+            return {
+                ...state,
+                isLoading: false,
+                step: 0,
+                errorWindow: {
+                    isVisible: true,
+                    message: MESSAGE.TECHNICAL_WORK_ON_SERVER
+                }
+            }
+        
+        if(response == undefined)
+            return {
+                ...state,
+                isLoading: false,
+                step: 0
+            } 
+       
 
-        if(action.err.response.data == "Invalid email")
+        if(response.data == errors.INVALID_EMAIL)
             return {
                 ...state,
                 isLoading: false,
@@ -191,7 +223,7 @@ export default function (state = initialState, action) {
                 }
             } 
 
-        if(action.err.response.data == "email busy")
+        if(response.data == errors.EMAIL_BUSY)
             return {
                 ...state,
                 isLoading: false,
@@ -203,7 +235,21 @@ export default function (state = initialState, action) {
                         message: MESSAGE.EMAIL_BUSY
                     }
                 }
-            } 
+            }
+
+        if(response.data == errors.ERROR_SEND_MESSAGE_TO_EMAIL)
+            return {
+                ...state,
+                isLoading: false,
+                step: 0,
+                validateState: {
+                    ...state.validateState,
+                    email: {
+                        isError: true,
+                        message: MESSAGE.FAILED_SEND_MESSAGE_TO_EMAIL
+                    }
+                }
+            }
 
         return {
             ...state,

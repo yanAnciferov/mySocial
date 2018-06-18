@@ -23,7 +23,8 @@ const NAME_OPTION = "Это поле должно состоять из букв
 const EMAIL_OPTION = "Email должен быть указан в формате domain@username.hostname"
 const EMAIL_BUSY = "Указанный email занят другим пользователем"
 const EMAIL_NOT_EXISTENCE = "Указанный email не действительный"
-
+const TECHNICAL_WORK_ON_SERVER = "Ведутся технические работы на сервере, простите за временные не удобства"
+const FAILED_SEND_MESSAGE_TO_EMAIL = "Не удалось отправить сообщение на эту почту"
 
 
 const EMAIL_REGEX = /[a-zA-Z0-9._%+-]{2,}@[a-zA-Z]{2,}(\.)[a-zA-Z]{1,}/
@@ -91,5 +92,8 @@ export const MESSAGE = {
     ENTER_FILE,
     SET_AVATAR,
     EMAIL_BUSY,
-    EMAIL_NOT_EXISTENCE
+    EMAIL_NOT_EXISTENCE,
+    TECHNICAL_WORK_ON_SERVER,
+    FAILED_SEND_MESSAGE_TO_EMAIL
+    
 }

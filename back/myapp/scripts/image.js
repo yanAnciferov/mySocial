@@ -7,13 +7,26 @@ var mongoose = require("mongoose");
 
 
 function saveImage(req,res,next){
-if(req.files.length != 0){
 
-    var image = req.files[0];
+   
     var { newUser } = req;
 
     User.findOne({email: newUser.email}, (err, result) => {
     var userFromDb = result;
+
+    
+
+    let id = userFromDb._id.toString(16)
+    let dir = `${paths.PATH_TO_USER_DATA}${id}`
+    if (!fs.existsSync(dir))
+        fs.mkdirSync(dir);
+
+    if(req.files.length == 0){
+        res.send("ok");
+        return;
+    }else {
+        var image = req.files[0];
+    }
 
     const croped = sharp(image.path);
 
@@ -27,14 +40,9 @@ if(req.files.length != 0){
                 height: Number.parseInt((newUser.imageRect.height * metadata.height).toFixed())
             }
 
-        let id = userFromDb._id.toString(16)
         let minAvatar = `${generateRandString(32, -10)}.${metadata.format}`;
         let avatar = `${generateRandString(32, -10)}.${metadata.format}`;
-        let dir = `${paths.PATH_TO_USER_DATA}${id}`
 
-        if (!fs.existsSync(dir)){
-        fs.mkdirSync(dir);
-    }
         croped.extract(rectForCrop)
             .toFile(`${dir}/${avatar}`).then(data=>console.log(data)).catch(err=>console.log(err))
 
@@ -56,8 +64,6 @@ if(req.files.length != 0){
         res.send("save file error");
     });
     })
-}
-
 }
 
 module.exports.saveImage = saveImage;

@@ -45,7 +45,6 @@ export const registration = () => (dispatch, getState) => {
 
   axios.post('/api/account/registration',params)
       .then((res) => {
-        console.log(res);
         dispatch({
         type: REGISTRATION_QUERY_SUCCESS
       })
