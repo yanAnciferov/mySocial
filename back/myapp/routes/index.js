@@ -3,7 +3,9 @@ var router = express.Router();
 var multer = require('multer');
 var { User } = require('../models/User')
 
-var { start, checkMailForExistence, checkMailInDB, createUser, sendPasswordToEmail, saveImage  } = require('../scripts/registration');
+var { start , checkMailInDB, createUser, checkMailForExistence  } = require('../scripts/registration');
+var { sendPassword } = require('../scripts/email');
+var { saveImage } = require('../scripts/image')
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -30,6 +32,6 @@ router.get('/all', function(req, res, next) {
 });
 
 
-router.post("/api/account/registration", uploads.any(), [start, checkMailForExistence, checkMailInDB, createUser, sendPasswordToEmail, saveImage ] );
+router.post("/api/account/registration", uploads.any(), [start, checkMailForExistence, checkMailInDB, createUser, sendPassword, saveImage ] );
 
 module.exports = router;
