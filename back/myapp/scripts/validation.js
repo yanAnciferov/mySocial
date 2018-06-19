@@ -6,211 +6,211 @@ var fs = require("fs");
 
 module.exports.validateUser = function(newUser){
     
-    var firstnameValid = nameValidate(newUser.firstname, true, USER.FIRSTNAME);
-    if(firstnameValid.isError)
-        return firstnameValid;
-
-    var surnameValid = nameValidate(newUser.surname, true, USER.SURNAME);
-    if(surnameValid.isError)
-        return surnameValid;
-
-    var parrentValid = nameValidate(newUser.firstname, false, USER.FIRSTNAME);
-    if(parrentValid.isError)
-        return parrentValid;
-
-    var sexValid = sexValidate(newUser.sex, false);
-    if(sexValid.isError)
-        return sexValid;
-
-    var dateValid = dateValidate(newUser.birthdate, false);
-    if(dateValid.isError)
-        return dateValid;
-
-    var imageValid = imageValidation(newUser.imageFile);
-    if(imageValid.isError)
-        return imageValid;
-   
-
-    var rectValid = rectValidation(newUser.imageRect,newUser.imageFile);
-    if(rectValid.isError)
-        return rectValid;
-
-    return {
-        isError: false,
-        message: USER_ERRORS.NO_ERROR
+    let validateStates = {
+        firstnameValid: nameValidate(newUser.firstname, true, USER.FIRSTNAME),
+        surnameValid: nameValidate(newUser.surname, true, USER.SURNAME),
+        parrentValid: nameValidate(newUser.parrentname, false, USER.PARRENTNAME),
+        sexValid: sexValidate(newUser.sex, false),
+        dateValid: dateValidate(newUser.birthdate, false),
+        imageValid: imageValidation(newUser.imageFile),
+        rectValid: rectValidation(newUser.imageRect,newUser.imageFile)
     }
+
+ 
+    var forReturnState = {
+        isError: false
+    }
+
+    for(var state in validateStates) 
+    {
+        if(validateStates[state].isError){
+            forReturnState[state] = validateStates[state];
+            forReturnState.isError = true
+        }
+    }
+    return forReturnState;
 
 }
 
 
 function nameValidate(name, required, typeField) {
 
-   
+    let state = {
+        isError: false,
+        messages: []
+    }
+
     if(typeof name !== "string" )
-        return {
-            isError: true,
-            field: typeField,
-            message: USER_ERRORS.INVALIDATE_ENTRY_PARAM
-        }
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.INVALIDATE_ENTRY_PARAM);
+        return state;
+    }
     
     if(name.length == 0)
     {
-        return {
-            isError: required,
-            field: typeField,
-            message: (required) ? `${USER_ERRORS.REQUIRED}` : USER_ERRORS.NO_ERROR
-        } 
+        state.isError = required;
+        state.messages.push((required) ? USER_ERRORS.REQUIRED : USER_ERRORS.NO_ERROR);
+        return state;
     }
        
         
 
     if(name.length < 2 || name.length > 32)
-        return {
-            isError: true,
-            field: typeField,
-            message: `${USER_ERRORS.NAME_LENGTH}`
-        }
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.NAME_LENGTH);
+    }
 
 
 
     if(REGEX.NAME_REGEX.test(name) == false)
-        return {
-            isError: true,
-            field: typeField,
-            message: `${USER_ERRORS.NAME_OPTION}`
-        }
-
-    return {
-        isError: false,
-        field: typeField,
-        message: ""
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.NAME_OPTION)
     }
+
+    if(!state.isError)
+        state.messages.push(USER_ERRORS.NO_ERROR);
+    return state;
 }
 
 
 function dateValidate(dateParam) {
 
+    let state = {
+        isError: false,
+        messages: []
+    }
+
+
     if(dateParam == "") 
-        return {
-            isError: true,
-            field: USER.BIRTHDATE,
-            message: USER_ERRORS.REQUIRED
-        }
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.REQUIRED);
+        return state;
+    }
+
 
     var date = new Date(dateParam);
     if(date == 'Invalid Date'){
-        return {
-            isError: true,
-            field: USER.BIRTHDATE,
-            message: USER_ERRORS.INVALIDATE_ENTRY_PARAM
-        }
+        state.isError = true;
+        state.messages.push(USER_ERRORS.INVALIDATE_ENTRY_PARAM);
+        return state;
     }
 
     var min = new Date(DATE.MIN)
     var max = new Date(DATE.MAX)
     console.log(min)
     if(date.getFullYear() < min.getFullYear())
-        return {
-            isError: true,
-            field: USER.BIRTHDATE,
-            message: USER_ERRORS.MIN_DATE
-        }
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.MIN_DATE);
+        return state;
+    }
 
     if(date.getFullYear() > max.getFullYear())
-        return {
-            isError: true,
-            field: USER.BIRTHDATE,
-            message: USER_ERRORS.MAX_DATE
-        }
-
-    return {
-        isError: false,
-        field: USER.BIRTHDATE,
-        message: USER_ERRORS.NO_ERROR
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.MAX_DATE);
+        return state;
     }
+
+    if(!state.isError)
+        state.messages.push(USER_ERRORS.NO_ERROR);
+    return state;
 }
 
 
 function sexValidate(sex) {
 
+
+    let state = {
+        isError: false,
+        messages: []
+    }
+
+
     if(sex == "")
-        return {
-            isError: true,
-            field: USER.SEX,
-            message: USER_ERRORS.REQUIRED
-        }
-    
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.REQUIRED)
+        return state;
+    }
+
     
   
     if([SEX_TYPES.MALE, SEX_TYPES.FEMALE].indexOf(sex) !== -1)
-        return {
-            isError: false,
-            field: USER.SEX,
-            message: USER_ERRORS.NO_ERROR
-        }
-    else return {
-        isError: true,
-        field: USER.SEX,
-        message: USER_ERRORS.INVALIDATE_ENTRY_PARAM
+    {
+        state.isError = false;
+        state.messages.push(USER_ERRORS.NO_ERROR)
+        return state;
+    }
+    else {
+        state.isError = false;
+        state.messages.push(USER_ERRORS.INVALIDATE_ENTRY_PARAM)
+        return state;
     }
 }
 
 
 function imageValidation(file) {
 
+    let state = {
+        isError: false,
+        messages: []
+    }
+
     if(file == undefined){
-        return {
-            isError: false,
-            message: USER_ERRORS.NO_ERROR
-        } 
+        state.isError = false;
+        state.messages.push(USER_ERRORS.NO_ERROR)
+        return state;
     }
    
-    if({}.toString.call(file.__proto__) !== "[object Object]")
-        return {
-            isError: true,
-            field: USER.IMAGE,
-            message: USER_ERRORS.INVALIDATE_ENTRY_PARAM
-        }
+    if({}.toString.call(file.__proto__) !== "[object Object]"){
+        state.isError = true;
+        state.messages.push(USER_ERRORS.INVALIDATE_ENTRY_PARAM)
+        return state;
+    }
+ 
 
     if(IMAGE.ARRAY_FORMATS.indexOf(file.mimetype) == -1){
-
-        
-        return {
-            isError: true,
-            field: USER.IMAGE,
-            message: USER_ERRORS.IMAGE_INVALIDATE_FORMAT
-        }
+        state.isError = true;
+        state.messages.push(USER_ERRORS.IMAGE_INVALIDATE_FORMAT)
     }
 
     if(file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB < IMAGE_SIZE.MIN_IMAGE_SIZE_IN_KB || file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB > IMAGE_SIZE.MAX_IMAGE_SOZE_IN_BYTE)
-        return {
-            isError: true,
-            field: USER.IMAGE,
-            message: USER_ERRORS.IMAGE_INVALIDATE_SIZE
-        }
-
-    else return {
-        isError: false,
-        field: USER.IMAGE,
-        message: USER_ERRORS.NO_ERROR
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.IMAGE_INVALIDATE_SIZE)
     }
+
+    if(state.isError == false)
+        state.messages.push(USER_ERRORS.NO_ERROR);
+    return state;
 
 }
 
 
 function rectValidation(rect, file) {
+
+    let state = {
+        isError: false,
+        messages: []
+    }
+
     if(rect == null)
-        return {
-            isError: file !== undefined,
-            field: USER.RECT,
-            message: USER_ERRORS.INVALIDATE_ENTRY_PARAM
-        }
-        console.log(rect.x.toString())
+    {
+        state.isError = file !== undefined;
+        state.messages.push((state.isError) ? USER_ERRORS.INVALIDATE_ENTRY_PARAM : USER_ERRORS.NO_ERROR)
+        return state;
+    }
+
     if(rect.x === undefined || rect.y === undefined || rect.width === undefined  || rect.height === undefined)
-    return {
-        isError: true,
-        field: USER.RECT,
-        message: USER_ERRORS.RECT_FORMAT_ERROR
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.RECT_FORMAT_ERROR)
+        return state;
     }
 
     var propValid = 
@@ -220,15 +220,13 @@ function rectValidation(rect, file) {
                 rect.width <= 1 && rect.width >= 0)
 
     if(propValid == false)
-        return {
-            isError: true,
-            field: USER.RECT,
-            message: USER_ERRORS.RECT_FIELD_ERROR
-        }
-
-    return {
-        isError: false,
-        field: USER.RECT,
-        message: USER_ERRORS.NO_ERROR
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.RECT_FORMAT_ERROR)
+        return state;
     }
+
+    if(!state.isError)
+        state.messages.push(USER_ERRORS.NO_ERROR);
+    return state;
 }

@@ -1,5 +1,8 @@
 import  { MESSAGE, REGEX, SEX_TYPES, IMAGE, DATE, MODEL_NAMES }   from '../../../constans/registration'
 import { IMAGE_SIZE } from '../../../constans/common'
+import { isError } from 'assert/node_modules/util';
+
+
 export function nameValidate(name, required, typeField) {
 
 
@@ -15,171 +18,202 @@ export function nameValidate(name, required, typeField) {
         }
     }
 
+    var state = {
+        isError: false,
+        message: []
+    }
+
     let string = "string";
     if(typeof name !== string || typeof typeField !== string || typeof required !== 'boolean')
-        return {
-            isError: true,
-            message: MESSAGE.INVALIDATE_ENTRY_PARAM
-        }
+    {
+        state.isError = true;
+        state.message.push(MESSAGE.INVALIDATE_ENTRY_PARAM);
+        return state;
+    }
 
     if([MODEL_NAMES.FIRSTNAME,MODEL_NAMES.SURNAME,MODEL_NAMES.PARRENTNAME].indexOf(typeField) == -1)
-        return {
-            isError: true,
-            message: MESSAGE.INVALIDATE_ENTRY_PARAM
-        }
+    {
+        state.isError = true;
+        state.message.push(MESSAGE.INVALIDATE_ENTRY_PARAM);
+        return state;
+    }
 
     if(name.length == 0)
     {
-        return {
-            isError: required,
-            message: (required) ? MESSAGE.REQUIRED : messages[typeField].noError
-        } 
+        state.isError = required;
+        state.message.push((required) ? MESSAGE.REQUIRED : messages[typeField].noError);
+        return state;
     }
+    
        
         
 
     if(name.length < 2 || name.length > 32)
-        return {
-            isError: true,
-            message: MESSAGE.NAME_LENGTH
-        }
-
-
+    {
+        state.isError = true;
+        state.message.push(MESSAGE.NAME_LENGTH);
+    }
 
     if(REGEX.NAME_REGEX.test(name) == false)
-        return {
-            isError: true,
-            message: MESSAGE.NAME_OPTION
-        }
-
-    return {
-        isError: false,
-        message: messages[typeField].noError
+    {
+        state.isError = true;
+        state.message.push(MESSAGE.NAME_OPTION);
     }
+
+    if(state.isError == false)
+        state.message.push(messages[typeField].noError);
+
+    return state;
 }
 
 export function emailValidate(email) {
 
+    var state = {
+        isError: false,
+        message: []
+    }
 
-    if(typeof email !== "string" )
-        return {
-            isError: true,
-            message: MESSAGE.INVALIDATE_ENTRY_PARAM
-        }
+    if(typeof email !== "string")
+    {
+        state.isError = true;
+        state.message.push(MESSAGE.INVALIDATE_ENTRY_PARAM);
+        return state;
+    }   
 
     if(email.length == 0)
-        return {
-            isError: true,
-            message: MESSAGE.REQUIRED
-        }
+    {
+        state.isError = true;
+        state.message.push(MESSAGE.REQUIRED);
+        return state;
+    } 
 
-        if(REGEX.EMAIL_REGEX.test(email) == false)
-        return {
-            isError: true,
-            message: MESSAGE.EMAIL_OPTION
-        }
 
-    return {
-        isError: false,
-        message: MESSAGE.ENTER_EMAIL
-    }
+    if(REGEX.EMAIL_REGEX.test(email) == false)
+    {
+        state.isError = true;
+        state.message.push(MESSAGE.EMAIL_OPTION);
+        return state;
+    } 
+
+
+    
+    if(isError == false)
+        state.message.push(MESSAGE.ENTER_EMAIL)
+    return state;
+    
 }
 
 
 
 export function dateValidate(dateParam) {
-
+    
+    var state = {
+        isError: false,
+        message: []
+    }
 
     if(dateParam == "") 
-        return {
-            isError: true,
-            message: MESSAGE.REQUIRED
-        }
+    {
+        state.isError = true;
+        state.message.push(MESSAGE.REQUIRED)
+        return state;
+    }
+
 
     var date = new Date(dateParam);
-    if(date == 'Invalid Date' || dateParam === null){
-        return {
-            isError: true,
-            message: MESSAGE.INVALIDATE_ENTRY_PARAM
-        }
+    if(date == 'Invalid Date' || dateParam === null) {
+        state.isError = true;
+        state.message.push(MESSAGE.INVALIDATE_ENTRY_PARAM)
+        return state;
     }
 
     var min = new Date(DATE.MIN)
     var max = new Date(DATE.MAX)
 
-    if(date.getFullYear() < min.getFullYear())
-        return {
-            isError: true,
-            message: MESSAGE.MIN_DATE
-        }
-
-    if(date.getFullYear() > max.getFullYear())
-        return {
-            isError: true,
-            message: MESSAGE.MAX_DATE
-        }
-
-    return {
-        isError: false,
-        message: MESSAGE.ENTER_BIRTHDATE
+    if(date.getFullYear() < min.getFullYear()){
+        state.isError = true;
+        state.message.push(MESSAGE.MIN_DATE)
+        return state;
     }
+
+    if(date.getFullYear() > max.getFullYear()){
+        state.isError = true;
+        state.message.push(MESSAGE.MAX_DATE)
+        return state;
+    }
+
+    
+    if(isError == false)
+        state.message.push(MESSAGE.ENTER_BIRTHDATE)
+    return state;
+    
 }
 
 
 export function sexValidate(sex) {
 
+    var state = {
+        isError: false,
+        message: []
+    }
+
     if(sex == "")
-        return {
-            isError: true,
-            message: MESSAGE.REQUIRED
-        }
+    {
+        state.isError = true,
+        state.message.push(MESSAGE.REQUIRED)
+        return state;
+    }
     
     
   
     if([SEX_TYPES.MALE, SEX_TYPES.FEMALE].indexOf(sex) !== -1)
-        return {
-            isError: false,
-            message: MESSAGE.ENTER_SEX
-        }
-        
-    else return {
-        isError: true,
-        message: MESSAGE.INVALIDATE_ENTRY_PARAM
+    {
+        state.isError = false,
+        state.message.push(MESSAGE.ENTER_SEX)
+        return state;
+    }
+    else {
+        state.isError = true,
+        state.message.push(MESSAGE.INVALIDATE_ENTRY_PARAM)
+        return state;
     }
 }
 
 
 export function imageValidation(file, isSubmit) {
 
+    var state = {
+        isError: false,
+        message: []
+    }
+
     if(file == null){
-        return {
-            isError: isSubmit,
-            message: MESSAGE.ENTER_FILE
-        } 
+        state.isError = isSubmit;
+        state.message.push(MESSAGE.ENTER_FILE);
+        return state;
     }
 
    
-    if({}.toString.call(file.__proto__) !== "[object File]")
-        return {
-            isError: true,
-            message: MESSAGE.INVALIDATE_ENTRY_PARAM
-        }
-
-    if(IMAGE.ARRAY_FORMATS.indexOf(file.type) == -1)
-        return {
-            isError: true,
-            message: IMAGE.INVALIDATE_FORMAT
-        }
-
-    if(file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB < IMAGE_SIZE.MIN_IMAGE_SIZE_IN_KB || file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB > IMAGE_SIZE.MAX_IMAGE_SOZE_IN_BYTE)
-        return {
-            isError: true,
-            message: MESSAGE.INVALIDATE_SIZE
-        }
-
-    else return {
-        isError: false,
-        message: MESSAGE.ENTER_FILE
+    if({}.toString.call(file.__proto__) !== "[object File]"){
+        state.isError = true;
+        state.message.push(MESSAGE.INVALIDATE_ENTRY_PARAM);
+        return state;
     }
 
+    if(IMAGE.ARRAY_FORMATS.indexOf(file.type) == -1){
+        state.isError = true;
+        state.message.push(IMAGE.INVALIDATE_FORMAT);
+    }
+
+    if(file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB < IMAGE_SIZE.MIN_IMAGE_SIZE_IN_KB || file.size / IMAGE_SIZE.COUNT_BYTES_IN_KB > IMAGE_SIZE.MAX_IMAGE_SOZE_IN_BYTE)
+    {
+        state.isError = true;
+        state.message.push(IMAGE.INVALIDATE_SIZE);
+    }
+
+    if(isError == false){
+        state.message.push(MESSAGE.ENTER_FILE);
+    }
+
+    return state;
 }

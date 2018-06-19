@@ -10,7 +10,7 @@ function deleteFolder(path) {
     fs.readdirSync(path).forEach(function(file, index){
       var curPath = path + "/" + file;
       if (fs.lstatSync(curPath).isDirectory()) { // recurse
-        deleteFolderRecursive(curPath);
+        deleteFolder(curPath);
       } else { // delete file
         fs.unlinkSync(curPath);
       }
@@ -19,5 +19,15 @@ function deleteFolder(path) {
   }
 };
 
+function deleteFiles(files){
+    for(var file in files){
+      file = files[file];
+      fs.unlink(file.path, (err) => {
+        if (err) console.log(err);
+      });
+  }
+}
+
+module.exports.deleteFiles = deleteFiles;
 module.exports.generateRandString = generateRandString;
 module.exports.deleteFolder = deleteFolder;

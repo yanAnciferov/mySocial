@@ -110,13 +110,13 @@ export default function (state = initialState, action) {
 
     if(action.type === actionTypes.ON_IMAGE_LOAD){
         
-        var image = {
+        var newImage = {
             file: action.payload
         }
 
         return {
             ...state,
-            image,
+            image: newImage,
             validateState: {
                 ...state.validateState,
                 image: imageValidation(action.payload, false)

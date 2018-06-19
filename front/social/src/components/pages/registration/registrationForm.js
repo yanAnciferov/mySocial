@@ -105,8 +105,6 @@ class RegistrationForm extends Component {
                             error={email.isError}
                             value={state.email}
                             type="email"
-                            
-                        
                             />
                     </FormControl>
 

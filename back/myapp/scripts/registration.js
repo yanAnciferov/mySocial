@@ -5,10 +5,10 @@ var { User } = require('../models/User')
 var fs = require('fs')
 var appEmail = require('../constants/email');
 var {generateRandString} = require("../scripts/utils");
-
 var { validateUser } = require("./validation")
-
 var { USER_ERRORS } = require("../constants/errors")
+var { paths } = require("../constants/common")
+var { deleteFolder, deleteFiles } = require("../scripts/utils")
 
 function start(req, res, next) {
 
@@ -40,8 +40,8 @@ function validate(req, res, next) {
         next();
     } else {
         res.statusCode = 403;
-        res.message = `${result.field}: ${result.message}`
-        throw res.message
+        res.message = JSON.stringify(result,null, "\t");
+        next(USER_ERRORS.REGISTRATION_USER_MODEL_INVALIDE)
     }
 }
 
@@ -72,7 +72,6 @@ function checkMailInDB(req,res,next){
         console.log(USER_ERRORS.EMAIL_BUSY)
         res.message = USER_ERRORS.EMAIL_BUSY;
         next(res.message);
-        
       }
     })
 }
@@ -96,6 +95,14 @@ function createUser(req,res,next){
         }
     });
 }
+
+function clearRegistrationRequest(req){
+    deleteFiles(req.files)
+    console.log("!!!")
+    User.find({email: req.newUser.email}, (err, result) => {
+      deleteFolder(`${paths.PATH_TO_USER_DATA}${result.toString(16)}`)
+    });
+}
   
 
 
@@ -104,3 +111,4 @@ module.exports.checkMailForExistence = checkMailForExistence;
 module.exports.checkMailInDB = checkMailInDB;
 module.exports.createUser = createUser;
 module.exports.validate = validate;
+module.exports.clearRegistrationRequest = clearRegistrationRequest;

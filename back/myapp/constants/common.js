@@ -10,7 +10,7 @@ const MIN_IMAGE_SIZE_IN_KB = 40;
 const MIN_IMAGE_SIZE_IN_BYTE = MIN_IMAGE_SIZE_IN_KB * COUNT_BYTES_IN_KB;
 
 const EMAIL_REGEX = /[a-zA-Z0-9._%+-]{2,}@[a-zA-Z]{2,}(\.)[a-zA-Z]{1,}/
-const NAME_REGEX = /[a-zA-Zа-яА-Я]/
+const NAME_REGEX = /^[a-zA-Zа-яА-Я]+$/
 
 const MIN = "1920-01-01"
 const MAX = "2017-12-31"

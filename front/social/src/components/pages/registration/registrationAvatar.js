@@ -64,7 +64,8 @@ class RegistrationAvatar extends React.Component {
 
     let {register} = this.props
 
-    var valid = this.props.register.validateState.image;
+    var { image } = this.props.register.validateState;
+    console.log(this.props.register.validateState);
     var model = this.props.register.image.file;
     return (
       <div className="create-avatar">
@@ -120,11 +121,11 @@ class RegistrationAvatar extends React.Component {
                     type="file"
                     onChange={this.handleNewImage}
                 />
-                <label htmlFor="contained-button-file">
+                <label htmlFor="contained-button-file" className="contained-button-file">
+                    <span className="error">{(image.isError) ? image.message : ""}</span>
                     <Button variant="contained" component="span" >
                         Загрузить файл
                     </Button>
-                    <span className="error">{(valid.isError) ? valid.message : ""}</span>
                 </label>
               </div>
             </div>

@@ -16,6 +16,7 @@ const RECT_FORMAT_ERROR = "rect must be contained fields: x, y, width, heigth"
 const RECT_FIELD_ERROR = "rect fields value must be from 0 to 1"
 const FAILED_SEND_MESSAGE_TO_EMAIL = "failed send message to email"
 const SAVE_FILE_ERROR = "save file error"
+const REGISTRATION_USER_MODEL_INVALIDE = " registration user model invalidate"
 
 module.exports.USER_ERRORS = {
     ERROR_SEND_MESSAGE_TO_EMAIL,
@@ -35,7 +36,8 @@ module.exports.USER_ERRORS = {
     RECT_FORMAT_ERROR,
     RECT_FIELD_ERROR,
     FAILED_SEND_MESSAGE_TO_EMAIL,
-    SAVE_FILE_ERROR
+    SAVE_FILE_ERROR,
+    REGISTRATION_USER_MODEL_INVALIDE
 }
 
 module.exports.COMMON = {
