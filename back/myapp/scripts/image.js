@@ -48,7 +48,6 @@ function saveImage(req,res,next){
                       croped.extract(rectForCrop).resize(300,300).toFile(`${dir}/${minAvatar}`)])
                .then(value => {
                 User.update({email: newUser.email}, {avatar, minAvatar}, function(err, result){
-                    mongoose.disconnect();
                     if(err) return console.log(err);
                 });
                 fs.unlink(image.path);

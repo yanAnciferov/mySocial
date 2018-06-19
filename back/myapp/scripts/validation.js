@@ -40,7 +40,15 @@ function nameValidate(name, required, typeField) {
         messages: []
     }
 
-    if(typeof name !== "string" )
+    let string = "string";
+    if(typeof name !== string || typeof typeField !== string || typeof required !== 'boolean')
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.INVALIDATE_ENTRY_PARAM);
+        return state;
+    }
+
+    if([USER.FIRSTNAME,USER.SURNAME,USER.PARRENTNAME].indexOf(typeField) == -1)
     {
         state.isError = true;
         state.messages.push(USER_ERRORS.INVALIDATE_ENTRY_PARAM);
@@ -93,7 +101,7 @@ function dateValidate(dateParam) {
 
 
     var date = new Date(dateParam);
-    if(date == 'Invalid Date'){
+    if(date == 'Invalid Date' || dateParam == null){
         state.isError = true;
         state.messages.push(USER_ERRORS.INVALIDATE_ENTRY_PARAM);
         return state;
@@ -147,7 +155,7 @@ function sexValidate(sex) {
         return state;
     }
     else {
-        state.isError = false;
+        state.isError = true;
         state.messages.push(USER_ERRORS.INVALIDATE_ENTRY_PARAM)
         return state;
     }
@@ -199,9 +207,11 @@ function rectValidation(rect, file) {
         messages: []
     }
 
-    if(rect == null)
+    console.log(typeof rect)
+    if(typeof rect != "object" || rect == null ||
+     rect.x === null || rect.y === null || rect.width === null || rect.height === null)
     {
-        state.isError = file !== undefined;
+        state.isError = typeof file != undefined && file != null;
         state.messages.push((state.isError) ? USER_ERRORS.INVALIDATE_ENTRY_PARAM : USER_ERRORS.NO_ERROR)
         return state;
     }
@@ -210,6 +220,13 @@ function rectValidation(rect, file) {
     {
         state.isError = true;
         state.messages.push(USER_ERRORS.RECT_FORMAT_ERROR)
+        return state;
+    }
+
+    if(typeof rect.x != "number" || typeof rect.y != "number" || typeof rect.width != "number"  || typeof rect.height != "number")
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.RECT_FIELD_ERROR)
         return state;
     }
 
@@ -230,3 +247,9 @@ function rectValidation(rect, file) {
         state.messages.push(USER_ERRORS.NO_ERROR);
     return state;
 }
+
+
+module.exports.nameValidate = nameValidate;
+module.exports.sexValidate = sexValidate;
+module.exports.dateValidate = dateValidate;
+module.exports.rectValidation = rectValidation;

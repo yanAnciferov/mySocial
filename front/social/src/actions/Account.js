@@ -52,7 +52,7 @@ export const registration = () => (dispatch, getState) => {
           type: REGISTRATION_QUERY_SUCCESS
         })
         dispatch({
-          type: ACTION_FOR_APP.SHOW_LOADING_WINDOW
+          type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
         })
       })
       .catch((err) => {

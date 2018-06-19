@@ -13,8 +13,8 @@ import { withRouter } from 'react-router-dom';
 class App extends Component {
   
   render() {
-
-    var { errorWindow, loadingWindow } = this.props.app;
+    var { loadingWindow } = this.props.app;
+    var { errorWindow} = this.props.catcher;
     var { onCloseErrorWindow } = this.props;
     return (
       <div>
@@ -31,7 +31,8 @@ class App extends Component {
 
 export default withRouter(connect(
   state => ({
-      app: state.app
+      app: state.app,
+      catcher: state.catcher
   }),
   dispatch => ({
     onCloseErrorWindow: () => {

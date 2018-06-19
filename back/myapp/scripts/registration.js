@@ -15,7 +15,9 @@ function start(req, res, next) {
     if(mongoose.connection.readyState == 0){
         res.statusCode = 500;
         res.message = USER_ERRORS.DB_NOT_CONNECTED;
+        console.log("db not connected on start")
         next(res.message)
+        return;
     }
     console.log(req.body)
 
@@ -98,10 +100,17 @@ function createUser(req,res,next){
 
 function clearRegistrationRequest(req){
     deleteFiles(req.files)
-    console.log("!!!")
-    User.find({email: req.newUser.email}, (err, result) => {
-      deleteFolder(`${paths.PATH_TO_USER_DATA}${result.toString(16)}`)
+    if(req.newUser == undefined)
+        return;
+
+    User.findOne({email: req.newUser.email}, (err, result) => {
+        if(!err && result !== null) {
+            User.deleteOne({email: req.newUser.email});
+            deleteFolder(`${paths.PATH_TO_USER_DATA}${result._id.toString(16)}`)
+        } 
     });
+
+    
 }
   
 
