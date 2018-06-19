@@ -8,7 +8,7 @@ import {nameValidate, dateValidate, emailValidate, sexValidate} from "./validate
 import { connect } from 'react-redux';
 
 import { MODEL_NAMES, DATE, SEX_TYPES, MESSAGE } from '../../../constans/registration'
-import * as actionTypes from '../../../constans/ActionTypes'
+import { ACTION_FOR_REGISTRATION } from '../../../constans/ActionTypes'
 
 
 class RegistrationForm extends Component {
@@ -161,13 +161,13 @@ export default connect(
         }),
         dispatch => ({
             onSubmit: (model) => {
-                dispatch({ type: actionTypes.ON_SUBMIT, payload: model})
+                dispatch({ type: ACTION_FOR_REGISTRATION.ON_SUBMIT, payload: model})
             },
             onChange: (newValue) => {
-                dispatch({ type: actionTypes.ON_CHANGE, payload: newValue})
+                dispatch({ type: ACTION_FOR_REGISTRATION.ON_CHANGE, payload: newValue})
             },
             onNext: (newValue) => {
-                dispatch({ type: actionTypes.NEXT_STEP})
+                dispatch({ type: ACTION_FOR_REGISTRATION.NEXT_STEP})
             }
 
         })

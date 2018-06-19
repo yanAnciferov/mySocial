@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone'
 import { Button, Typography, Grid } from "@material-ui/core"
 import Slider from '@material-ui/lab/Slider'
 import { connect } from 'react-redux'
-import * as actionTypes from "../../../constans/ActionTypes"
+import { ACTION_FOR_REGISTRATION, ACTION_COMMON } from "../../../constans/ActionTypes"
 import { registration } from "../../../actions/Account"
 import AppBar from '@material-ui/core/AppBar/AppBar';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
@@ -152,17 +152,17 @@ export default connect(
         }),
         dispatch => ({
             onImageLoad: (newValue) => {
-                dispatch({ type: actionTypes.ON_IMAGE_LOAD, payload: newValue})
+                dispatch({ type: ACTION_FOR_REGISTRATION.ON_IMAGE_LOAD, payload: newValue})
             },
             prevStep: (newValue) => {
-              dispatch({ type: actionTypes.PREV_STEP})
+              dispatch({ type: ACTION_FOR_REGISTRATION.PREV_STEP})
             },
             registration: (rect) => {
-              dispatch({ type: actionTypes.AVATAR_SUBMIT, payload: rect})
+              dispatch({ type: ACTION_FOR_REGISTRATION.AVATAR_SUBMIT, payload: rect})
               dispatch(registration());
             },
             skip: (rect) => {
-              dispatch({ type: actionTypes.AVATAR_SKIP})
+              dispatch({ type: ACTION_FOR_REGISTRATION.AVATAR_SKIP})
               dispatch(registration());
             }
         })

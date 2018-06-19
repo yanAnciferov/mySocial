@@ -2,7 +2,7 @@
 
 import axios from "axios"
 import { MODEL_NAMES } from "../constans/registration"
-import { REGISTRATION_QUERY_ERROR, REGISTRATION_QUERY_START, REGISTRATION_QUERY_SUCCESS } from "../constans/ActionTypes"
+import { ACTION_FOR_REGISTRATION } from "../constans/ActionTypes"
 
 axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -27,6 +27,8 @@ export const registration = () => (dispatch, getState) => {
    var params = new FormData();
 
    console.log(firstname)
+
+   var { REGISTRATION_QUERY_ERROR, REGISTRATION_QUERY_START, REGISTRATION_QUERY_SUCCESS } = ACTION_FOR_REGISTRATION;
 
    params.append([MODEL_NAMES.FIRSTNAME], firstname);
    params.append([MODEL_NAMES.SURNAME], surname);

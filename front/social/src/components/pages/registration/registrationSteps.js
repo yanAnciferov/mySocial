@@ -37,9 +37,6 @@ class RegistrationStepper extends React.Component {
     super(props);
   }
   
-  handleClose = () => {
-    
-  }
 
   render() {
     const registrationSteps = [
@@ -63,7 +60,6 @@ class RegistrationStepper extends React.Component {
           </div>
         </Paper>
         <LoaderWindow open={isLoading} />
-        <ErrorWindow onClose={onCloseErrorWindow} open={errorWindow.isVisible} value={errorWindow.message} />
       </div>
     );
   }
@@ -72,10 +68,5 @@ class RegistrationStepper extends React.Component {
 export default connect(
   state => ({
       register: state.register
-  }),
-  dispatch => ({
-    onCloseErrorWindow: () => {
-        dispatch({ type: actionTypes.CLOSE_ERROR_WINDOW})
-    }
   })
 )(RegistrationStepper);

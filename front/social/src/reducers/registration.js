@@ -1,7 +1,7 @@
 import {HANDLE_CHANGE, SEX_CHANGE} from "../constans/ActionTypes"
 import {nameValidate, dateValidate, emailValidate, sexValidate , imageValidation} from "../components/pages/registration/validate"
 
-import * as actionTypes from "../constans/ActionTypes"
+import { ACTION_FOR_REGISTRATION, ACTION_COMMON } from "../constans/ActionTypes"
 import { errors } from "../constans/errors"
 
 import { DATE, MODEL_NAMES, MESSAGE, SEX_TYPES } from "../constans/registration"
@@ -67,7 +67,7 @@ const initialState = {
 
 
 export default function (state = initialState, action) {
-    
+    let actionTypes = ACTION_FOR_REGISTRATION;
     if(action.type === actionTypes.ON_SUBMIT){
 
         var newValidateState = {
@@ -196,11 +196,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isLoading: false,
-                step: 0,
-                errorWindow: {
-                    isVisible: true,
-                    message: MESSAGE.TECHNICAL_WORK_ON_SERVER
-                }
+                step: 0
             }
         
         if(response == undefined)
@@ -256,10 +252,6 @@ export default function (state = initialState, action) {
         return {
             ...state,
             isLoading: false,
-            errorWindow: {
-                isVisible: true,
-                message: COMMON_MESSAGE.UNEXPECTED_ERROR_MESSAGE
-            },
             step: 0
         } 
 

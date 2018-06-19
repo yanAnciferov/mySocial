@@ -1,23 +1,51 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { withStyles } from '@material-ui/core/styles';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom";
+
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+
+import createHistory from "history/createBrowserHistory";
+import { Route } from "react-router";
+import { withRouter } from 'react-router-dom'
+
+import thunk from 'redux-thunk'
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import thunk from 'redux-thunk'
 
-import { Provider } from "react-redux"
-import { createStore, applyMiddleware } from "redux"
-import Reducers from "./reducers/index"
+import './index.css';
 
-const store = createStore(Reducers, applyMiddleware(thunk));
+import {
+  ConnectedRouter,
+  routerReducer,
+  routerMiddleware,
+  push
+} from "react-router-redux";
+
+import Reducers from "./reducers/index"; 
+import connect from "react-redux/lib/connect/connect";
+import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
+
+const history = createHistory();
+
+const middleware = routerMiddleware(history);
+
+const store = createStore(
+  combineReducers({
+    ...Reducers,
+    router: routerReducer
+  }),
+  applyMiddleware(middleware, thunk)
+);
+
+
+
+
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
+    <ConnectedRouter history={history}>
+        <App />
+    </ConnectedRouter>
   </Provider>, 
   document.getElementById('root'));
 registerServiceWorker();
