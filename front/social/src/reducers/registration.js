@@ -5,7 +5,7 @@ import { ACTION_FOR_REGISTRATION, ACTION_COMMON } from "../constans/ActionTypes"
 import { errors } from "../constans/errors"
 
 import { DATE, MODEL_NAMES, MESSAGE, SEX_TYPES } from "../constans/registration"
-import errorWindow from "../components/common/errorWindow";
+
 
 import { COMMON_MESSAGE } from "../constans/common"
 
@@ -23,13 +23,7 @@ const initialState = {
         rect: null
     },
 
-    errorWindow: {
-        isVisible: false,
-        message: ""
-    },
-
     step: 0,
-    isLoading: false,
     isValid: false,
     
     validateState: {
@@ -153,16 +147,6 @@ export default function (state = initialState, action) {
         }        
     }
 
-    if(action.type === actionTypes.CLOSE_ERROR_WINDOW){
-        return {
-            ...state,
-            errorWindow: {
-                isVisible: false,
-                message: ""
-            }
-        }     
-    }
-
 
     if(action.type === actionTypes.AVATAR_SKIP){
         var imageValide = imageValidation(state.image.file, false)
@@ -181,12 +165,6 @@ export default function (state = initialState, action) {
         }       
     }
 
-    if(action.type === actionTypes.REGISTRATION_QUERY_START){
-        return {
-            ...state,
-           isLoading: true
-        }    
-    }
 
     if(action.type === actionTypes.REGISTRATION_QUERY_ERROR){
         
@@ -195,14 +173,12 @@ export default function (state = initialState, action) {
         if(err.message == errors.NETWORK_ERROR || response.data == errors.DB_NOT_CONNECTED)
             return {
                 ...state,
-                isLoading: false,
                 step: 0
             }
         
         if(response == undefined)
             return {
                 ...state,
-                isLoading: false,
                 step: 0
             } 
        
@@ -210,7 +186,6 @@ export default function (state = initialState, action) {
         if(response.data == errors.INVALID_EMAIL)
             return {
                 ...state,
-                isLoading: false,
                 step: 0,
                 validateState: {
                     ...state.validateState,
@@ -224,7 +199,6 @@ export default function (state = initialState, action) {
         if(response.data == errors.EMAIL_BUSY)
             return {
                 ...state,
-                isLoading: false,
                 step: 0,
                 validateState: {
                     ...state.validateState,
@@ -238,7 +212,6 @@ export default function (state = initialState, action) {
         if(response.data == errors.ERROR_SEND_MESSAGE_TO_EMAIL)
             return {
                 ...state,
-                isLoading: false,
                 step: 0,
                 validateState: {
                     ...state.validateState,
@@ -251,7 +224,6 @@ export default function (state = initialState, action) {
 
         return {
             ...state,
-            isLoading: false,
             step: 0
         } 
 
@@ -260,7 +232,6 @@ export default function (state = initialState, action) {
     if(action.type === actionTypes.REGISTRATION_QUERY_SUCCESS){
         return {
             ...state,
-           isLoading: false,
            step: ++state.step
         } 
     }

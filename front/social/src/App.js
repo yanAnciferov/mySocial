@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ErrorWindow from "./components/common/errorWindow";
+import LoaderWindow from "./components/common/loadingWindow"
 import { Route } from "react-router-dom"
 
 import Welcome from "./components/pages/helloWorld.js"
@@ -13,7 +14,7 @@ class App extends Component {
   
   render() {
 
-    var { errorWindow } = this.props.app;
+    var { errorWindow, loadingWindow } = this.props.app;
     var { onCloseErrorWindow } = this.props;
     return (
       <div>
@@ -21,6 +22,7 @@ class App extends Component {
         <Route path="/" exact component={Welcome}/>
         <Route path="/registration" component={Registration}/>
         <ErrorWindow onClose={onCloseErrorWindow} open={errorWindow.isVisible} value={errorWindow.message} />
+        <LoaderWindow open={loadingWindow.isVisible} value={loadingWindow.message} />
      </div>
     );
   }

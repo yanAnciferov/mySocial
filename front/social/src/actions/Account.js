@@ -2,7 +2,7 @@
 
 import axios from "axios"
 import { MODEL_NAMES } from "../constans/registration"
-import { ACTION_FOR_REGISTRATION } from "../constans/ActionTypes"
+import { ACTION_FOR_REGISTRATION, ACTION_FOR_APP } from "../constans/ActionTypes"
 
 axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -42,19 +42,26 @@ export const registration = () => (dispatch, getState) => {
    console.log(params);
 
    dispatch({
-     type: REGISTRATION_QUERY_START
+     type: ACTION_FOR_APP.SHOW_LOADING_WINDOW,
+     payload: "Идет регистрация"
    })
 
   axios.post('/api/account/registration',params)
       .then((res) => {
         dispatch({
-        type: REGISTRATION_QUERY_SUCCESS
-      })
+          type: REGISTRATION_QUERY_SUCCESS
+        })
+        dispatch({
+          type: ACTION_FOR_APP.SHOW_LOADING_WINDOW
+        })
       })
       .catch((err) => {
         dispatch({
         type: REGISTRATION_QUERY_ERROR,
         err
+      })
+      dispatch({
+        type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
       })
   })
 }

@@ -49,6 +49,27 @@ export default function (state = initialState, action) {
                 message: COMMON_MESSAGE.UNEXPECTED_ERROR_MESSAGE
             }
         } 
+    
+    
+    }
+
+    if(action.type === ACTION_FOR_APP.SHOW_LOADING_WINDOW)
+        return {
+            ...state,
+            loadingWindow: {
+                isVisible: true,
+                message: action.payload
+            }
+        }
+
+    if(action.type === ACTION_FOR_APP.HIDE_LOADING_WINDOW){
+        return {
+            ...state,
+            loadingWindow: {
+                isVisible: false,
+                message: ""
+            }
+        }
     }
 
     return state;

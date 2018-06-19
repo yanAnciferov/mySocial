@@ -21,7 +21,7 @@ class LoaderWindow extends React.Component {
             maxWidth="xs"
             {...other}
           >
-            <DialogTitle>Подождите, идет процесс регистрации..</DialogTitle>
+            <DialogTitle>{value}</DialogTitle>
             <DialogContent>
                 <LinearProgress />
             </DialogContent>

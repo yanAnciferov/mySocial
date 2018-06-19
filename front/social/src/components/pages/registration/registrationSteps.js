@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import RegistrationForm from "./registrationForm"
 import RegistrationAvatar from "./registrationAvatar"
 import RegistrationSuccess from "./registrationSuccess"
-import LoaderWindow from "./registrationLoading"
 import ErrorWindow from "../../common/errorWindow"
 import { connect } from 'react-redux';
 import * as actionTypes from "../../../constans/ActionTypes"
@@ -50,8 +49,9 @@ class RegistrationStepper extends React.Component {
         component: <RegistrationSuccess />
       }
     ];
-    const {onCloseErrorWindow} = this.props;
-    const { step, isLoading, errorWindow } = this.props.register
+
+    
+    const { step } = this.props.register
     return (
       <div className="steps-wrapper"> 
         <Paper className="card">
@@ -59,7 +59,6 @@ class RegistrationStepper extends React.Component {
               {registrationSteps[step].component}
           </div>
         </Paper>
-        <LoaderWindow open={isLoading} />
       </div>
     );
   }
