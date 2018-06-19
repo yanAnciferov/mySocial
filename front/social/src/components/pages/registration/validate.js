@@ -97,7 +97,7 @@ export function emailValidate(email) {
 
 
     
-    if(isError == false)
+    if(state.isError == false)
         state.message.push(MESSAGE.ENTER_EMAIL)
     return state;
     
@@ -143,7 +143,7 @@ export function dateValidate(dateParam) {
     }
 
     
-    if(isError == false)
+    if(state.isError == false)
         state.message.push(MESSAGE.ENTER_BIRTHDATE)
     return state;
     
