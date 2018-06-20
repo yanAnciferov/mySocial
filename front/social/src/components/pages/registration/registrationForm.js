@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {  FormControl, FormHelperText, Button, MenuItem,
       TextField, Select, Grid, Paper, Input, Typography  } from '@material-ui/core'; 
 
-import {nameValidate, dateValidate, emailValidate, sexValidate} from "./validate"
 import { connect } from 'react-redux';
 
 import { MODEL_NAMES, DATE, SEX_TYPES, MESSAGE } from '../../../constans/registration'
@@ -45,7 +44,7 @@ class RegistrationForm extends Component {
     return (
         <div className="formWrapper">
         <Typography variant="title" color="inherit">
-            Общая информация
+            {Content.StepCommonInfoHeader}
         </Typography>
         <form onSubmit={this.onSubmit}>
                     <Grid container spacing={24}>

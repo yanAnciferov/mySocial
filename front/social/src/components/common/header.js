@@ -38,9 +38,9 @@ class Header extends React.Component {
                 </Typography>
             </div>
             <div>
-                <Link to="/">
+                <Link to="/login">
                     <Button color="inherit">
-                        {content.ToHome}
+                        {content.ToLogin}
                     </Button>
                 </Link>
                 <Link to="/registration">

@@ -1,5 +1,5 @@
-import  { MESSAGE, REGEX, SEX_TYPES, IMAGE, DATE, MODEL_NAMES }   from '../../../constans/registration'
-import { IMAGE_SIZE } from '../../../constans/common'
+import  { MESSAGE, REGEX, SEX_TYPES, IMAGE, DATE, MODEL_NAMES }   from '../constans/registration';
+import { IMAGE_SIZE } from '../constans/common'
 import { isError } from 'assert/node_modules/util';
 
 

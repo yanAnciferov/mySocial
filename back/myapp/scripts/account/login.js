@@ -26,6 +26,10 @@ function login (req,res) {
             token
           })
         })
+      } else {
+        res.statusCode = 403;
+        res.send(LOGIN.INCORECT_DATA_FOR_LOGIN)
+        return;
       }
     })
   }

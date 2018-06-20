@@ -4,6 +4,10 @@ body {
   font-family: sans-serif;
 }
 
+html, body, #root, #root > div{
+  min-height: 100%;
+}
+
 a{
   color: white;
   text-decoration: none;
@@ -61,12 +65,24 @@ a{
   padding: 1em;
 }
 
-.registration-page{
+.registration-page, .login-page{
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+.login-page{
+  height: 100%;
+}
+
+.login-page .card{
+  padding: 2em 4em;
+  margin-top: 2em;
+}
+
+.login-page .login-button{
+  margin-top: 1em;
+}
 
 .file-input-wrapper {
   width: 100%;

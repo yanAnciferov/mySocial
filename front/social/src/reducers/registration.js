@@ -1,5 +1,5 @@
 import {HANDLE_CHANGE, SEX_CHANGE} from "../constans/ActionTypes"
-import {nameValidate, dateValidate, emailValidate, sexValidate , imageValidation} from "../components/pages/registration/validate"
+import {nameValidate, dateValidate, emailValidate, sexValidate , imageValidation} from "../scripts/validate"
 
 import { ACTION_FOR_REGISTRATION, ACTION_COMMON } from "../constans/ActionTypes"
 import { errors } from "../constans/errors"

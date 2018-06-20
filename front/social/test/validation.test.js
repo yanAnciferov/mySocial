@@ -1,5 +1,5 @@
 var { MESSAGE, REGEX, SEX_TYPES, IMAGE, DATE } =  require("../src/constans/registration");
-var {dateValidate, emailValidate, imageValidation, nameValidate, sexValidate} = require("../src/components/pages/registration/validate");
+var {dateValidate, emailValidate, imageValidation, nameValidate, sexValidate} = require("../src/scripts/validate");
 var assert = require("assert")
 
 

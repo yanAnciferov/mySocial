@@ -65,3 +65,35 @@ export const registration = () => (dispatch, getState) => {
       })
   })
 }
+
+
+export const login = () => (dispatch, getState) => {
+  const {
+    email,
+    password,
+    isValid
+   } = getState().login;
+
+   if(isValid == false)
+    return;
+
+    dispatch({
+      type: ACTION_FOR_APP.SHOW_LOADING_WINDOW,
+      payload: "Идет авторизация"
+    })
+ 
+
+    axios.post('/api/account/login',{email, password})
+    .then((res) => {
+      console.log(res)
+       dispatch({
+         type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
+       })
+      })
+      .catch((err) => {
+        console.log(err)
+        dispatch({
+          type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
+        })
+    })
+} 

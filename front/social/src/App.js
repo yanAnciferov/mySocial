@@ -9,6 +9,7 @@ import Header from "./components/common/header"
 import { connect } from 'react-redux';
 import { ACTION_COMMON, ACTION_FOR_APP } from './constans/ActionTypes';
 import { withRouter } from 'react-router-dom';
+import Login from './components/pages/login/login';
 
 class App extends Component {
   
@@ -21,6 +22,7 @@ class App extends Component {
         <Header />
         <Route path="/" exact component={Welcome}/>
         <Route path="/registration" component={Registration}/>
+        <Route path="/login" component={Login}/>
         <ErrorWindow onClose={onCloseErrorWindow} open={errorWindow.isVisible} value={errorWindow.message} />
         <LoaderWindow open={loadingWindow.isVisible} value={loadingWindow.message} />
      </div>

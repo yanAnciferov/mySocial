@@ -13,6 +13,7 @@ const ENTER_EMAIL = "Укажите вашу почту"
 const ENTER_BIRTHDATE = "Укажите вашу дату рождения"
 const ENTER_SEX = "Укажите ваш пол"
 const ENTER_FILE = "Загрузите файл"
+const ENTER_PASSWORD = "Введите пароль"
 const SET_AVATAR = "Установка аватара"
 
 const REQUIRED = "Это поле должно быть заполнено"
@@ -38,7 +39,7 @@ const EMAIL = "email"
 const SEX = "sex"
 const BIRTHDATE = "birthdate"
 const AVATAR = "avatar"
-
+const PASSWORD = "password"
 const ARRAY_FORMATS = ["image/jpeg", "image/jpg", "image/png"]
 const INVALIDATE_FORMAT = "Подходят только файлы формата .jpeg, .jpg, .png"
 const INVALIDATE_SIZE = "Размер файла должен быть от 40kb до 5mb"
@@ -55,7 +56,8 @@ export const MODEL_NAMES = {
     EMAIL,
     SEX,
     BIRTHDATE,
-    AVATAR
+    AVATAR,
+    PASSWORD
 }
 
 export const IMAGE = {
@@ -90,6 +92,7 @@ export const MESSAGE = {
     ENTER_BIRTHDATE,
     ENTER_SEX,
     ENTER_FILE,
+    ENTER_PASSWORD,
     SET_AVATAR,
     EMAIL_BUSY,
     EMAIL_NOT_EXISTENCE,
