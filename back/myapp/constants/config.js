@@ -1,4 +1,4 @@
-module.exports = {
+module.exports.emailConfig = {
     email: "testYanSocial@gmail.com",
     password: "testYanSocial11",
     protocol: "smtp.gmail.com",
@@ -12,4 +12,8 @@ module.exports = {
             </p>
         </html>`
     }
+}
+
+module.exports.loginConfig = {
+    secretKey: "secretKey"
 }

@@ -1,15 +1,12 @@
 var email = require("emailjs");
 var emailExistence = require("email-existence")
 var mongoose = require("mongoose");
-var { User } = require('../models/User')
+var { User } = require('../../models/User')
 var fs = require('fs')
-var appEmail = require('../constants/email');
-var {generateRandString} = require("../scripts/utils");
-var { validateUser } = require("./validation")
-var { USER_ERRORS } = require("../constants/errors")
-var { paths } = require("../constants/common")
-var { deleteFolder, deleteFiles } = require("../scripts/utils")
-
+var {generateRandString, deleteFolder, deleteFiles} = require("../utils");
+var { validateUser } = require("../validation")
+var { USER_ERRORS } = require("../../constants/errors")
+var { paths } = require("../../constants/common")
 function start(req, res, next) {
 
     if(mongoose.connection.readyState == 0){
@@ -113,7 +110,11 @@ function clearRegistrationRequest(req){
     
 }
   
-
+function registrationError(err,req,res,next){
+    console.log("ERROR", err)
+    clearRegistrationRequest(req);
+    res.send(res.message);
+  }
 
 module.exports.start = start;
 module.exports.checkMailForExistence = checkMailForExistence;
@@ -121,3 +122,4 @@ module.exports.checkMailInDB = checkMailInDB;
 module.exports.createUser = createUser;
 module.exports.validate = validate;
 module.exports.clearRegistrationRequest = clearRegistrationRequest;
+module.exports.registrationError = registrationError;

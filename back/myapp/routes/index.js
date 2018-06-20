@@ -1,11 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
+var jwt = require('jsonwebtoken');
 var { User } = require('../models/User')
 
-var { start , checkMailInDB, createUser, checkMailForExistence, validate,  clearRegistrationRequest  } = require('../scripts/registration');
-var { sendPassword } = require('../scripts/email');
+var { start, checkMailInDB, createUser, checkMailForExistence,
+   validate,  clearRegistrationRequest, registrationError  } = require('../scripts/account/registration');
+var { sendPassword } = require('../scripts/account/email');
 var { saveImage } = require('../scripts/image')
+var { verifyToken, login } = require('../scripts/account/login')
+var { getUserData } = require('../scripts/account/account')
 var fs = require('fs')
 
 var {deleteFolder} = require('../scripts/utils')
@@ -22,26 +26,12 @@ var storage = multer.diskStorage({
 
 var uploads = multer({storage});
 
-router.get('/all', function(req, res, next) {
-
-  User.find({}, function(err, users) {
-    var userMap = [];
-
-    users.forEach(function(user) {
-      userMap.push(user);
-    });
-
-    res.send(userMap);
-  });
-});
+router.post("/registration", uploads.any(), [start, validate, checkMailForExistence, checkMailInDB, createUser, sendPassword, saveImage ])
+        .use(registrationError);
 
 
-router.post("/api/account/registration", uploads.any(), [start, validate, checkMailForExistence, checkMailInDB, createUser, sendPassword, saveImage ])
-        .use(function(err,req,res,next){
-            console.log("ERROR", err)
-            clearRegistrationRequest(req);
-            res.send(res.message);
-            return;
-          });
+router.post("/login", login);
+
+router.post("/getUserData", verifyToken, getUserData);
 
 module.exports = router;

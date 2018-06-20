@@ -1,25 +1,25 @@
-var appEmail = require('../constants/email');
+var { emailConfig } = require('../../constants/config');
 var email = require("emailjs");
-var { USER_ERRORS } = require("../constants/errors")
-var { User } = require("../models/User")
+var { USER_ERRORS } = require("../../constants/errors")
+var { User } = require("../../models/User")
 
 function sendPasswordToEmail(req,res,next){
   
     let { newUser } = req;
     var server 	= email.server.connect({
-      user:     appEmail.email,
-      password: appEmail.password,
-      host:     appEmail.protocol,
+      user:     emailConfig.email,
+      password: emailConfig.password,
+      host:     emailConfig.protocol,
       ssl:      true
    });
   
    server.send({
-    from:       appEmail.from,
+    from:       emailConfig.from,
     to:         newUser.email,
-    subject:	  appEmail.subject,
+    subject:	  emailConfig.subject,
     attachment:
      [
-        {data: appEmail.getHTMLMessage(newUser), alternative:true}
+        {data: emailConfig.getHTMLMessage(newUser), alternative:true}
      ]
   
   }, (err, message) => {
