@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { MODEL_NAMES, DATE, SEX_TYPES, MESSAGE } from '../../../constans/registration'
 import { ACTION_FOR_REGISTRATION } from '../../../constans/ActionTypes'
 
+import Content from "../../../content/registration"
 
 class RegistrationForm extends Component {
 
@@ -51,11 +52,10 @@ class RegistrationForm extends Component {
                         <Grid item xs={12} sm={6}>
                             <FormControl required fullWidth>
                                 <TextField 
-                                    label="Имя" 
+                                    label={Content.NameLabel} 
                                     helperText={firstname.message}
                                     onChange={(e) => this.fieldCange(MODEL_NAMES.FIRSTNAME,e)}
                                     value={state.firstname}
-                                    required
                                     error={firstname.isError}
                                     />
                             </FormControl>
@@ -63,10 +63,9 @@ class RegistrationForm extends Component {
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth>
                                 <TextField 
-                                    label="Фамилия" 
+                                    label={Content.SurameLabel}  
                                     fullWidth
                                     helperText={surname.message}
-                                    required
                                     value={state.surname}
                                     onChange={(e) => this.fieldCange(MODEL_NAMES.SURNAME,e)}
                                     error={surname.isError}
@@ -79,7 +78,7 @@ class RegistrationForm extends Component {
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth>
                                 <TextField 
-                                    label="Отчество" 
+                                    label={Content.ParrentnameLabel} 
                                     fullWidth
                                     value={state.parrentname}
                                     helperText={parrentname.message}
@@ -96,11 +95,9 @@ class RegistrationForm extends Component {
                     
                     <FormControl className="registerControl" fullWidth>
                         <TextField 
-                            label="Почта" 
-                            required
+                            label={Content.EmailLabel}  
                             fullWidth
                             helperText={email.message}
-                            required
                             onChange={(e) => this.fieldCange(MODEL_NAMES.EMAIL,e)}
                             error={email.isError}
                             value={state.email}
@@ -138,11 +135,11 @@ class RegistrationForm extends Component {
                             fullWidth
                              >
 
-                            <MenuItem value="" disabled>Пол</MenuItem>
-                            <MenuItem value={SEX_TYPES.MALE}>Мужской</MenuItem>
-                            <MenuItem value={SEX_TYPES.FEMALE}>Женский</MenuItem>
+                            <MenuItem value="" disabled>{Content.SexLabel}</MenuItem>
+                            <MenuItem value={SEX_TYPES.MALE}>{Content.Male}</MenuItem>
+                            <MenuItem value={SEX_TYPES.FEMALE}>{Content.Female}</MenuItem>
                         </Select>
-                        <FormHelperText>Укажите ваш пол</FormHelperText>
+                        <FormHelperText>{sex.message}</FormHelperText>
                     </FormControl>
                     <Grid container justify="flex-end">
                         <Button onClick={this.onSubmit} type="submit" variant="contained" color="primary">Далее</Button>

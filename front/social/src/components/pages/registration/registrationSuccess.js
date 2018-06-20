@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core"
 import Slider from '@material-ui/lab/Slider'
 import { connect } from 'react-redux'
 import * as actionTypes from "../../../constans/ActionTypes"
+import content from "../../../content/registration"
 import { registration } from "../../../actions/Account"
 
 class RegistrationSuccess extends React.Component {
@@ -18,10 +19,10 @@ class RegistrationSuccess extends React.Component {
     var model = this.props.register.image.file;
     return (
       <div className="registration-result">
-        <p>Поздравляем вас, {register.firstname}, вы успешно прошли регистрацию!</p>
-        <p>Пароль и логин был выслан вам на почту - {register.email}</p>
+        <p>{content.MessageAboutSuccesRegistration(register.firstname)}</p>
+        <p>{content.MessageAboutSendPassToMail(register.email)}</p>
         <p className="gotoprofile" >
-            <Button variant="contained" color="primary">Перейти в профиль</Button>
+            <Button variant="contained" color="primary">{content.GoToProfile}</Button>
         </p>
       </div>
     )

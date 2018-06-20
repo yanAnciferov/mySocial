@@ -2,6 +2,8 @@ import {AppBar, Button, Toolbar, Menu ,Typography} from '@material-ui/core';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
+import content from "../../content/header"
+
 
 class Header extends React.Component {
     state = {
@@ -32,18 +34,18 @@ class Header extends React.Component {
             <Toolbar className="header-toolbar">
             <div>
                 <Typography variant="title" color="inherit" >
-                    My Social Network
+                    {content.SiteName}
                 </Typography>
             </div>
             <div>
                 <Link to="/">
                     <Button color="inherit">
-                        Домой
+                        {content.ToHome}
                     </Button>
                 </Link>
                 <Link to="/registration">
                     <Button color="inherit">
-                        Регистрация
+                        {content.ToRegistration}
                     </Button>
                 </Link>
             </div>

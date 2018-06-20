@@ -9,6 +9,8 @@ import { ACTION_FOR_REGISTRATION, ACTION_COMMON } from "../../../constans/Action
 import { registration } from "../../../actions/Account"
 import AppBar from '@material-ui/core/AppBar/AppBar';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
+import Content from "../../../content/registration"
+
 
 class RegistrationAvatar extends React.Component {
   state = {
@@ -71,7 +73,7 @@ class RegistrationAvatar extends React.Component {
       <div className="create-avatar">
         <Toolbar>
           <Typography variant="headline" className="stepHeader" color="inherit">
-            Установка аватара
+          {Content.StepAvatarHeader}
           </Typography>
         </Toolbar>
         <Grid container spacing={0}>
@@ -124,7 +126,7 @@ class RegistrationAvatar extends React.Component {
                 <label htmlFor="contained-button-file" className="contained-button-file">
                     <span className="error">{(image.isError) ? image.message : ""}</span>
                     <Button variant="contained" component="span" >
-                        Загрузить файл
+                        {Content.LoadFile}
                     </Button>
                 </label>
               </div>
@@ -133,10 +135,10 @@ class RegistrationAvatar extends React.Component {
         </Grid>
        
         <div className="avatar-buttons">
-            <Button variant="contained" onClick={this.backHandle} color="primary">Назад</Button>
+            <Button variant="contained" onClick={this.backHandle} color="primary">{Content.PrevButton}</Button>
             <div>
-              <Button color="primary" onClick={this.skip}>Пропустить</Button>
-              <Button variant="contained" onClick={this.registrationHandle} color="primary">Регистрация</Button>
+              <Button color="primary" onClick={this.skip}>{Content.SkipButton}</Button>
+              <Button variant="contained" onClick={this.registrationHandle} color="primary">{Content.NextButton}</Button>
             </div>
         </div>
 

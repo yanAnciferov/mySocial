@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-
 import RegistrationForm from './registrationForm'
-
 import RegistrationSteps from './registrationSteps'
+import content from "../../../content/registration"
 
 class Registration extends Component {
     render() {
     return (
       <div className="registration-page">
-         <h1 className="pageHeader">Регистрация</h1>
+         <h1 className="pageHeader">{content.RegistrationPageHeader}</h1>
          <RegistrationSteps />
       </div>
 
