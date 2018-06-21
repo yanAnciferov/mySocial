@@ -66,6 +66,14 @@ export default function (state = initialState, action) {
         }
     }
 
+    
+    if(action.type === ACTION_FOR_APP.SET_USER_DATA){
+        console.log(action.payload);
+        return { 
+            ...state,
+            authorizedUser: action.payload
+        }
+    }
   
 
     return state;

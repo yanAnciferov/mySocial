@@ -87,12 +87,13 @@ export const login = () => (dispatch, getState) => {
     .then((res) => {
         dispatch({
           type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
-        })
+        });
         console.log(res.data);
         dispatch({
           type: ACTION_FOR_APP.LOGIN,
           payload: res.data
-        })
+        });
+        dispatch(getAuthUserData());
       })
       .catch((err) => {
         dispatch({
@@ -102,5 +103,35 @@ export const login = () => (dispatch, getState) => {
           type: ACTION_FOR_LOGIN.LOGIN_QUERY_ERROR,
           err
         })
+    })
+} 
+
+
+export const getAuthUserData = () => (dispatch, getState) => {
+  const {
+    token,
+    isAuthorize
+   } = getState().app;
+
+   if(isAuthorize == false)
+    return;
+
+    var Authorization = `Bearer ${token}`;
+    console.log(Authorization)
+
+    axios.post('/api/account/getAuthUserData', null ,{
+      headers: {
+        Authorization
+      }
+    })
+    .then((res) => {
+        console.log(res.data);
+        dispatch({
+          type: ACTION_FOR_APP.SET_USER_DATA,
+          payload: res.data
+        })
+      })
+      .catch((err) => {
+        console.log(err);
     })
 } 

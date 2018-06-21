@@ -60,6 +60,9 @@ export default function (state = initialState, action) {
 
     if(action.type == ACTION_FOR_LOGIN.LOGIN_QUERY_ERROR){
         var {err} = action;
+        if(typeof err.response === "undefined")
+            return state;
+
         var {data} = err.response;
         if(data == errors.INCORECT_EMAIL_FOR_LOGIN)
             return {

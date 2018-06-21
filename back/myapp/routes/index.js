@@ -9,7 +9,7 @@ var { start, checkMailInDB, createUser, checkMailForExistence,
 var { sendPassword } = require('../scripts/account/email');
 var { saveImage } = require('../scripts/image')
 var { verifyToken, login } = require('../scripts/account/login')
-var { getUserData } = require('../scripts/account/account')
+var { getAuthUserData } = require('../scripts/account/account')
 var fs = require('fs')
 
 var {deleteFolder} = require('../scripts/utils')
@@ -32,6 +32,6 @@ router.post("/registration", uploads.any(), [start, validate, checkMailForExiste
 
 router.post("/login", login);
 
-router.post("/getUserData", verifyToken, getUserData);
+router.post("/getAuthUserData", verifyToken, getAuthUserData);
 
 module.exports = router;

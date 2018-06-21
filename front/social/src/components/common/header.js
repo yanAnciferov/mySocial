@@ -16,7 +16,7 @@ class Header extends React.Component {
     render() {
       const { isAuthorize } = this.props.app;
       return (
-        <div>
+        <div className="main-header">
           <AppBar position="static">
             <Toolbar className="header-toolbar">
             <div>

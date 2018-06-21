@@ -154,3 +154,38 @@ a{
   justify-content: space-between;
 }
 
+.main-wrapper-content{
+  padding-top: 4em;
+  display: flex;
+  min-height: 100%;
+}
+
+.main-wrapper-content .main-content{
+  flex-grow: 1;
+}
+
+.main-wrapper-content .main-content{
+  flex-grow: 1;
+}
+
+.main-wrapper-content .main-menu{
+  display: block;
+  position: fixed;
+  top: 4em;
+  height: 100%;
+}
+
+div.main-menu-paper{
+  height: 100%;
+  padding-top: 5em;
+  box-sizing: border-box;
+  padding: 4em 2em 0 2em;
+  box-shadow: none;
+}
+
+
+.main-header{
+  z-index: 1;
+  width: 100%;
+  position: fixed;
+}
