@@ -3,31 +3,18 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
 import content from "../../content/header"
+import { connect } from 'react-redux';
+import { ACTION_FOR_APP } from '../../constans/ActionTypes';
 
 
 class Header extends React.Component {
-    state = {
-      auth: true,
-      anchorEl: null,
-    };
-  
-    handleChange = (event, checked) => {
-      this.setState({ auth: checked });
-    };
-  
-    handleMenu = event => {
-      this.setState({ anchorEl: event.currentTarget });
-    };
-  
-    handleClose = () => {
-      this.setState({ anchorEl: null });
-    };
+
+    onLogoutClick = () => {
+      this.props.onLogout();
+    }
   
     render() {
-      const { classes } = this.props;
-      const { auth, anchorEl } = this.state;
-      const open = Boolean(anchorEl);
-  
+      const { isAuthorize } = this.props.app;
       return (
         <div>
           <AppBar position="static">
@@ -38,16 +25,31 @@ class Header extends React.Component {
                 </Typography>
             </div>
             <div>
-                <Link to="/login">
+              {
+                (()=>{
+                  if(!isAuthorize){
+                  return (<div>
+                    <Link to="/login">
                     <Button color="inherit">
                         {content.ToLogin}
                     </Button>
-                </Link>
-                <Link to="/registration">
-                    <Button color="inherit">
-                        {content.ToRegistration}
-                    </Button>
-                </Link>
+                    </Link>
+                    <Link to="/registration">
+                        <Button color="inherit">
+                            {content.ToRegistration}
+                        </Button>
+                    </Link>
+                  </div>)
+                  }else {
+                    return (<div>
+                      <Button color="inherit" onClick={this.onLogoutClick}>
+                          {content.ToLogout}
+                      </Button>
+                    </div>)
+                  }
+                })()
+              }
+               
             </div>
             </Toolbar>
           </AppBar>
@@ -57,4 +59,13 @@ class Header extends React.Component {
   }
 
 
-export default (Header);
+  export default connect(
+    state => ({
+        app: state.app
+    }),
+    dispatch => ({
+      onLogout: () => {
+        dispatch({ type: ACTION_FOR_APP.LOGOUT});
+      }
+  })
+)(Header);

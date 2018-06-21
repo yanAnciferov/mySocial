@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ErrorWindow from "./components/common/errorWindow";
 import LoaderWindow from "./components/common/loadingWindow"
-import { Route } from "react-router-dom"
+import { Route, Redirect } from "react-router-dom"
 
 import Welcome from "./components/pages/helloWorld.js"
 import Registration from "./components/pages/registration/registration"
@@ -14,15 +14,34 @@ import Login from './components/pages/login/login';
 class App extends Component {
   
   render() {
-    var { loadingWindow } = this.props.app;
+    var { loadingWindow, isAuthorize } = this.props.app;
     var { errorWindow} = this.props.catcher;
     var { onCloseErrorWindow } = this.props;
+    console.log(isAuthorize)
     return (
       <div>
         <Header />
-        <Route path="/" exact component={Welcome}/>
-        <Route path="/registration" component={Registration}/>
-        <Route path="/login" component={Login}/>
+        <Route exact path="/" render={() => (
+          isAuthorize ? (
+            <Welcome/>
+          ) : (
+            <Redirect to="/login"/>
+          )
+        )}/>
+        <Route exact path="/registration" render={() => (
+          isAuthorize ? (
+            <Redirect to="/"/>
+          ) : (
+            <Registration/>
+          )
+        )}/>
+         <Route exact path="/login" render={() => (
+          isAuthorize ? (
+            <Redirect to="/"/>
+          ) : (
+            <Login/>
+          )
+        )}/>
         <ErrorWindow onClose={onCloseErrorWindow} open={errorWindow.isVisible} value={errorWindow.message} />
         <LoaderWindow open={loadingWindow.isVisible} value={loadingWindow.message} />
      </div>

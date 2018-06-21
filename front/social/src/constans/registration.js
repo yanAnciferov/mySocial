@@ -26,7 +26,8 @@ const EMAIL_BUSY = "Указанный email занят другим польз�
 const EMAIL_NOT_EXISTENCE = "Указанный email не действительный"
 const TECHNICAL_WORK_ON_SERVER = "Ведутся технические работы на сервере, простите за временные не удобства"
 const FAILED_SEND_MESSAGE_TO_EMAIL = "Не удалось отправить сообщение на эту почту"
-
+const USER_NOT_FOUND_ABOUT_EMAIL = "Пользователя с такой почтой не существует"
+const INCORRECT_PASSWORD = "Не верный пароль"
 
 const EMAIL_REGEX = /[a-zA-Z0-9._%+-]{2,}@[a-zA-Z]{2,}(\.)[a-zA-Z]{1,}/
 const NAME_REGEX = /^[a-zA-Zа-яА-Я]+$/
@@ -97,6 +98,8 @@ export const MESSAGE = {
     EMAIL_BUSY,
     EMAIL_NOT_EXISTENCE,
     TECHNICAL_WORK_ON_SERVER,
-    FAILED_SEND_MESSAGE_TO_EMAIL
+    FAILED_SEND_MESSAGE_TO_EMAIL,
+    USER_NOT_FOUND_ABOUT_EMAIL,
+    INCORRECT_PASSWORD
     
 }

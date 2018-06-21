@@ -19,6 +19,8 @@ const SAVE_FILE_ERROR = "save file error"
 const REGISTRATION_USER_MODEL_INVALIDE = " registration user model invalidate"
 const UNAUTHORIZED = "unauthorized"
 const INCORECT_DATA_FOR_LOGIN = "incorect data for login"
+const INCORECT_EMAIL_FOR_LOGIN = "incorect email for login"
+const INCORECT_PASSWORD_FOR_LOGIN = "incorect password for login"
 
 module.exports.USER_ERRORS = {
     ERROR_SEND_MESSAGE_TO_EMAIL,
@@ -49,5 +51,7 @@ module.exports.COMMON = {
 
 module.exports.LOGIN = {
     INCORECT_DATA_FOR_LOGIN,
-    UNAUTHORIZED
+    UNAUTHORIZED,
+    INCORECT_PASSWORD_FOR_LOGIN,
+    INCORECT_EMAIL_FOR_LOGIN
 }

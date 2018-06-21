@@ -29,6 +29,10 @@ const history = createHistory();
 
 const middleware = routerMiddleware(history);
 
+const checkTokenInLocalstorage = store => next => action => {
+  console.log()
+}
+
 const store = createStore(
   combineReducers({
     ...Reducers,
@@ -36,7 +40,6 @@ const store = createStore(
   }),
   applyMiddleware(middleware, thunk)
 );
-
 
 
 

@@ -11,6 +11,7 @@ import { ACTION_FOR_REGISTRATION, ACTION_FOR_LOGIN } from '../../../constans/Act
 
 import Content from "../../../content/login"
 import { login } from "../../../actions/Account"
+import { push } from 'react-router-redux/actions';
 
 class LoginForm extends Component {
 
@@ -86,6 +87,8 @@ export default connect(
             onSubmit: (model) => {
                 dispatch({ type: ACTION_FOR_LOGIN.LOGIN_SUBMIT, payload: model})
                 dispatch(login());
+                dispatch(push("/"))
+                
             },
             onChange: (newValue) => {
                 dispatch({ type: ACTION_FOR_LOGIN.LOGIN_ON_CHANGE, payload: newValue})

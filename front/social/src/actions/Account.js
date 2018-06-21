@@ -2,7 +2,7 @@
 
 import axios from "axios"
 import { MODEL_NAMES } from "../constans/registration"
-import { ACTION_FOR_REGISTRATION, ACTION_FOR_APP } from "../constans/ActionTypes"
+import { ACTION_FOR_REGISTRATION, ACTION_FOR_APP, ACTION_FOR_LOGIN } from "../constans/ActionTypes"
 
 axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -83,17 +83,24 @@ export const login = () => (dispatch, getState) => {
     })
  
 
-    axios.post('/api/account/login',{email, password})
+    axios.post('/api/account/login',{email: email.trim(), password})
     .then((res) => {
-      console.log(res)
-       dispatch({
-         type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
-       })
-      })
-      .catch((err) => {
-        console.log(err)
         dispatch({
           type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
+        })
+        console.log(res.data);
+        dispatch({
+          type: ACTION_FOR_APP.LOGIN,
+          payload: res.data
+        })
+      })
+      .catch((err) => {
+        dispatch({
+          type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
+        })
+        dispatch({
+          type: ACTION_FOR_LOGIN.LOGIN_QUERY_ERROR,
+          err
         })
     })
 } 

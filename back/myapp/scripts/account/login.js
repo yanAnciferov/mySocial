@@ -19,7 +19,7 @@ function login (req,res) {
     User.findOne({email}, (err, user) => {
       if(user == null){
         res.statusCode = 403;
-        res.send(LOGIN.INCORECT_DATA_FOR_LOGIN)
+        res.send(LOGIN.INCORECT_EMAIL_FOR_LOGIN)
       } else if(user.checkPassword(password)) {
         jwt.sign({user}, loginConfig.secretKey,{ expiresIn: "30 days" }, (err, token) => {
           res.json({
@@ -28,7 +28,7 @@ function login (req,res) {
         })
       } else {
         res.statusCode = 403;
-        res.send(LOGIN.INCORECT_DATA_FOR_LOGIN)
+        res.send(LOGIN.INCORECT_PASSWORD_FOR_LOGIN)
         return;
       }
     })

@@ -1,4 +1,4 @@
-import {HANDLE_CHANGE, SEX_CHANGE} from "../constans/ActionTypes"
+import {HANDLE_CHANGE, SEX_CHANGE, ACTION_FOR_APP} from "../constans/ActionTypes"
 
 import { ACTION_FOR_REGISTRATION, ACTION_FOR_LOGIN } from "../constans/ActionTypes"
 import { errors } from "../constans/errors"
@@ -47,17 +47,48 @@ export default function (state = initialState, action) {
                 isError: password == "",
                 message: MESSAGE.ENTER_PASSWORD
             }
-        
-        console.log(state)
-        
+
         return {
             ...state,
             validateState: {
                 email: emailValid,
                 password: passwordValid
             },
-            isValid: !(passwordValid.isError && emailValid.isError)
+            isValid: !(passwordValid.isError || emailValid.isError)
         }
+    }
+
+    if(action.type == ACTION_FOR_LOGIN.LOGIN_QUERY_ERROR){
+        var {err} = action;
+        var {data} = err.response;
+        if(data == errors.INCORECT_EMAIL_FOR_LOGIN)
+            return {
+                ...state,
+                validateState: {
+                    ...state.validateState,
+                    email: {
+                        isError: true,
+                        message: MESSAGE.USER_NOT_FOUND_ABOUT_EMAIL
+                    }
+                }
+            }
+
+        if(data == errors.INCORECT_PASSWORD_FOR_LOGIN)
+            return {
+                ...state,
+                validateState: {
+                    ...state.validateState,
+                    password: {
+                        isError: true,
+                        message: MESSAGE.INCORRECT_PASSWORD
+                    }
+                }
+            }
+
+    }
+
+    if(action.type === ACTION_FOR_APP.LOGIN){
+        return initialState;
     }
 
     return state;
