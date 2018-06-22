@@ -7,15 +7,8 @@ var {generateRandString, deleteFolder, deleteFiles} = require("../utils");
 var { validateUser } = require("../validation")
 var { USER_ERRORS } = require("../../constants/errors")
 var { paths } = require("../../constants/common")
-function start(req, res, next) {
 
-    if(mongoose.connection.readyState == 0){
-        res.statusCode = 500;
-        res.message = USER_ERRORS.DB_NOT_CONNECTED;
-        console.log("db not connected on start")
-        next(res.message)
-        return;
-    }
+function start(req, res, next) {
     console.log(req.body)
 
     let newUser = {
@@ -110,16 +103,9 @@ function clearRegistrationRequest(req){
     
 }
   
-function registrationError(err,req,res,next){
-    console.log("ERROR", err)
-    clearRegistrationRequest(req);
-    res.send(res.message);
-  }
-
 module.exports.start = start;
 module.exports.checkMailForExistence = checkMailForExistence;
 module.exports.checkMailInDB = checkMailInDB;
 module.exports.createUser = createUser;
 module.exports.validate = validate;
 module.exports.clearRegistrationRequest = clearRegistrationRequest;
-module.exports.registrationError = registrationError;

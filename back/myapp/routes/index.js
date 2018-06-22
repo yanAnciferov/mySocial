@@ -5,13 +5,17 @@ var jwt = require('jsonwebtoken');
 var { User } = require('../models/User')
 
 var { start, checkMailInDB, createUser, checkMailForExistence,
-   validate,  clearRegistrationRequest, registrationError  } = require('../scripts/account/registration');
+   validate,  clearRegistrationRequest } = require('../scripts/account/registration');
+var { registrationError } = require('../scripts/errorHandlers/registration')
+var { simpleErrorHandler } = require("../scripts/errorHandlers/common")
 var { sendPassword } = require('../scripts/account/email');
 var { saveImage } = require('../scripts/image')
-var { verifyToken, login } = require('../scripts/account/login')
+var { login } = require('../scripts/account/login')
+var { verifyToken } = require('../scripts/midllewares/token')
 var { getAuthUserData } = require('../scripts/account/account')
+var { checkDbConnection } = require('../scripts/midllewares/checkDbConnection')
 var fs = require('fs')
-
+var { API_METHODS_PATHS } = require('../constants/apiUrl')
 var {deleteFolder} = require('../scripts/utils')
 var {paths} = require("../constants/common")
 
@@ -26,12 +30,15 @@ var storage = multer.diskStorage({
 
 var uploads = multer({storage});
 
-router.post("/registration", uploads.any(), [start, validate, checkMailForExistence, checkMailInDB, createUser, sendPassword, saveImage ])
+router.use(simpleErrorHandler)
+
+router.post(API_METHODS_PATHS.REGISTRATION, uploads.any(), [checkDbConnection, start, validate, checkMailForExistence, checkMailInDB, createUser, sendPassword, saveImage ])
         .use(registrationError);
 
-
-router.post("/login", login);
-
-router.post("/getAuthUserData", verifyToken, getAuthUserData);
+router.post(API_METHODS_PATHS.LOGIN, [checkDbConnection, login])
+        .use(simpleErrorHandler);
+        
+router.post(API_METHODS_PATHS.GET_AUTHORIZE_USER_DATA, verifyToken, [checkDbConnection, getAuthUserData])
+        .use(simpleErrorHandler);
 
 module.exports = router;

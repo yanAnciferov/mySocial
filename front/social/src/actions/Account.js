@@ -4,7 +4,9 @@ import axios from "axios"
 import { MODEL_NAMES } from "../constans/registration"
 import { ACTION_FOR_REGISTRATION, ACTION_FOR_APP, ACTION_FOR_LOGIN } from "../constans/ActionTypes"
 
-axios.defaults.baseURL = 'http://localhost:3001';
+import { push } from 'react-router-redux/actions';
+
+
 
 
 export const registration = () => (dispatch, getState) => {
@@ -115,21 +117,19 @@ export const getAuthUserData = () => (dispatch, getState) => {
 
    if(isAuthorize == false)
     return;
-
-    var Authorization = `Bearer ${token}`;
-    console.log(Authorization)
+    console.log("Получение данных авторизованного пользователя")
 
     axios.post('/api/account/getAuthUserData', null ,{
       headers: {
-        Authorization
+        Authorization: `Bearer ${token}`
       }
     })
     .then((res) => {
-        console.log(res.data);
         dispatch({
           type: ACTION_FOR_APP.SET_USER_DATA,
           payload: res.data
         })
+        dispatch(push(`/${res.data._id}`))
       })
       .catch((err) => {
         console.log(err);

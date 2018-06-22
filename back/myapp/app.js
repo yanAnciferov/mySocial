@@ -1,10 +1,13 @@
+var { simpleErrorHandler } = require('./scripts/errorHandlers/common');
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
-
+var usersRouter = require('./routes/users');
+var { API_ROUTERS_PATHS } = require("./constants/apiUrl")
 var app = express();
 
 
@@ -23,8 +26,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/api/account', indexRouter);
-
+app.use(API_ROUTERS_PATHS.ACCOUNT, indexRouter);
+app.use(API_ROUTERS_PATHS.USERS, usersRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

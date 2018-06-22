@@ -64,11 +64,16 @@ class RegistrationAvatar extends React.Component {
 
   render() {
 
-    let {register} = this.props
+    let {register, register:{ 
+      validateState: { 
+        image,
+        image: {
+          file:model
+        } 
+      } 
+    }
+  } = this.props
 
-    var { image } = this.props.register.validateState;
-    console.log(this.props.register.validateState);
-    var model = this.props.register.image.file;
     return (
       <div className="create-avatar">
         <Toolbar>

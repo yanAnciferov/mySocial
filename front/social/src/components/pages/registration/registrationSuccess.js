@@ -15,8 +15,8 @@ class RegistrationSuccess extends React.Component {
 
     let {register} = this.props
 
-    var valid = this.props.register.validateState.image;
-    var model = this.props.register.image.file;
+    let valid = this.props.register.validateState.image;
+    let model = this.props.register.image.file;
     return (
       <div className="registration-result">
         <p>{content.MessageAboutSuccesRegistration(register.firstname)}</p>

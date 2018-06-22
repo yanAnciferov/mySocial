@@ -1,6 +1,3 @@
-module.exports.paths = {
-    PATH_TO_USER_DATA: "./public/usersData/"
-}
 
 
 const COUNT_BYTES_IN_KB = 1024;
@@ -17,6 +14,12 @@ const MAX = "2017-12-31"
 
 const MALE = "male"
 const FEMALE = "female"
+
+const PATH_TO_USER_DATA = "./public/usersData/";
+const SERVER_DOMAINL = "http://localhost:3001";
+const PATH_TO_USER_DATA_C = "/usersData/";
+const FULL_PATH_TO_USER_DATA = SERVER_DOMAINL + PATH_TO_USER_DATA_C;
+const PATH_TO_DEFAULT_AVATAR = SERVER_DOMAINL + PATH_TO_USER_DATA_C + "default_avatar.png"
 
 module.exports.IMAGE_SIZE = {
     COUNT_BYTES_IN_KB,
@@ -46,4 +49,12 @@ module.exports.SEX_TYPES = {
 
 module.exports.IMAGE = {
     ARRAY_FORMATS
+}
+
+module.exports.paths = {
+    PATH_TO_USER_DATA,
+    SERVER_DOMAINL,
+    PATH_TO_USER_DATA_C,
+    FULL_PATH_TO_USER_DATA,
+    PATH_TO_DEFAULT_AVATAR
 }

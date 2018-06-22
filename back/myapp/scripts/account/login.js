@@ -4,22 +4,19 @@ var { SIGSTKFLT } = require('constants');
 var { User } = require('../../models/User');
 var jwt = require('jsonwebtoken');
 var { LOGIN } = require('../../constants/errors');
+var { dispatchError } = require("../errorHandlers/common")
 
-
-function login (req,res) {
+function login (req,res,next) {
     var { email, password } = req.body
 
     if(typeof email == "undefined")
     {
-      res.statusCode = 403;
-      res.send(LOGIN.INCORECT_DATA_FOR_LOGIN)
-      return;
+      dispatchError(res,next,LOGIN.INCORECT_DATA_FOR_LOGIN,403);
     }
 
     User.findOne({email}, (err, user) => {
       if(user == null){
-        res.statusCode = 403;
-        res.send(LOGIN.INCORECT_EMAIL_FOR_LOGIN)
+        dispatchError(res,next,LOGIN.INCORECT_EMAIL_FOR_LOGIN,403);
       } else if(user.checkPassword(password)) {
         jwt.sign({user}, loginConfig.secretKey,{ expiresIn: "30 days" }, (err, token) => {
           res.json({
@@ -27,25 +24,10 @@ function login (req,res) {
           })
         })
       } else {
-        res.statusCode = 403;
-        res.send(LOGIN.INCORECT_PASSWORD_FOR_LOGIN)
-        return;
+        dispatchError(res,next,LOGIN.INCORECT_PASSWORD_FOR_LOGIN,403);
       }
     })
   }
 
 
-function verifyToken(req, res, next){
-  const bearerHeader = req.headers['authorization'];
-  if(typeof bearerHeader !== 'undefined'){
-      req.token = bearerHeader.split(' ')[1];
-      next();
-  } else {
-    res.statusCode = 403;
-    res.send(LOGIN.UNAUTHORIZED)
-  }
-}
-
-
 module.exports.login = login;
-module.exports.verifyToken = verifyToken;

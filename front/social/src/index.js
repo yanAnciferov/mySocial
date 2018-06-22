@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
+import axios from "axios"
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 
@@ -24,6 +24,8 @@ import {
 import Reducers from "./reducers/index"; 
 import connect from "react-redux/lib/connect/connect";
 import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
+
+axios.defaults.baseURL = 'http://localhost:3001';
 
 const history = createHistory();
 

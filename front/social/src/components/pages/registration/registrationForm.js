@@ -40,7 +40,6 @@ class RegistrationForm extends Component {
         ...this.props.register
     }
     
-
     return (
         <div className="formWrapper">
         <Typography variant="title" color="inherit">

@@ -3,17 +3,10 @@ import { Dialog, DialogContentText, LinearProgress, DialogTitle, DialogContent, 
 
 
 class ErrorWindow extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state.value = this.props.value;
-    }
 
     handleClose= (event, value) => {
        this.props.onClose();
     };
-
-    state = {};
 
     render() {
         const { value, ...other } = this.props;

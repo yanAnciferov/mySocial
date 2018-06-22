@@ -16,7 +16,7 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var upload = multer();
 var cors = require('cors');
-
+var { simpleErrorHandler } = require("../scripts/errorHandlers/common")
 var mongoose = require('mongoose');
 
 
@@ -29,9 +29,8 @@ router.use(upload.array());
 router.use(express.static('public'));
 
 
-
 mongoose.connect('mongodb://localhost/social')
-  .then( () => console.log("mongo started"))
+  .then(() => console.log("mongo started"))
   .catch(e => console.log(e))
 
   

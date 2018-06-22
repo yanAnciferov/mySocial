@@ -5,7 +5,8 @@ const NETWORK_ERROR = "Network Error"
 const DB_NOT_CONNECTED = "db not connected"
 const INCORECT_EMAIL_FOR_LOGIN = "incorect email for login"
 const INCORECT_PASSWORD_FOR_LOGIN = "incorect password for login"
-
+const NOT_FOUND = "not found"
+const UNAUTHORIZED = "unauthorized"
 export const errors = {
     ERROR_SEND_MESSAGE_TO_EMAIL,
     EMAIL_BUSY,
@@ -13,5 +14,7 @@ export const errors = {
     NETWORK_ERROR,
     DB_NOT_CONNECTED,
     INCORECT_EMAIL_FOR_LOGIN,
-    INCORECT_PASSWORD_FOR_LOGIN
+    INCORECT_PASSWORD_FOR_LOGIN,
+    NOT_FOUND,
+    UNAUTHORIZED
 }

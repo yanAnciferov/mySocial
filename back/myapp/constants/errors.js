@@ -21,7 +21,7 @@ const UNAUTHORIZED = "unauthorized"
 const INCORECT_DATA_FOR_LOGIN = "incorect data for login"
 const INCORECT_EMAIL_FOR_LOGIN = "incorect email for login"
 const INCORECT_PASSWORD_FOR_LOGIN = "incorect password for login"
-
+const NOT_FOUND = "not found"
 module.exports.USER_ERRORS = {
     ERROR_SEND_MESSAGE_TO_EMAIL,
     EMAIL_BUSY,
@@ -41,7 +41,8 @@ module.exports.USER_ERRORS = {
     RECT_FIELD_ERROR,
     FAILED_SEND_MESSAGE_TO_EMAIL,
     SAVE_FILE_ERROR,
-    REGISTRATION_USER_MODEL_INVALIDE
+    REGISTRATION_USER_MODEL_INVALIDE,
+    NOT_FOUND
 }
 
 module.exports.COMMON = {

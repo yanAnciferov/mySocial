@@ -14,11 +14,6 @@ import { login } from "../../../actions/Account"
 import { push } from 'react-router-redux/actions';
 
 class LoginForm extends Component {
-
-    constructor(props){
-        super(props);
-    }
-
     
     fieldCange = (type, event) => {
         this.props.onChange({
@@ -87,8 +82,6 @@ export default connect(
             onSubmit: (model) => {
                 dispatch({ type: ACTION_FOR_LOGIN.LOGIN_SUBMIT, payload: model})
                 dispatch(login());
-                dispatch(push("/"))
-                
             },
             onChange: (newValue) => {
                 dispatch({ type: ACTION_FOR_LOGIN.LOGIN_ON_CHANGE, payload: newValue})
