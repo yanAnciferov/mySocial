@@ -8,23 +8,26 @@ var { dispatchError } = require("../errorHandlers/common")
 
 function login (req,res,next) {
     var { email, password } = req.body
-
-    if(typeof email == "undefined")
+    if(!email)
     {
-      dispatchError(res,next,LOGIN.INCORECT_DATA_FOR_LOGIN,403);
+      dispatchError(res,next,LOGIN.INCORRECT_DATA_FOR_LOGIN,403);
     }
 
     User.findOne({email}, (err, user) => {
-      if(user == null){
-        dispatchError(res,next,LOGIN.INCORECT_EMAIL_FOR_LOGIN,403);
-      } else if(user.checkPassword(password)) {
+      if(!user){
+        dispatchError(res,next,LOGIN.INCORRECT_EMAIL_FOR_LOGIN,403);
+        return;
+      }
+      
+      if(user.checkPassword(password)) {
         jwt.sign({user}, loginConfig.secretKey,{ expiresIn: "30 days" }, (err, token) => {
           res.json({
             token
           })
         })
+        return;
       } else {
-        dispatchError(res,next,LOGIN.INCORECT_PASSWORD_FOR_LOGIN,403);
+        dispatchError(res,next,LOGIN.INCORRECT_PASSWORD_FOR_LOGIN,403);
       }
     })
   }

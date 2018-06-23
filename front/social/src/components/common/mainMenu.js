@@ -1,11 +1,11 @@
-import {AppBar, Button, Toolbar, Menu ,Typography, MenuList, MenuItem, ListItemText} from '@material-ui/core';
-import React, { Component } from 'react';
+import { MenuList, MenuItem, ListItemText} from '@material-ui/core';
+import React from 'react';
 import { Link } from 'react-router-dom'
 
-import content from "../../content/header"
 import { connect } from 'react-redux';
 import { ACTION_FOR_APP } from '../../constans/ActionTypes';
 import Paper from '@material-ui/core/Paper/Paper';
+import { PROFILE_CONTENT } from '../../content/profile';
 
 
 class MainMenu extends React.Component {
@@ -15,32 +15,34 @@ class MainMenu extends React.Component {
     }
   
     render() {
-      const { isAuthorize, authorizedUser } = this.props.app;
-      return (
-        <div className="main-menu">
-         <Paper className="main-menu-paper">
-            <MenuList>
-                <Link to={`/${authorizedUser._id}`}>
+      const { authorizedUser } = this.props.app;
+      if(authorizedUser)
+        return (
+            <div className="main-menu">
+            <Paper className="main-menu-paper">
+                <MenuList>
+                    <Link to={`/${authorizedUser._id}`}>
+                        <MenuItem >
+                            <ListItemText primary={PROFILE_CONTENT.MY_PAGE} />
+                        </MenuItem>
+                    </Link>
                     <MenuItem >
-                        <ListItemText primary="Моя страница" />
+                        <ListItemText primary={PROFILE_CONTENT.MY_FRIENDS} />
                     </MenuItem>
-                </Link>
-                <MenuItem >
-                    <ListItemText primary="Друзья" />
-                </MenuItem>
-                <MenuItem>
-                    <ListItemText primary="Поиск" />
-                </MenuItem>
-                <MenuItem>
-                    <ListItemText primary="Новости" />
-                </MenuItem>
-                <MenuItem>
-                    <ListItemText primary="Настройки" />
-                </MenuItem>
-            </MenuList>
-         </Paper>
-        </div>
-      );
+                    <MenuItem>
+                        <ListItemText primary={PROFILE_CONTENT.SEARCH} />
+                    </MenuItem>
+                    <MenuItem>
+                        <ListItemText primary={PROFILE_CONTENT.MY_NEWS} />
+                    </MenuItem>
+                    <MenuItem>
+                        <ListItemText primary={PROFILE_CONTENT.SETTINGS} />
+                    </MenuItem>
+                </MenuList>
+            </Paper>
+            </div>
+        );
+    else return ("")
     }
   }
 

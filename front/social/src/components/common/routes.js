@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Redirect, Switch } from "react-router-dom"
 
-import Welcome from "../pages/helloWorld"
 import Registration from "../pages/registration/registration"
 import { connect } from 'react-redux';
-import { ACTION_COMMON, ACTION_FOR_APP } from '../../constans/ActionTypes';
 import { withRouter } from 'react-router-dom';
 import Login from '../pages/login/login';
 import Profile from '../pages/profile/profile';
@@ -12,9 +10,10 @@ import Profile from '../pages/profile/profile';
 class Routes extends Component {
   
   render() {
-    var { authorizedUser } = this.props.app;
-    var isAuthorize = authorizedUser !== null;
-    var toMyPagePath = isAuthorize ? `/${authorizedUser._id}` : "/login";
+    const { authorizedUser } = this.props.app;
+    console.log(authorizedUser)
+    const isAuthorize = authorizedUser !== null;
+    const toMyPagePath = isAuthorize ? `/${authorizedUser._id}` : "/login";
     return (
       <div className="main-content">
       <Switch>

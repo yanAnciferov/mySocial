@@ -1,13 +1,11 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import ReactAvatarEditor from 'react-avatar-editor'
 import Dropzone from 'react-dropzone'
 import { Button, Typography, Grid } from "@material-ui/core"
 import Slider from '@material-ui/lab/Slider'
 import { connect } from 'react-redux'
-import { ACTION_FOR_REGISTRATION, ACTION_COMMON } from "../../../constans/ActionTypes"
+import { ACTION_FOR_REGISTRATION } from "../../../constans/ActionTypes"
 import { registration } from "../../../actions/Account"
-import AppBar from '@material-ui/core/AppBar/AppBar';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Content from "../../../content/registration"
 
@@ -64,7 +62,7 @@ class RegistrationAvatar extends React.Component {
 
   render() {
 
-    let {register, register:{ 
+    let { register:{ 
       validateState: { 
         image,
         image: {

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { Paper } from "@material-ui/core"
 import { connect } from 'react-redux';
-import { ACTION_FOR_PROFILE } from '../../../constans/ActionTypes';
 import { getAuthUserData } from '../../../actions/Account';
 import { getUserData } from '../../../actions/Users';
 import Avatar from './avatar'
 import MainInfo from './mainInfo'
-import Grid from '@material-ui/core/Grid/Grid';
 import { PROFILE_CONTENT } from '../../../content/profile';
 
 class Profile extends Component {
@@ -21,15 +19,16 @@ class Profile extends Component {
     }
 
     update(id){
-      var {props} = this;
+      console.log(id)
+      const {props} = this;
       if(id !== props.app.authorizedUser._id)
         props.onEnter(id);
       else props.getMyData();
     }
 
     render() {
-      var { userData, isNotFound } = this.props.profile
-      var forRender = (isNotFound) ? <NotFound/> : <Found user={userData}/>
+      const { userData, isNotFound } = this.props.profile
+      const forRender = (isNotFound) ? <NotFound/> : <Found user={userData}/>
       
       return (
         <div >
@@ -61,7 +60,6 @@ class Found extends Component
 class NotFound extends Component
 {
   render(){
-    var {user} = this.props;
     return (
       <div className="not-found-wrapper">
         <Paper className="not-found-papper">

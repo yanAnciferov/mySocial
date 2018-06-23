@@ -1,13 +1,11 @@
-import {HANDLE_CHANGE, SEX_CHANGE} from "../constans/ActionTypes"
 import {nameValidate, dateValidate, emailValidate, sexValidate , imageValidation} from "../scripts/validate"
 
-import { ACTION_FOR_REGISTRATION, ACTION_COMMON } from "../constans/ActionTypes"
+import { ACTION_FOR_REGISTRATION } from "../constans/ActionTypes"
 import { errors } from "../constans/errors"
 
-import { DATE, MODEL_NAMES, MESSAGE, SEX_TYPES } from "../constans/registration"
+import { MODEL_NAMES, MESSAGE } from "../constans/registration"
 
 
-import { COMMON_MESSAGE } from "../constans/common"
 
 const initialState = {
 
@@ -64,7 +62,7 @@ export default function (state = initialState, action) {
     let actionTypes = ACTION_FOR_REGISTRATION;
     if(action.type === actionTypes.ON_SUBMIT){
 
-        var newValidateState = {
+        let newValidateState = {
             ...state.validateState,
             [MODEL_NAMES.FIRSTNAME]: nameValidate(state.firstname,true, MODEL_NAMES.FIRSTNAME),
             [MODEL_NAMES.SURNAME]: nameValidate(state.surname,true, MODEL_NAMES.SURNAME),
@@ -74,15 +72,15 @@ export default function (state = initialState, action) {
             [MODEL_NAMES.SEX]: sexValidate(state.sex)
         }
 
-        var isFormValid = true;
+        let isFormValid = true;
 
-        for(var field in newValidateState )
+        for(let field in newValidateState )
         {
             isFormValid = isFormValid && !newValidateState[field].isError
             if(!isFormValid) break;
         }
 
-        var newStep;
+        let newStep;
 
         if(isFormValid) newStep = state.step + 1;
         else newStep = state.step;
@@ -104,7 +102,7 @@ export default function (state = initialState, action) {
 
     if(action.type === actionTypes.ON_IMAGE_LOAD){
         
-        var newImage = {
+        let newImage = {
             file: action.payload
         }
 
@@ -127,8 +125,8 @@ export default function (state = initialState, action) {
 
     if(action.type === actionTypes.AVATAR_SUBMIT){
 
-        var imageValide = imageValidation(state.image.file, true)
-        var isValid;
+        let imageValide = imageValidation(state.image.file, true)
+        let isValid;
         if(imageValide.isError)
             isValid = false        
         else isValid = true
@@ -149,8 +147,8 @@ export default function (state = initialState, action) {
 
 
     if(action.type === actionTypes.AVATAR_SKIP){
-        var imageValide = imageValidation(state.image.file, false)
-        var isValid;
+        let imageValide = imageValidation(state.image.file, false)
+        let isValid;
         if(imageValide.isError)
             isValid = false        
         else isValid = true
@@ -168,22 +166,22 @@ export default function (state = initialState, action) {
 
     if(action.type === actionTypes.REGISTRATION_QUERY_ERROR){
         
-        var {err} = action;
-        var {response} = err;
-        if(err.message == errors.NETWORK_ERROR || response.data == errors.DB_NOT_CONNECTED)
+        let {err} = action;
+        let {response} = err;
+        if(err.message === errors.NETWORK_ERROR || response.data === errors.DB_NOT_CONNECTED)
             return {
                 ...state,
                 step: 0
             }
         
-        if(response == undefined)
+        if(response === undefined)
             return {
                 ...state,
                 step: 0
             } 
        
 
-        if(response.data == errors.INVALID_EMAIL)
+        if(response.data === errors.INVALID_EMAIL)
             return {
                 ...state,
                 step: 0,
@@ -196,7 +194,7 @@ export default function (state = initialState, action) {
                 }
             } 
 
-        if(response.data == errors.EMAIL_BUSY)
+        if(response.data === errors.EMAIL_BUSY)
             return {
                 ...state,
                 step: 0,
@@ -209,7 +207,7 @@ export default function (state = initialState, action) {
                 }
             }
 
-        if(response.data == errors.ERROR_SEND_MESSAGE_TO_EMAIL)
+        if(response.data === errors.ERROR_SEND_MESSAGE_TO_EMAIL)
             return {
                 ...state,
                 step: 0,

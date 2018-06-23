@@ -1,12 +1,10 @@
-import { ACTION_FOR_APP, ACTION_FOR_REGISTRATION, ACTION_FOR_PROFILE } from "../constans/ActionTypes"
-import { COMMON_MESSAGE } from "../constans/common";
+import { ACTION_FOR_APP, ACTION_FOR_PROFILE } from "../constans/ActionTypes"
 import { errors } from "../constans/errors";
-import { MESSAGE } from "../constans/registration";
 
 
 function getUserFromStorage(){
-    var user = localStorage.getItem("userData");
-    return (user === null) ? null : JSON.parse(user)
+    let user = localStorage.getItem("userData");
+    return (user) ? JSON.parse(user) : null
 }
 
 
@@ -23,7 +21,10 @@ const initialState = {
 
 
 export default function (state = initialState, action) {
-   
+    
+
+    
+
     if(action.type === ACTION_FOR_APP.SHOW_LOADING_WINDOW)
         return {
             ...state,
@@ -55,7 +56,7 @@ export default function (state = initialState, action) {
     }
     
     if(action.type === ACTION_FOR_APP.LOGIN){
-        var { token, user } = action.payload;
+        let { token } = action.payload;
         localStorage.setItem("token", token);
         return { 
             ...state,
@@ -66,7 +67,7 @@ export default function (state = initialState, action) {
 
 
     if(action.type === ACTION_FOR_APP.SET_AUTHORIZE_USER_DATA){
-        var { token, user } = action.payload;
+        let { token } = action.payload;
         localStorage.setItem("token", token);
         return { 
             ...state,
@@ -87,7 +88,7 @@ export default function (state = initialState, action) {
     if(action.type === ACTION_FOR_PROFILE.CURRENT_USER_ERROR)
     {
 
-        if(action.err.response.data == errors.UNAUTHORIZED)
+        if(action.err.response.data === errors.UNAUTHORIZED)
         {
             localStorage.removeItem("token");
             localStorage.removeItem("userData");

@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 
-import {  FormControl, FormHelperText, Button, MenuItem,
-      TextField, Select, Grid, Paper, Input, Typography  } from '@material-ui/core'; 
-
-import { emailValidate } from "../../../scripts/validate"
+import {  FormControl, Button, TextField, Grid } from '@material-ui/core'; 
 import { connect } from 'react-redux';
 
-import { MODEL_NAMES, DATE, SEX_TYPES, MESSAGE } from '../../../constans/registration'
-import { ACTION_FOR_REGISTRATION, ACTION_FOR_LOGIN } from '../../../constans/ActionTypes'
+import { MODEL_NAMES } from '../../../constans/registration'
+import { ACTION_FOR_LOGIN } from '../../../constans/ActionTypes'
 
 import Content from "../../../content/login"
 import { login } from "../../../actions/Account"
-import { push } from 'react-router-redux/actions';
 
 class LoginForm extends Component {
     

@@ -28,16 +28,16 @@ function deleteFiles(files){
   }
 }
 
-function getPathToImages({minAvatar, avatar, _id}){
-  var pathToImage = `${paths.FULL_PATH_TO_USER_DATA}${_id.toString(16)}/` 
+function getPathToAvatars({minAvatar, avatar, _id}){
+  let pathToImage = `${paths.FULL_PATH_TO_USER_DATA}${_id.toString(16)}/` 
   return {
-    minAvatar: (minAvatar !== null && minAvatar !== undefined) ? pathToImage + minAvatar : paths.PATH_TO_DEFAULT_AVATAR,
-    avatar: (avatar !== null && avatar !== undefined) ? pathToImage + avatar : paths.PATH_TO_DEFAULT_AVATAR
+    minAvatar: (minAvatar) ? pathToImage + minAvatar : paths.PATH_TO_DEFAULT_AVATAR,
+    avatar: (avatar) ? pathToImage + avatar : paths.PATH_TO_DEFAULT_AVATAR
   }
 }
 
-function updateImagePaths(user){
-  var { minAvatar, avatar} = getPathToImages(user)
+function updateUserAvatarPaths(user){
+  let { minAvatar, avatar} = getPathToAvatars(user)
   user.minAvatar = minAvatar;
   user.avatar = avatar;
   return user;
@@ -46,5 +46,5 @@ function updateImagePaths(user){
 module.exports.deleteFiles = deleteFiles;
 module.exports.generateRandString = generateRandString;
 module.exports.deleteFolder = deleteFolder;
-module.exports.getPathToImages = getPathToImages;
-module.exports.updateImagePaths = updateImagePaths;
+module.exports.getPathToAvatars = getPathToAvatars;
+module.exports.updateUserAvatarPaths = updateUserAvatarPaths;

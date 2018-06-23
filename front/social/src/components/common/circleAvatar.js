@@ -1,5 +1,4 @@
-import {AppBar, Button, Toolbar, Menu ,Typography} from '@material-ui/core';
-import React, { Component } from 'react';
+import React from 'react';
 
 
 class CircleAvatar extends React.Component {
@@ -7,7 +6,7 @@ class CircleAvatar extends React.Component {
       return (
        <div>
            <div className="circle-avatar">
-              <img src={this.props.imageUrl} />
+              <img src={this.props.imageUrl} alt="avatar" />
            </div>
        </div>
       )

@@ -18,10 +18,11 @@ const FAILED_SEND_MESSAGE_TO_EMAIL = "failed send message to email"
 const SAVE_FILE_ERROR = "save file error"
 const REGISTRATION_USER_MODEL_INVALIDE = " registration user model invalidate"
 const UNAUTHORIZED = "unauthorized"
-const INCORECT_DATA_FOR_LOGIN = "incorect data for login"
-const INCORECT_EMAIL_FOR_LOGIN = "incorect email for login"
-const INCORECT_PASSWORD_FOR_LOGIN = "incorect password for login"
+const INCORRECT_DATA_FOR_LOGIN = "incorrect data for login"
+const INCORRECT_EMAIL_FOR_LOGIN = "incorrect email for login"
+const INCORRECT_PASSWORD_FOR_LOGIN = "incorrect password for login"
 const NOT_FOUND = "not found"
+
 module.exports.USER_ERRORS = {
     ERROR_SEND_MESSAGE_TO_EMAIL,
     EMAIL_BUSY,
@@ -51,8 +52,8 @@ module.exports.COMMON = {
 }
 
 module.exports.LOGIN = {
-    INCORECT_DATA_FOR_LOGIN,
+    INCORRECT_DATA_FOR_LOGIN,
     UNAUTHORIZED,
-    INCORECT_PASSWORD_FOR_LOGIN,
-    INCORECT_EMAIL_FOR_LOGIN
+    INCORRECT_PASSWORD_FOR_LOGIN,
+    INCORRECT_EMAIL_FOR_LOGIN
 }

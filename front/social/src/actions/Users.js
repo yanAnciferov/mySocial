@@ -1,9 +1,7 @@
 
 import axios from "axios"
-import { MODEL_NAMES } from "../constans/registration"
-import { ACTION_FOR_REGISTRATION, ACTION_FOR_APP, ACTION_FOR_LOGIN, ACTION_FOR_PROFILE } from "../constans/ActionTypes"
+import { ACTION_FOR_PROFILE } from "../constans/ActionTypes"
 
-import { push } from 'react-router-redux/actions';
 
 export const getUserData = (id) => (dispatch, getState) => {
     console.log(id)
@@ -12,14 +10,16 @@ export const getUserData = (id) => (dispatch, getState) => {
       isAuthorize
      } = getState().app;
   
-     if(isAuthorize == false)
+     if(isAuthorize === false)
       return;
-  
-      var Authorization = `Bearer ${token}`;
-     console.log("Получение данных стороннего пользователя")
-      axios.post('/api/users/getUserData', {id} ,{
+
+      const Authorization = `Bearer ${token}`;
+      axios.get('/api/users/getUserData',{
         headers: {
           Authorization
+        }, 
+        params: {
+          id
         }
       })
       .then((res) => {

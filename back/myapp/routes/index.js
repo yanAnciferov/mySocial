@@ -38,7 +38,7 @@ router.post(API_METHODS_PATHS.REGISTRATION, uploads.any(), [checkDbConnection, s
 router.post(API_METHODS_PATHS.LOGIN, [checkDbConnection, login])
         .use(simpleErrorHandler);
         
-router.post(API_METHODS_PATHS.GET_AUTHORIZE_USER_DATA, verifyToken, [checkDbConnection, getAuthUserData])
+router.get(API_METHODS_PATHS.GET_AUTHORIZE_USER_DATA, verifyToken, [checkDbConnection, getAuthUserData])
         .use(simpleErrorHandler);
 
 module.exports = router;

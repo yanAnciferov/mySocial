@@ -5,6 +5,7 @@ const MIN_IMAGE_SIZE_IN_KB = 40;
 const MIN_IMAGE_SIZE_IN_BYTE = MIN_IMAGE_SIZE_IN_KB * COUNT_BYTES_IN_KB;
 
 const UNEXPECTED_ERROR_MESSAGE = "Не известная ошибка сервера"
+const ON_AUTHORIZATION = "Идет авторизация"
 
 export const IMAGE_SIZE = {
     COUNT_BYTES_IN_KB,
@@ -15,5 +16,6 @@ export const IMAGE_SIZE = {
 }
 
 export const COMMON_MESSAGE = {
-    UNEXPECTED_ERROR_MESSAGE
+    UNEXPECTED_ERROR_MESSAGE,
+    ON_AUTHORIZATION
 }

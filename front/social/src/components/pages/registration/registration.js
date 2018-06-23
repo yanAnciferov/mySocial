@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import RegistrationForm from './registrationForm'
 import RegistrationSteps from './registrationSteps'
 import content from "../../../content/registration"
 

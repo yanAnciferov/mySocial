@@ -16,10 +16,10 @@ const MALE = "male"
 const FEMALE = "female"
 
 const PATH_TO_USER_DATA = "./public/usersData/";
-const SERVER_DOMAINL = "http://localhost:3001";
-const PATH_TO_USER_DATA_C = "/usersData/";
-const FULL_PATH_TO_USER_DATA = SERVER_DOMAINL + PATH_TO_USER_DATA_C;
-const PATH_TO_DEFAULT_AVATAR = SERVER_DOMAINL + PATH_TO_USER_DATA_C + "default_avatar.png"
+const SERVER_DOMAIN = "http://localhost:3001";
+const PATH_TO_USER_DATA_FOR_CLIENT = "/usersData/";
+const FULL_PATH_TO_USER_DATA = SERVER_DOMAIN + PATH_TO_USER_DATA_FOR_CLIENT;
+const PATH_TO_DEFAULT_AVATAR = FULL_PATH_TO_USER_DATA + "default_avatar.png"
 
 module.exports.IMAGE_SIZE = {
     COUNT_BYTES_IN_KB,
@@ -53,8 +53,8 @@ module.exports.IMAGE = {
 
 module.exports.paths = {
     PATH_TO_USER_DATA,
-    SERVER_DOMAINL,
-    PATH_TO_USER_DATA_C,
+    SERVER_DOMAIN,
+    PATH_TO_USER_DATA,
     FULL_PATH_TO_USER_DATA,
     PATH_TO_DEFAULT_AVATAR
 }

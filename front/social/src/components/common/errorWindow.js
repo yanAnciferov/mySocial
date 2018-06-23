@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dialog, DialogContentText, LinearProgress, DialogTitle, DialogContent, DialogActions, Button} from "@material-ui/core"
+import { Dialog, DialogTitle, DialogActions, Button} from "@material-ui/core"
 
 
 class ErrorWindow extends React.Component {

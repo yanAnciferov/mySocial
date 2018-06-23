@@ -1,12 +1,10 @@
-import {HANDLE_CHANGE, SEX_CHANGE, ACTION_FOR_APP} from "../constans/ActionTypes"
+import { ACTION_FOR_APP} from "../constans/ActionTypes"
 
-import { ACTION_FOR_REGISTRATION, ACTION_FOR_LOGIN } from "../constans/ActionTypes"
+import {  ACTION_FOR_LOGIN } from "../constans/ActionTypes"
 import { errors } from "../constans/errors"
 
-import { DATE, MODEL_NAMES, MESSAGE, SEX_TYPES } from "../constans/registration"
+import { MESSAGE } from "../constans/registration"
 
-
-import { COMMON_MESSAGE } from "../constans/common"
 
 const initialState = {
 
@@ -29,22 +27,22 @@ const initialState = {
 
 export default function (state = initialState, action) {
 
-    if(action.type == ACTION_FOR_LOGIN.LOGIN_ON_CHANGE){
-        var { name, value} = action.payload;
+    if(action.type === ACTION_FOR_LOGIN.LOGIN_ON_CHANGE){
+        let { name, value} = action.payload;
         return {
             ...state,
             [name]: value
         }
     }
 
-    if(action.type == ACTION_FOR_LOGIN.LOGIN_SUBMIT){
-        var { password, email } = state; 
-        var emailValid = {
-                isError: email == "",
+    if(action.type === ACTION_FOR_LOGIN.LOGIN_SUBMIT){
+        let { password, email } = state; 
+        let emailValid = {
+                isError: email === "",
                 message: MESSAGE.ENTER_EMAIL
             };
-        var passwordValid = {
-                isError: password == "",
+        let passwordValid = {
+                isError: password === "",
                 message: MESSAGE.ENTER_PASSWORD
             }
 
@@ -58,13 +56,13 @@ export default function (state = initialState, action) {
         }
     }
 
-    if(action.type == ACTION_FOR_LOGIN.LOGIN_QUERY_ERROR){
-        var {err} = action;
-        if(typeof err.response === "undefined")
+    if(action.type === ACTION_FOR_LOGIN.LOGIN_QUERY_ERROR){
+        let {err} = action;
+        if(!err.response)
             return state;
 
-        var {data} = err.response;
-        if(data == errors.INCORECT_EMAIL_FOR_LOGIN)
+        let {data} = err.response;
+        if(data === errors.INCORRECT_EMAIL_FOR_LOGIN)
             return {
                 ...state,
                 validateState: {
@@ -76,7 +74,7 @@ export default function (state = initialState, action) {
                 }
             }
 
-        if(data == errors.INCORECT_PASSWORD_FOR_LOGIN)
+        if(data === errors.INCORRECT_PASSWORD_FOR_LOGIN)
             return {
                 ...state,
                 validateState: {

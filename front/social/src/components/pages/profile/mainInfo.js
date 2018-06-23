@@ -1,5 +1,4 @@
-import {AppBar, Button, Toolbar, Menu ,Typography} from '@material-ui/core';
-import React, { Component } from 'react';
+import React from 'react';
 import Paper from '@material-ui/core/Paper/Paper';
 import Grid from '@material-ui/core/Grid/Grid';
 import { PROFILE_CONSTS } from '../../../constans/profile';
@@ -22,15 +21,15 @@ class MainInfo extends React.Component {
 class MainInfoWithUser extends React.Component {
 
    render() {
-        var { user } = this.props;
-        var items = [
-            { key: PROFILE_CONTENT.BIRTHDATE, value: new Date(user.birthdate).toLocaleDateString("ru-RU", PROFILE_CONSTS.DATE_FORMAT)}
+        const { user: { firstname, surname, birthdate } } = this.props;
+        const items = [
+            { key: PROFILE_CONTENT.BIRTHDATE, value: new Date(birthdate).toLocaleDateString("ru-RU", PROFILE_CONSTS.DATE_FORMAT)}
         ]
-        var itemsInfo = items.map((item) => <li key={item.key}><InfoItem item={item} /></li>);
+        const itemsInfo = items.map((item) => <li key={item.key}><InfoItem item={item} /></li>);
         return (
             <Paper className="main-info-wrapper">
                 <div className="main-info-header">
-                    <h2 className="main-info-name">{user.firstname} {user.surname}</h2>
+                    <h2 className="main-info-name">{firstname} {surname}</h2>
                 </div>
                 <div className="main-info-main">
                     <Grid>

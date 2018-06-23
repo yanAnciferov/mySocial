@@ -10,23 +10,13 @@ const initialState = {
     }
 }
 
-function getUnexpectedState(state){
+
+function toVisibleErrorMessage(state, message){
     return {
         ...state,
         errorWindow: {
             isVisible: true,
-            message: COMMON_MESSAGE.UNEXPECTED_ERROR_MESSAGE
-        }
-    }
-}
-
-
-function getTechnicalState(state){
-    return {
-        ...state,
-        errorWindow: {
-            isVisible: true,
-            message: MESSAGE.TECHNICAL_WORK_ON_SERVER
+            message: message
         }
     }
 }
@@ -46,28 +36,25 @@ export default function (state = initialState, action) {
 
     if(action.type === ACTION_FOR_REGISTRATION.REGISTRATION_QUERY_ERROR){
 
-        var {err} = action;
-        var {response} = err;
+        let {err, err: { response }} = action;
 
-        if(err.message == errors.NETWORK_ERROR || response.data == errors.DB_NOT_CONNECTED)
-            return getTechnicalState(state);
+        if(err.message === errors.NETWORK_ERROR || response.data === errors.DB_NOT_CONNECTED)
+            return toVisibleErrorMessage(state,MESSAGE.TECHNICAL_WORK_ON_SERVER);
         
         if(response === undefined)
-            return getUnexpectedState(state);
+            return toVisibleErrorMessage(state,COMMON_MESSAGE.UNEXPECTED_ERROR_MESSAGE);
        
     }
 
-    if(action.type == ACTION_FOR_LOGIN.LOGIN_QUERY_ERROR)
+    if(action.type === ACTION_FOR_LOGIN.LOGIN_QUERY_ERROR)
     {
-        var {err} = action;
-        var {response} = err;
-        console.dir(err.message == errors.NETWORK_ERROR);
+        let {err, err: { response }} = action;
 
-        if(err.message == errors.NETWORK_ERROR)
-            return getTechnicalState(state);
+        if(err.message === errors.NETWORK_ERROR)
+            return toVisibleErrorMessage(state,MESSAGE.TECHNICAL_WORK_ON_SERVER);
 
         if(response === undefined)
-            return getUnexpectedState(state);
+            return toVisibleErrorMessage(state,COMMON_MESSAGE.UNEXPECTED_ERROR_MESSAGE);
     }
 
     return state;

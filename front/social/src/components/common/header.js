@@ -1,7 +1,6 @@
-import {AppBar, Button, Toolbar, Menu ,Typography, IconButton, MenuItem} from '@material-ui/core';
-import React, { Component } from 'react';
+import {AppBar, Button, Toolbar, Menu ,Typography, MenuItem} from '@material-ui/core';
+import React from 'react';
 import { Link } from 'react-router-dom'
-import { Manager, Target, Popper } from 'react-popper';
 
 import content from "../../content/header"
 import { connect } from 'react-redux';
@@ -14,25 +13,11 @@ class Header extends React.Component {
       this.setState({ anchorEl: null });      
       this.props.onLogout();
     }
-
-    handleMenu = event => {
-      this.setState({ anchorEl: event.currentTarget });
-    };
-  
-    handleClose = () => {
-      this.setState({ anchorEl: null });
-    };
-
-    state = {
-      anchorEl: null,
-    };
   
     render() {
 
-      const { anchorEl } = this.state;
-      const open = Boolean(anchorEl);
-
-      const { isAuthorize, authorizedUser } = this.props.app;
+      const { authorizedUser } = this.props.app;
+      const forRightSide = (authorizedUser) ? <HeaderPopapMenu authorizedUser={authorizedUser} onLogoutClick={this.onLogoutClick}  /> : <ToAuthorizeLinks/>
       return (
         <div className="main-header">
           <AppBar position="static">
@@ -43,49 +28,7 @@ class Header extends React.Component {
                 </Typography>
             </div>
             <div>
-              {
-                (()=>{
-                  if(authorizedUser === null){
-                  return (<div>
-                    <Link to="/login">
-                    <Button color="inherit">
-                        {content.ToLogin}
-                    </Button>
-                    </Link>
-                    <Link to="/registration">
-                        <Button color="inherit">
-                            {content.ToRegistration}
-                        </Button>
-                    </Link>
-                  </div>)
-                  }else {
-                    return (<div className="header-menu-wrapper">
-                        <Typography className="header-name">{authorizedUser.firstname}</Typography>
-                        <div className="header-avatar" onClick={this.handleMenu}>
-                          <CircleAvatar imageUrl={authorizedUser.minAvatar}/>
-                        </div>
-                        <Menu
-                          style={{marginTop:"2.8em"}}
-                          anchorEl={anchorEl}
-                          anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'center',
-                          }}
-                          transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'center',
-                          }}
-                          open={open}
-                          onClose={this.handleClose}
-                        >
-                          <MenuItem onClick={this.handleClose}>{content.ToMyPage}</MenuItem>
-                          <MenuItem onClick={this.onLogoutClick}> {content.ToLogout}</MenuItem>
-                        </Menu>
-                      </div>)
-                  }
-                })()
-              }
-               
+              {forRightSide}               
             </div>
             </Toolbar>
           </AppBar>
@@ -93,6 +36,74 @@ class Header extends React.Component {
       );
     }
   }
+
+class ToAuthorizeLinks extends React.Component {
+  render(){
+    return (
+      <div>
+        <Link to="/login">
+        <Button color="inherit">
+            {content.ToLogin}
+        </Button>
+        </Link>
+        <Link to="/registration">
+            <Button color="inherit">
+                {content.ToRegistration}
+            </Button>
+        </Link>
+      </div>
+    )
+  }
+}
+
+
+class HeaderPopapMenu extends React.Component {
+
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  state = {
+    anchorEl: null,
+  };
+
+  render()
+  {
+    const { onLogoutClick, authorizedUser } = this.props; 
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+
+    return (
+      <div className="header-menu-wrapper">
+        <Typography className="header-name">{authorizedUser.firstname}</Typography>
+        <div className="header-avatar" onClick={this.handleMenu}>
+          <CircleAvatar imageUrl={authorizedUser.minAvatar}/>
+        </div>
+        <Menu
+          className="header-popap-menu"
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          open={open}
+          onClose={this.handleClose}
+        >
+          <MenuItem onClick={this.handleClose}>{content.ToMyPage}</MenuItem>
+          <MenuItem onClick={onLogoutClick}> {content.ToLogout}</MenuItem>
+        </Menu>
+      </div>
+    )
+  }
+}
 
 
   export default connect(

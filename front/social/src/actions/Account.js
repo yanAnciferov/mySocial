@@ -5,6 +5,7 @@ import { MODEL_NAMES } from "../constans/registration"
 import { ACTION_FOR_REGISTRATION, ACTION_FOR_APP, ACTION_FOR_LOGIN } from "../constans/ActionTypes"
 
 import { push } from 'react-router-redux/actions';
+import { COMMON_MESSAGE } from "../constans/common";
 
 
 
@@ -23,14 +24,14 @@ export const registration = () => (dispatch, getState) => {
     isValid
    } = getState().register;
 
-   if(isValid == false)
+   if(isValid === false)
     return;
 
    var params = new FormData();
 
    console.log(firstname)
 
-   var { REGISTRATION_QUERY_ERROR, REGISTRATION_QUERY_START, REGISTRATION_QUERY_SUCCESS } = ACTION_FOR_REGISTRATION;
+   var { REGISTRATION_QUERY_ERROR, REGISTRATION_QUERY_SUCCESS } = ACTION_FOR_REGISTRATION;
 
    params.append([MODEL_NAMES.FIRSTNAME], firstname);
    params.append([MODEL_NAMES.SURNAME], surname);
@@ -76,12 +77,12 @@ export const login = () => (dispatch, getState) => {
     isValid
    } = getState().login;
 
-   if(isValid == false)
+   if(isValid === false)
     return;
 
     dispatch({
       type: ACTION_FOR_APP.SHOW_LOADING_WINDOW,
-      payload: "Идет авторизация"
+      payload: COMMON_MESSAGE.ON_AUTHORIZATION
     })
  
 
@@ -90,7 +91,6 @@ export const login = () => (dispatch, getState) => {
         dispatch({
           type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
         });
-        console.log(res.data);
         dispatch({
           type: ACTION_FOR_APP.LOGIN,
           payload: res.data
@@ -115,11 +115,11 @@ export const getAuthUserData = () => (dispatch, getState) => {
     isAuthorize
    } = getState().app;
 
-   if(isAuthorize == false)
+   if(isAuthorize === false)
     return;
-    console.log("Получение данных авторизованного пользователя")
-
-    axios.post('/api/account/getAuthUserData', null ,{
+    
+   console.log(token)
+    axios.get('/api/account/getAuthUserData', {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -130,6 +130,7 @@ export const getAuthUserData = () => (dispatch, getState) => {
           payload: res.data
         })
         dispatch(push(`/${res.data._id}`))
+        console.log(res)
       })
       .catch((err) => {
         console.log(err);

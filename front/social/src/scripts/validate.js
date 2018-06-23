@@ -6,7 +6,7 @@ import { isError } from 'assert/node_modules/util';
 export function nameValidate(name, required, typeField) {
 
 
-    var messages = {
+    let messages = {
         firstname: {
             noError: MESSAGE.ENTER_NAME
         },
@@ -18,7 +18,7 @@ export function nameValidate(name, required, typeField) {
         }
     }
 
-    var state = {
+    let state = {
         isError: false,
         message: []
     }
@@ -31,14 +31,14 @@ export function nameValidate(name, required, typeField) {
         return state;
     }
 
-    if([MODEL_NAMES.FIRSTNAME,MODEL_NAMES.SURNAME,MODEL_NAMES.PARRENTNAME].indexOf(typeField) == -1)
+    if([MODEL_NAMES.FIRSTNAME,MODEL_NAMES.SURNAME,MODEL_NAMES.PARRENTNAME].indexOf(typeField) === -1)
     {
         state.isError = true;
         state.message.push(MESSAGE.INVALIDATE_ENTRY_PARAM);
         return state;
     }
 
-    if(name.length == 0)
+    if(name.length === 0)
     {
         state.isError = required;
         state.message.push((required) ? MESSAGE.REQUIRED : messages[typeField].noError);
@@ -54,13 +54,13 @@ export function nameValidate(name, required, typeField) {
         state.message.push(MESSAGE.NAME_LENGTH);
     }
 
-    if(REGEX.NAME_REGEX.test(name) == false)
+    if(REGEX.NAME_REGEX.test(name) === false)
     {
         state.isError = true;
         state.message.push(MESSAGE.NAME_OPTION);
     }
 
-    if(state.isError == false)
+    if(state.isError === false)
         state.message.push(messages[typeField].noError);
 
     return state;
@@ -68,7 +68,7 @@ export function nameValidate(name, required, typeField) {
 
 export function emailValidate(email) {
 
-    var state = {
+    let state = {
         isError: false,
         message: []
     }
@@ -80,7 +80,7 @@ export function emailValidate(email) {
         return state;
     }   
 
-    if(email.length == 0)
+    if(email.length === 0)
     {
         state.isError = true;
         state.message.push(MESSAGE.REQUIRED);
@@ -88,7 +88,7 @@ export function emailValidate(email) {
     } 
 
 
-    if(REGEX.EMAIL_REGEX.test(email) == false)
+    if(REGEX.EMAIL_REGEX.test(email) === false)
     {
         state.isError = true;
         state.message.push(MESSAGE.EMAIL_OPTION);
@@ -97,7 +97,7 @@ export function emailValidate(email) {
 
 
     
-    if(state.isError == false)
+    if(state.isError === false)
         state.message.push(MESSAGE.ENTER_EMAIL)
     return state;
     
@@ -107,12 +107,12 @@ export function emailValidate(email) {
 
 export function dateValidate(dateParam) {
     
-    var state = {
+    let state = {
         isError: false,
         message: []
     }
 
-    if(dateParam == "") 
+    if(dateParam === "") 
     {
         state.isError = true;
         state.message.push(MESSAGE.REQUIRED)
@@ -120,8 +120,8 @@ export function dateValidate(dateParam) {
     }
 
 
-    var date = new Date(dateParam);
-    if(date == 'Invalid Date' || dateParam === null) {
+    let date = new Date(dateParam);
+    if(date === 'Invalid Date' || dateParam === null) {
         state.isError = true;
         state.message.push(MESSAGE.INVALIDATE_ENTRY_PARAM)
         return state;
@@ -143,7 +143,7 @@ export function dateValidate(dateParam) {
     }
 
     
-    if(state.isError == false)
+    if(state.isError === false)
         state.message.push(MESSAGE.ENTER_BIRTHDATE)
     return state;
     
@@ -152,14 +152,14 @@ export function dateValidate(dateParam) {
 
 export function sexValidate(sex) {
 
-    var state = {
+    let state = {
         isError: false,
         message: []
     }
 
-    if(sex == "")
+    if(sex === "")
     {
-        state.isError = true,
+        state.isError = true;
         state.message.push(MESSAGE.REQUIRED)
         return state;
     }
@@ -168,12 +168,12 @@ export function sexValidate(sex) {
   
     if([SEX_TYPES.MALE, SEX_TYPES.FEMALE].indexOf(sex) !== -1)
     {
-        state.isError = false,
+        state.isError = false;
         state.message.push(MESSAGE.ENTER_SEX)
         return state;
     }
     else {
-        state.isError = true,
+        state.isError = true;
         state.message.push(MESSAGE.INVALIDATE_ENTRY_PARAM)
         return state;
     }
@@ -200,7 +200,7 @@ export function imageValidation(file, isSubmit) {
         return state;
     }
 
-    if(IMAGE.ARRAY_FORMATS.indexOf(file.type) == -1){
+    if(IMAGE.ARRAY_FORMATS.indexOf(file.type) === -1){
         state.isError = true;
         state.message.push(IMAGE.INVALIDATE_FORMAT);
     }
@@ -211,7 +211,7 @@ export function imageValidation(file, isSubmit) {
         state.message.push(IMAGE.INVALIDATE_SIZE);
     }
 
-    if(isError == false){
+    if(isError === false){
         state.message.push(MESSAGE.ENTER_FILE);
     }
 

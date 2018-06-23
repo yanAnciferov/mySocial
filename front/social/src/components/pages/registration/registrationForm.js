@@ -1,22 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import {  FormControl, FormHelperText, Button, MenuItem,
-      TextField, Select, Grid, Paper, Input, Typography  } from '@material-ui/core'; 
+      TextField, Select, Grid, Typography  } from '@material-ui/core'; 
 
 import { connect } from 'react-redux';
 
-import { MODEL_NAMES, DATE, SEX_TYPES, MESSAGE } from '../../../constans/registration'
+import { MODEL_NAMES, DATE, SEX_TYPES } from '../../../constans/registration'
 import { ACTION_FOR_REGISTRATION } from '../../../constans/ActionTypes'
 
 import Content from "../../../content/registration"
 
 class RegistrationForm extends Component {
-
-    constructor(props){
-        super(props);
-    }
-
     
     fieldCange = (type, event) => {
         this.props.onChange({
@@ -34,11 +28,11 @@ class RegistrationForm extends Component {
 
     render() {
     
-    var { sex, email, firstname, surname, parrentname, birthdate } = this.props.register.validateState
+        let { sex, email, firstname, surname, parrentname, birthdate } = this.props.register.validateState
 
-    var state = {
-        ...this.props.register
-    }
+        let state = {
+            ...this.props.register
+        }
     
     return (
         <div className="formWrapper">
@@ -105,13 +99,11 @@ class RegistrationForm extends Component {
 
                     
                     <FormControl className="registerControl" fullWidth>
-                        <TextField 
-                            required
+                        <TextField
                             fullWidth
                             type="date"
 
                             helperText={birthdate.message}
-                            required
                             onChange={(e) => this.fieldCange(MODEL_NAMES.BIRTHDATE,e)}
                             error={birthdate.isError}
                             value={state.birthdate}
