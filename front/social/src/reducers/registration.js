@@ -23,7 +23,7 @@ const initialState = {
 
     step: 0,
     isValid: false,
-    
+    isSuccessWindowShow: false,    
     validateState: {
         [MODEL_NAMES.FIRSTNAME]: {
             isError: false,
@@ -102,8 +102,10 @@ export default function (state = initialState, action) {
 
     if(action.type === actionTypes.ON_IMAGE_LOAD){
         
+        let imageValidationResult = imageValidation(action.payload, false);
+
         let newImage = {
-            file: action.payload
+            file: imageValidationResult.isError ? null : action.payload
         }
 
         return {
@@ -111,8 +113,15 @@ export default function (state = initialState, action) {
             image: newImage,
             validateState: {
                 ...state.validateState,
-                image: imageValidation(action.payload, false)
+                image: imageValidationResult
             }
+        }
+    }
+
+    if(action.type === actionTypes.ON_SUCCESS_CLOSE){
+        return {
+            ...state,
+            isSuccessWindowShow: false
         }
     }
 
@@ -130,7 +139,6 @@ export default function (state = initialState, action) {
         if(imageValide.isError)
             isValid = false        
         else isValid = true
-        console.log(imageValide)
         return {
             ...state,
             isValid,
@@ -152,7 +160,6 @@ export default function (state = initialState, action) {
         if(imageValide.isError)
             isValid = false        
         else isValid = true
-        console.log(imageValide)
         return {
             ...state,
             isValid,
@@ -168,7 +175,7 @@ export default function (state = initialState, action) {
         
         let {err} = action;
         let {response} = err;
-        if(err.message === errors.NETWORK_ERROR || response.data === errors.DB_NOT_CONNECTED)
+        if(err.message === errors.NETWORK_ERROR || !response  || response.data === errors.DB_NOT_CONNECTED)
             return {
                 ...state,
                 step: 0
@@ -229,9 +236,9 @@ export default function (state = initialState, action) {
 
     if(action.type === actionTypes.REGISTRATION_QUERY_SUCCESS){
         return {
-            ...state,
-           step: ++state.step
-        } 
+            ...initialState,
+            isSuccessWindowShow: true
+        }
     }
 
     return state;

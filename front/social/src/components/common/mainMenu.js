@@ -15,8 +15,9 @@ class MainMenu extends React.Component {
     }
   
     render() {
-      const { authorizedUser } = this.props.app;
-      if(authorizedUser)
+        const { authorizedUser } = this.props.app;
+        if(!authorizedUser)
+            return null;
         return (
             <div className="main-menu">
             <Paper className="main-menu-paper">
@@ -42,7 +43,6 @@ class MainMenu extends React.Component {
             </Paper>
             </div>
         );
-    else return ("")
     }
   }
 

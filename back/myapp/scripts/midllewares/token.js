@@ -11,7 +11,7 @@ function verifyToken(req, res, next){
           if(err) {
             dispatchError(res,next,LOGIN.UNAUTHORIZED, 403)
           } else {
-            req.user = authData.user;
+            req.user = authData.data;
             next();
           }
         })
@@ -21,4 +21,27 @@ function verifyToken(req, res, next){
     }
   }
 
+
+  function createAndSendToken(req,res,next){
+    jwt.sign({ data: req.user }, loginConfig.secretKey,{ expiresIn: "30 days" }, (err, token) => {
+      res.json({
+        token
+      })
+    })
+  }
+
+  function createToken(req,res,next){
+    jwt.sign({ data: req.user }, loginConfig.secretKey,{ expiresIn: "30 days" }, (err, token) => {
+      
+      res.data = {
+        ...res.data,
+        token
+      }
+      next();
+    })
+  }
+
+
 module.exports.verifyToken = verifyToken;
+module.exports.createAndSendToken = createAndSendToken;
+module.exports.createToken = createToken;

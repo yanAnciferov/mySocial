@@ -8,6 +8,7 @@ import { ACTION_FOR_APP } from './constans/ActionTypes';
 import { withRouter } from 'react-router-dom';
 import Routes from './components/common/routes';
 import MainMenu from './components/common/mainMenu'
+import RegistrationSuccess from './components/pages/registration/registrationSuccess';
 
 class App extends Component {
   
@@ -20,10 +21,13 @@ class App extends Component {
       },
       catcher: {
         errorWindow
+      },
+      register: {
+        isSuccessWindowShow
       }
 
-    } = this.props;
 
+    } = this.props; 
     return (
       <div>
         <Header />
@@ -33,6 +37,7 @@ class App extends Component {
         </div>
         <ErrorWindow onClose={onCloseErrorWindow} open={errorWindow.isVisible} value={errorWindow.message} />
         <LoaderWindow open={loadingWindow.isVisible} value={loadingWindow.message} />
+        <RegistrationSuccess open={isSuccessWindowShow} value="Value"/>
      </div>
     );
   }
@@ -42,11 +47,15 @@ class App extends Component {
 export default withRouter(connect(
   state => ({
       app: state.app,
-      catcher: state.catcher
+      catcher: state.catcher,
+      register: state.register
   }),
   dispatch => ({
     onCloseErrorWindow: () => {
         dispatch({ type: ACTION_FOR_APP.CLOSE_ERROR_WINDOW})
+    },
+    onCloseMessageWindow: () => {
+      dispatch({ type: ACTION_FOR_APP.CLOSE_MESSAGE_WINDOW})
     }
   })
 )(App))

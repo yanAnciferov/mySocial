@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dialog, DialogTitle, DialogActions, Button} from "@material-ui/core"
+import { Dialog, DialogTitle, DialogActions, Button, DialogContent, DialogContentText} from "@material-ui/core"
 
 
 class ErrorWindow extends React.Component {
@@ -18,7 +18,12 @@ class ErrorWindow extends React.Component {
             maxWidth="xs"
             {...other}
           >
-            <DialogTitle>{value}</DialogTitle>
+            <DialogTitle>Ошибка</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    {value}
+                </DialogContentText>
+          </DialogContent>
             <DialogActions>
                 <Button onClick={this.handleClose} color="primary">
                     Ок

@@ -63,14 +63,30 @@ class RegistrationAvatar extends React.Component {
   render() {
 
     let { register:{ 
+      image: {
+        file:model
+      },
       validateState: { 
-        image,
-        image: {
-          file:model
-        } 
+        image
       } 
     }
   } = this.props
+
+  let editorComponent = model ? 
+   (<ReactAvatarEditor
+      ref={this.setEditorRef}
+      scale={parseFloat(this.state.scale)}
+      width={this.state.width}
+      height={this.state.height}
+      position={this.state.position}
+      onPositionChange={this.handlePositionChange}
+      onLoadFailure={this.logCallback.bind(this, 'onLoadFailed')}
+      onLoadSuccess={this.logCallback.bind(this, 'onLoadSuccess')}
+      onImageReady={this.logCallback.bind(this, 'onImageReady')}
+      image={model}
+      //className="editor-canvas"
+      color={[255,255,255,128]}
+      />) : "Загрузите или перетащите файл с изображением сюда"
 
     return (
       <div className="create-avatar">
@@ -87,21 +103,8 @@ class RegistrationAvatar extends React.Component {
               multiple={false}
               style={{ width: this.state.width, height: this.state.height, marginBottom:'70px' }}
             >
-              <div>
-                <ReactAvatarEditor
-                  ref={this.setEditorRef}
-                  scale={parseFloat(this.state.scale)}
-                  width={this.state.width}
-                  height={this.state.height}
-                  position={this.state.position}
-                  onPositionChange={this.handlePositionChange}
-                  onLoadFailure={this.logCallback.bind(this, 'onLoadFailed')}
-                  onLoadSuccess={this.logCallback.bind(this, 'onLoadSuccess')}
-                  onImageReady={this.logCallback.bind(this, 'onImageReady')}
-                  image={model}
-                  className="editor-canvas"
-                  color={[255,255,255,128]}
-                />
+              <div className="editor-canvas">
+               {editorComponent}
               </div>
             </Dropzone>         
           </Grid>

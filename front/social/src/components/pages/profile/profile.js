@@ -19,7 +19,6 @@ class Profile extends Component {
     }
 
     update(id){
-      console.log(id)
       const {props} = this;
       if(id !== props.app.authorizedUser._id)
         props.onEnter(id);

@@ -9,8 +9,6 @@ var { USER_ERRORS } = require("../../constants/errors")
 var { paths } = require("../../constants/common")
 
 function start(req, res, next) {
-    console.log(req.body)
-
     let newUser = {
       ...req.body,
       imageRect: JSON.parse(req.body.imageRect)
@@ -26,9 +24,7 @@ function validate(req, res, next) {
     newUser.imageFile = req.files[0];
 
     var result = validateUser(newUser);
-    console.log(result)
     if(result.isError == false){
-        console.log("Valid")
         next();
     } else {
         res.statusCode = 403;
@@ -38,10 +34,8 @@ function validate(req, res, next) {
 }
 
 function checkMailForExistence(req, res, next){
-    console.log(req.newUser.email);
     emailExistence.check(req.newUser.email, (error, response) => {
       if(response == true){
-          console.log("Existence")
         next();
       } else {
         res.statusCode = 403;
@@ -55,13 +49,11 @@ function checkMailInDB(req,res,next){
 
     User.findOne({email: req.newUser.email}, (err, user) => {
       if(user === null){
-        console.log("Email not contained in DB")
         next();
       }
       else 
       { 
         res.statusCode = 403;
-        console.log(USER_ERRORS.EMAIL_BUSY)
         res.message = USER_ERRORS.EMAIL_BUSY;
         next(res.message);
       }
@@ -74,7 +66,7 @@ function createUser(req,res,next){
     let { newUser } = req;
     let password = generateRandString();
     newUser.password = password;
-  
+    
     User.createUser(newUser, (err, user) => {
         if (err){
               res.statusCode = 403;
@@ -82,8 +74,8 @@ function createUser(req,res,next){
               res.message = err;
               next(res.message);
         } else {
-            console.log("User created")
-           next();
+            req.user = user;
+            next();
         }
     });
 }

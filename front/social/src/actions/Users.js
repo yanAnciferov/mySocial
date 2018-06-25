@@ -4,13 +4,12 @@ import { ACTION_FOR_PROFILE } from "../constans/ActionTypes"
 
 
 export const getUserData = (id) => (dispatch, getState) => {
-    console.log(id)
     const {
       token,
       isAuthorize
      } = getState().app;
   
-     if(isAuthorize === false)
+     if(!isAuthorize)
       return;
 
       const Authorization = `Bearer ${token}`;
@@ -23,7 +22,6 @@ export const getUserData = (id) => (dispatch, getState) => {
         }
       })
       .then((res) => {
-          console.log(res.data);
           dispatch({
             type: ACTION_FOR_PROFILE.CURRENT_USER_SUCCESS,
             payload: res.data

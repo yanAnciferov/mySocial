@@ -1,7 +1,6 @@
 import React from "react";
 import RegistrationForm from "./registrationForm"
 import RegistrationAvatar from "./registrationAvatar"
-import RegistrationSuccess from "./registrationSuccess"
 import { connect } from 'react-redux';
 import {  Paper  } from '@material-ui/core'; 
 
@@ -15,9 +14,6 @@ class RegistrationStepper extends React.Component {
       },
       {
         component: <RegistrationAvatar />
-      },
-      {
-        component: <RegistrationSuccess />
       }
     ];
 

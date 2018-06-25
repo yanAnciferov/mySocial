@@ -5,7 +5,6 @@ function dispatchError(res,next, err, code){
 }
 
 function simpleErrorHandler(err,req,res,next){
-    console.log(res.message)
     res.send(res.message);
 }
 

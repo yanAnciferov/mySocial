@@ -18,6 +18,8 @@ const GoToProfile = "Перейти в профиль"
 const Male = "Мужской"
 const Female = "Женский"
 
+const FinalRegistration = "Завершение регистрации"
+
 function MessageAboutSuccesRegistration(firstname){
     return `Поздравляем вас, ${firstname}, вы успешно прошли регистрацию!`
 }
@@ -45,5 +47,6 @@ export default {
     MessageAboutSuccesRegistration,
     GoToProfile,
     Male,
-    Female
+    Female,
+    FinalRegistration
 }

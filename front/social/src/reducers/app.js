@@ -3,6 +3,7 @@ import { errors } from "../constans/errors";
 
 
 function getUserFromStorage(){
+
     let user = localStorage.getItem("userData");
     return (user) ? JSON.parse(user) : null
 }
@@ -21,8 +22,6 @@ const initialState = {
 
 
 export default function (state = initialState, action) {
-    
-
     
 
     if(action.type === ACTION_FOR_APP.SHOW_LOADING_WINDOW)

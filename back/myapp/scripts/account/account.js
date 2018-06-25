@@ -13,11 +13,17 @@ var jwt = require("jsonwebtoken");
 
 function getAuthUserData(req, res, next){
     let { user } = req;
-
-    User.findById(user._id, "firstname surname email birthdate avatar minAvatar parrentname", (err, result) => {
+    User.findById(user._id, "firstname surname email birthdate avatar sex minAvatar parrentname", (err, result) => {
       if(err || !result){
         dispatchError(res,next,USER_ERRORS.NOT_FOUND, 404);
-      } else res.send(updateUserAvatarPaths(result))
+        return;
+      } else { 
+          res.data = { 
+            ...res.data,
+            user: (updateUserAvatarPaths(result)) 
+        }
+        next();
+      }
     })
   }
 

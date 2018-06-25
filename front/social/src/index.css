@@ -138,6 +138,13 @@ a{
 .editor-canvas{
   border: 2px dashed rgb(24, 146, 184);
   border-radius: 15px;
+  height: 300px;
+  width: 300px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .avatar-zoom{

@@ -24,12 +24,10 @@ export const registration = () => (dispatch, getState) => {
     isValid
    } = getState().register;
 
-   if(isValid === false)
+   if(!isValid)
     return;
 
    var params = new FormData();
-
-   console.log(firstname)
 
    var { REGISTRATION_QUERY_ERROR, REGISTRATION_QUERY_SUCCESS } = ACTION_FOR_REGISTRATION;
 
@@ -42,8 +40,6 @@ export const registration = () => (dispatch, getState) => {
    params.append("imageFile", file);
    params.append("imageRect", JSON.stringify(rect));
 
-   console.log(params);
-
    dispatch({
      type: ACTION_FOR_APP.SHOW_LOADING_WINDOW,
      payload: "Идет регистрация"
@@ -52,11 +48,19 @@ export const registration = () => (dispatch, getState) => {
   axios.post('/api/account/registration',params)
       .then((res) => {
         dispatch({
-          type: REGISTRATION_QUERY_SUCCESS
-        })
-        dispatch({
           type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
-        })
+        });
+        dispatch({
+          type: ACTION_FOR_APP.LOGIN,
+          payload: res.data
+        });
+        dispatch({
+          type: ACTION_FOR_APP.SET_USER_DATA,
+          payload: res.data.user
+        });
+        dispatch({
+          type: REGISTRATION_QUERY_SUCCESS
+        });
       })
       .catch((err) => {
         dispatch({
@@ -115,10 +119,9 @@ export const getAuthUserData = () => (dispatch, getState) => {
     isAuthorize
    } = getState().app;
 
-   if(isAuthorize === false)
+   if(!isAuthorize)
     return;
     
-   console.log(token)
     axios.get('/api/account/getAuthUserData', {
       headers: {
         Authorization: `Bearer ${token}`
@@ -127,10 +130,9 @@ export const getAuthUserData = () => (dispatch, getState) => {
     .then((res) => {
         dispatch({
           type: ACTION_FOR_APP.SET_USER_DATA,
-          payload: res.data
+          payload: res.data.user
         })
-        dispatch(push(`/${res.data._id}`))
-        console.log(res)
+        dispatch(push(`/${res.data.user._id}`))
       })
       .catch((err) => {
         console.log(err);

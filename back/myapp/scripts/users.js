@@ -9,7 +9,7 @@ var { dispatchError } = require("./errorHandlers/common")
 
 function getUserData(req, res, next){
     var { id } = req.query;
-    User.findById(id, "firstname surname email avatar minAvatar birthdate parrentname", (err, result) => {
+    User.findById(id, "firstname surname sex email avatar minAvatar birthdate parrentname", (err, result) => {
         if(err) {
             dispatchError(res,next,USER_ERRORS.NOT_FOUND,404);
             return;

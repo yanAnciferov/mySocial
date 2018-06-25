@@ -1,3 +1,5 @@
+var { finishSend } = require('../scripts/midllewares/common');
+
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
@@ -11,6 +13,7 @@ var { simpleErrorHandler } = require("../scripts/errorHandlers/common")
 var { sendPassword } = require('../scripts/account/email');
 var { saveImage } = require('../scripts/image')
 var { login } = require('../scripts/account/login')
+var { createAndSendToken, createToken } = require("../scripts/midllewares/token")
 var { verifyToken } = require('../scripts/midllewares/token')
 var { getAuthUserData } = require('../scripts/account/account')
 var { checkDbConnection } = require('../scripts/midllewares/checkDbConnection')
@@ -32,13 +35,14 @@ var uploads = multer({storage});
 
 router.use(simpleErrorHandler)
 
-router.post(API_METHODS_PATHS.REGISTRATION, uploads.any(), [checkDbConnection, start, validate, checkMailForExistence, checkMailInDB, createUser, sendPassword, saveImage ])
+router.post(API_METHODS_PATHS.REGISTRATION, uploads.any(), [checkDbConnection, start, validate, checkMailForExistence, 
+  checkMailInDB, createUser, sendPassword, saveImage, createToken, getAuthUserData, finishSend ])
         .use(registrationError);
 
-router.post(API_METHODS_PATHS.LOGIN, [checkDbConnection, login])
+router.post(API_METHODS_PATHS.LOGIN, [checkDbConnection, login, createAndSendToken])
         .use(simpleErrorHandler);
         
-router.get(API_METHODS_PATHS.GET_AUTHORIZE_USER_DATA, verifyToken, [checkDbConnection, getAuthUserData])
+router.get(API_METHODS_PATHS.GET_AUTHORIZE_USER_DATA, verifyToken, [checkDbConnection, getAuthUserData, finishSend])
         .use(simpleErrorHandler);
 
 module.exports = router;

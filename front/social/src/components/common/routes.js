@@ -11,7 +11,6 @@ class Routes extends Component {
   
   render() {
     const { authorizedUser } = this.props.app;
-    console.log(authorizedUser)
     const isAuthorize = authorizedUser !== null;
     const toMyPagePath = isAuthorize ? `/${authorizedUser._id}` : "/login";
     return (

@@ -20,17 +20,17 @@ function login (req,res,next) {
       }
       
       if(user.checkPassword(password)) {
-        jwt.sign({user}, loginConfig.secretKey,{ expiresIn: "30 days" }, (err, token) => {
-          res.json({
-            token
-          })
-        })
+        req.user = user;
+        next();
         return;
-      } else {
-        dispatchError(res,next,LOGIN.INCORRECT_PASSWORD_FOR_LOGIN,403);
       }
+      
+      dispatchError(res,next,LOGIN.INCORRECT_PASSWORD_FOR_LOGIN,403);
+      
     })
   }
+
+
 
 
 module.exports.login = login;

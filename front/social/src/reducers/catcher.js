@@ -38,7 +38,7 @@ export default function (state = initialState, action) {
 
         let {err, err: { response }} = action;
 
-        if(err.message === errors.NETWORK_ERROR || response.data === errors.DB_NOT_CONNECTED)
+        if(err.message === errors.NETWORK_ERROR || !response || response.data === errors.DB_NOT_CONNECTED)
             return toVisibleErrorMessage(state,MESSAGE.TECHNICAL_WORK_ON_SERVER);
         
         if(response === undefined)

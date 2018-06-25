@@ -17,7 +17,7 @@ class Header extends React.Component {
     render() {
 
       const { authorizedUser } = this.props.app;
-      const forRightSide = (authorizedUser) ? <HeaderPopapMenu authorizedUser={authorizedUser} onLogoutClick={this.onLogoutClick}  /> : <ToAuthorizeLinks/>
+      const forRightSide = (authorizedUser) ? <HeaderPopupMenu authorizedUser={authorizedUser} onLogoutClick={this.onLogoutClick}  /> : <UnauthorizedMenu/>
       return (
         <div className="main-header">
           <AppBar position="static">
@@ -37,7 +37,7 @@ class Header extends React.Component {
     }
   }
 
-class ToAuthorizeLinks extends React.Component {
+class UnauthorizedMenu extends React.Component {
   render(){
     return (
       <div>
@@ -57,7 +57,7 @@ class ToAuthorizeLinks extends React.Component {
 }
 
 
-class HeaderPopapMenu extends React.Component {
+class HeaderPopupMenu extends React.Component {
 
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });

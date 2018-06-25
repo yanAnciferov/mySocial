@@ -109,7 +109,6 @@ function dateValidate(dateParam) {
 
     var min = new Date(DATE.MIN)
     var max = new Date(DATE.MAX)
-    console.log(min)
     if(date.getFullYear() < min.getFullYear())
     {
         state.isError = true;
@@ -207,7 +206,6 @@ function rectValidation(rect, file) {
         messages: []
     }
 
-    console.log(typeof rect)
     if(typeof rect != "object" || rect == null ||
      rect.x === null || rect.y === null || rect.width === null || rect.height === null)
     {

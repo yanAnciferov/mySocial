@@ -22,7 +22,6 @@ var  userScheme = new Schema({
 
 userScheme.virtual("password")
     .set(function(password){
-        console.log("!");
         this.salt = Math.random() + 'salt',
         this.hashPassword = this.encryptPassword(password);
     });

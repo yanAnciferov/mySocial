@@ -23,7 +23,7 @@ function saveImage(req,res,next){
         fs.mkdirSync(dir);
 
     if(req.files.length == 0){
-        res.send("ok");
+        next();
         return;
     }else {
         var image = req.files[0];
@@ -51,11 +51,12 @@ function saveImage(req,res,next){
                     if(err) return console.log(err);
                 });
                 fs.unlink(image.path);
+                
                })
         
     })
     .then(data => {
-        res.send("ok");
+        next()
     }).catch((error) => {
         User.deleteOne({email: newUser.email});
         res.statusCode = 403;
