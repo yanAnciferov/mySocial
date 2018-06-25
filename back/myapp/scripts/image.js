@@ -49,6 +49,7 @@ function saveImage(req,res,next){
                .then(value => {
                 User.update({email: newUser.email}, {avatar, minAvatar}, function(err, result){
                     if(err) return console.log(err);
+                    else next()
                 });
                 fs.unlink(image.path);
                 
@@ -56,7 +57,6 @@ function saveImage(req,res,next){
         
     })
     .then(data => {
-        next()
     }).catch((error) => {
         User.deleteOne({email: newUser.email});
         res.statusCode = 403;

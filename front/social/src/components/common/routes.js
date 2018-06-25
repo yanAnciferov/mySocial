@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Login from '../pages/login/login';
 import Profile from '../pages/profile/profile';
+import Edit from '../pages/edit/edit';
 
 class Routes extends Component {
   
@@ -24,6 +25,9 @@ class Routes extends Component {
           )}/>
           <Route path="/login" render={() => (
             isAuthorize ? (<Redirect to={toMyPagePath}/>) : (<Login/>)
+          )}/>
+          <Route path="/edit" render={() => (
+            isAuthorize ? (<Edit/>) : (<Redirect from="/edit" to="/login"/>)
           )}/>
           <Route  children={({ match }) => (
             <Route path="/:id" render={({ match:pathlessMatch }) => (

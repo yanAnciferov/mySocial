@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: rgb(243, 242, 242);
 }
 
 li{
@@ -236,7 +237,6 @@ div.main-menu-paper{
 
 .avatar-wrapper{
   width: 100%;
-  height: 16em;
   box-sizing: border-box;
   padding: 1em;
 }
@@ -305,4 +305,17 @@ div.not-found-papper{
 
 .header-popap-menu{
   margin-top: 2.8em;
+}
+
+.edit-button-wrapper{
+  margin-top: .7em;
+  text-align: center;
+}
+
+.edit-button{
+  width: 100%;
+}
+
+.edit-wrapper{
+  padding: 2em;
 }

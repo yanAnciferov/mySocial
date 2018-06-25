@@ -9,10 +9,12 @@ import { MODEL_NAMES, DATE, SEX_TYPES } from '../../../constans/registration'
 import { ACTION_FOR_REGISTRATION } from '../../../constans/ActionTypes'
 
 import Content from "../../../content/registration"
-
+import TextFormControl from '../../common/textFormControl';
+import SelectGenderControl from '../../common/selectGender'
+import SetUserInfo from '../../common/setUserInfo';
 class RegistrationForm extends Component {
     
-    fieldCange = (type, event) => {
+    fieldChange = (type, event) => {
         this.props.onChange({
             name: type,
             value: event.target.value
@@ -28,113 +30,14 @@ class RegistrationForm extends Component {
 
     render() {
     
-        let { sex, email, firstname, surname, parrentname, birthdate } = this.props.register.validateState
-
-        let state = {
-            ...this.props.register
-        }
+    let { register, onChange } = this.props
     
     return (
         <div className="formWrapper">
-        <Typography variant="title" color="inherit">
-            {Content.StepCommonInfoHeader}
-        </Typography>
-        <form onSubmit={this.onSubmit}>
-                    <Grid container spacing={24}>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl required fullWidth>
-                                <TextField 
-                                    label={Content.NameLabel} 
-                                    helperText={firstname.message}
-                                    onChange={(e) => this.fieldCange(MODEL_NAMES.FIRSTNAME,e)}
-                                    value={state.firstname}
-                                    error={firstname.isError}
-                                    />
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth>
-                                <TextField 
-                                    label={Content.SurameLabel}  
-                                    fullWidth
-                                    helperText={surname.message}
-                                    value={state.surname}
-                                    onChange={(e) => this.fieldCange(MODEL_NAMES.SURNAME,e)}
-                                    error={surname.isError}
-                                    />
-                            </FormControl>
-                        </Grid>
-                    </Grid>
-                    
-                      <Grid className="registerControl" container spacing={24}>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth>
-                                <TextField 
-                                    label={Content.ParrentnameLabel} 
-                                    fullWidth
-                                    value={state.parrentname}
-                                    helperText={parrentname.message}
-                                    onChange={(e) => this.fieldCange(MODEL_NAMES.PARRENTNAME,e)}
-                                    error={parrentname.isError}
-                                   
-                                    />
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                           
-                        </Grid>
-                    </Grid>
-                    
-                    <FormControl className="registerControl" fullWidth>
-                        <TextField 
-                            label={Content.EmailLabel}  
-                            fullWidth
-                            helperText={email.message}
-                            onChange={(e) => this.fieldCange(MODEL_NAMES.EMAIL,e)}
-                            error={email.isError}
-                            value={state.email}
-                            type="email"
-                            />
-                    </FormControl>
-
-                    
-                    <FormControl className="registerControl" fullWidth>
-                        <TextField
-                            fullWidth
-                            type="date"
-
-                            helperText={birthdate.message}
-                            onChange={(e) => this.fieldCange(MODEL_NAMES.BIRTHDATE,e)}
-                            error={birthdate.isError}
-                            value={state.birthdate}
-                            
-                            inputProps= {{
-                                min: DATE.MIN,
-                                max: DATE.MAX
-                            }}
-                            />
-                    </FormControl>
-                   
-                    <FormControl className="registerControl" fullWidth error={sex.isError} >
-                        <Select 
-                            required
-                            value={state.sex}
-                            displayEmpty
-                            name='sex'
-                            onChange={(e) => this.fieldCange(MODEL_NAMES.SEX,e)}
-                            fullWidth
-                             >
-
-                            <MenuItem value="" disabled>{Content.SexLabel}</MenuItem>
-                            <MenuItem value={SEX_TYPES.MALE}>{Content.Male}</MenuItem>
-                            <MenuItem value={SEX_TYPES.FEMALE}>{Content.Female}</MenuItem>
-                        </Select>
-                        <FormHelperText>{sex.message}</FormHelperText>
-                    </FormControl>
-                    <Grid container justify="flex-end">
-                        <Button onClick={this.onSubmit} type="submit" variant="contained" color="primary">Далее</Button>
-                    </Grid> 
-            </form>
+            <Typography variant="title" color="inherit">
+                {Content.StepCommonInfoHeader}
+            </Typography>
+            <SetUserInfo onSubmit={this.onSubmit} onChange={onChange} fieldChange={this.fieldChange} source={register} />
         </div>
     );
     }
@@ -158,4 +61,4 @@ export default connect(
             }
 
         })
-)(RegistrationForm);
+)(RegistrationForm)

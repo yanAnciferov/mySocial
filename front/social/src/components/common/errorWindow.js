@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dialog, DialogTitle, DialogActions, Button, DialogContent, DialogContentText} from "@material-ui/core"
-
+import Content from "../../content/common"
 
 class ErrorWindow extends React.Component {
 
@@ -26,7 +26,7 @@ class ErrorWindow extends React.Component {
           </DialogContent>
             <DialogActions>
                 <Button onClick={this.handleClose} color="primary">
-                    Ок
+                    {Content.OK}
                 </Button>
             </DialogActions>
           </Dialog>

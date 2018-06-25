@@ -21,10 +21,11 @@ class MainInfo extends React.Component {
 class MainInfoWithUser extends React.Component {
 
    render() {
-        const { user: { firstname, surname, birthdate, sex } } = this.props;
+        const { user: { firstname, surname, birthdate, sex, email } } = this.props;
         const items = [
             { key: PROFILE_CONTENT.BIRTHDATE_INFO, value: new Date(birthdate).toLocaleDateString("ru-RU", PROFILE_CONSTS.DATE_FORMAT)},
-            { key: PROFILE_CONTENT.SEX_INFO, value: PROFILE_CONTENT.getSex(sex) }
+            { key: PROFILE_CONTENT.SEX_INFO, value: PROFILE_CONTENT.getSex(sex) },
+            { key: PROFILE_CONTENT.EMAIL_INFO, value: email }
         ]
         const itemsInfo = items.map((item) => <li key={item.key}><InfoItem item={item} /></li>);
         return (
@@ -67,7 +68,7 @@ class MainInfoEmitter extends React.Component {
     render() {
         return (
             <Paper className="main-info-wrapper">
-                sdfsdf
+                
             </Paper>
         )
     }

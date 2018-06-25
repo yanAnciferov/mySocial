@@ -11,19 +11,20 @@ import { COMMON_MESSAGE } from "../constans/common";
 
 
 export const registration = () => (dispatch, getState) => {
-   const {
+   let {
     firstname,
     surname,
     parrentname,
     birthdate,
     email,
     sex,
+    isAvatarSkip,
     image: {
       file, rect
     },
     isValid
    } = getState().register;
-
+   console.log(getState().register)
    if(!isValid)
     return;
 
@@ -31,6 +32,10 @@ export const registration = () => (dispatch, getState) => {
 
    var { REGISTRATION_QUERY_ERROR, REGISTRATION_QUERY_SUCCESS } = ACTION_FOR_REGISTRATION;
 
+   if(isAvatarSkip){
+      file = null
+      rect = null
+   }
    params.append([MODEL_NAMES.FIRSTNAME], firstname);
    params.append([MODEL_NAMES.SURNAME], surname);
    params.append([MODEL_NAMES.PARRENTNAME], parrentname);

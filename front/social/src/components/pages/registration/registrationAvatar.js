@@ -48,7 +48,10 @@ class RegistrationAvatar extends React.Component {
 
   registrationHandle = e => {
    
-    const rect = this.editor.getCroppingRect()
+    let rect;
+    if(this.editor){
+      rect = this.editor.getCroppingRect()
+    }
     this.props.registration(rect);
   }
 
@@ -169,7 +172,7 @@ export default connect(
               dispatch({ type: ACTION_FOR_REGISTRATION.AVATAR_SUBMIT, payload: rect})
               dispatch(registration());
             },
-            skip: (rect) => {
+            skip: () => {
               dispatch({ type: ACTION_FOR_REGISTRATION.AVATAR_SKIP})
               dispatch(registration());
             }

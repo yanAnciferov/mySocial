@@ -23,7 +23,8 @@ const initialState = {
 
     step: 0,
     isValid: false,
-    isSuccessWindowShow: false,    
+    isSuccessWindowShow: false,
+    isAvatarSkip: false,   
     validateState: {
         [MODEL_NAMES.FIRSTNAME]: {
             isError: false,
@@ -155,18 +156,10 @@ export default function (state = initialState, action) {
 
 
     if(action.type === actionTypes.AVATAR_SKIP){
-        let imageValide = imageValidation(state.image.file, false)
-        let isValid;
-        if(imageValide.isError)
-            isValid = false        
-        else isValid = true
         return {
             ...state,
-            isValid,
-            validateState: {
-                ...state.validateState,
-                image: imageValide
-            }
+            isValid: true,
+            isAvatarSkip: true
         }       
     }
 

@@ -8,7 +8,7 @@ const MY_FRIENDS = "Друзья"
 const MY_NEWS = "Новости"
 const SEARCH = "Поиск"
 const SETTINGS = "Настройки"
-
+const EMAIL_INFO = "Почта:"
 function getSex(sex){
     return sex === SEX_TYPES.MALE ? "Мужской" : "Женский"
 }
@@ -22,5 +22,6 @@ export const PROFILE_CONTENT = {
     SETTINGS,
     BIRTHDATE_INFO,
     SEX_INFO,
+    EMAIL_INFO,
     getSex
 }
