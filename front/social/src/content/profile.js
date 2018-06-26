@@ -13,6 +13,10 @@ function getSex(sex){
     return sex === SEX_TYPES.MALE ? "Мужской" : "Женский"
 }
 
+function getFullName({firstname, surname, parrentname}){
+    return parrentname ? `${surname} ${firstname} ${parrentname}` : ` ${firstname} ${surname}`
+}
+
 export const PROFILE_CONTENT = {
     PAGE_NOT_FOUNT,
     MY_PAGE,
@@ -23,5 +27,6 @@ export const PROFILE_CONTENT = {
     BIRTHDATE_INFO,
     SEX_INFO,
     EMAIL_INFO,
-    getSex
+    getSex,
+    getFullName
 }

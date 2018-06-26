@@ -1,4 +1,4 @@
-import {nameValidate, dateValidate, emailValidate, sexValidate , imageValidation} from "../scripts/validate"
+import {imageValidation,validate} from "../scripts/validate"
 
 import { ACTION_FOR_REGISTRATION } from "../constans/ActionTypes"
 import { errors } from "../constans/errors"
@@ -63,23 +63,9 @@ export default function (state = initialState, action) {
     let actionTypes = ACTION_FOR_REGISTRATION;
     if(action.type === actionTypes.ON_SUBMIT){
 
-        let newValidateState = {
-            ...state.validateState,
-            [MODEL_NAMES.FIRSTNAME]: nameValidate(state.firstname,true, MODEL_NAMES.FIRSTNAME),
-            [MODEL_NAMES.SURNAME]: nameValidate(state.surname,true, MODEL_NAMES.SURNAME),
-            [MODEL_NAMES.PARRENTNAME]: nameValidate(state.parrentname,false, MODEL_NAMES.PARRENTNAME),
-            [MODEL_NAMES.EMAIL]: emailValidate(state.email),
-            [MODEL_NAMES.BIRTHDATE]: dateValidate(state.birthdate),
-            [MODEL_NAMES.SEX]: sexValidate(state.sex)
-        }
 
-        let isFormValid = true;
-
-        for(let field in newValidateState )
-        {
-            isFormValid = isFormValid && !newValidateState[field].isError
-            if(!isFormValid) break;
-        }
+        let validateResult = validate(state);
+        let { isValid:isFormValid, newValidateState } = validateResult;
 
         let newStep;
 

@@ -5,6 +5,7 @@ const LoadFile = "Загрузить файл";
 const SkipButton = "Пропустить";
 const NextButton = "Регистрация";
 const PrevButton = "Назад";
+const NextStep = "Далее";
 const StepCommonInfoHeader = "Общая информация"
 
 const NameLabel = "Имя"
@@ -48,5 +49,6 @@ export default {
     GoToProfile,
     Male,
     Female,
-    FinalRegistration
+    FinalRegistration,
+    NextStep
 }

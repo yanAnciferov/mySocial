@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 
-import {  FormControl, FormHelperText, Button, MenuItem,
-      TextField, Select, Grid, Typography  } from '@material-ui/core'; 
+import { Typography  } from '@material-ui/core'; 
 
 import { connect } from 'react-redux';
-
-import { MODEL_NAMES, DATE, SEX_TYPES } from '../../../constans/registration'
 import { ACTION_FOR_REGISTRATION } from '../../../constans/ActionTypes'
 
 import Content from "../../../content/registration"
-import TextFormControl from '../../common/textFormControl';
-import SelectGenderControl from '../../common/selectGender'
 import SetUserInfo from '../../common/setUserInfo';
 class RegistrationForm extends Component {
     
@@ -37,7 +32,7 @@ class RegistrationForm extends Component {
             <Typography variant="title" color="inherit">
                 {Content.StepCommonInfoHeader}
             </Typography>
-            <SetUserInfo onSubmit={this.onSubmit} onChange={onChange} fieldChange={this.fieldChange} source={register} />
+            <SetUserInfo buttonText={Content.NextStep} onSubmit={this.onSubmit} onChange={onChange} fieldChange={this.fieldChange} source={register} />
         </div>
     );
     }

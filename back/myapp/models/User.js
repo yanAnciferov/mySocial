@@ -10,7 +10,7 @@ var  userScheme = new Schema({
     parrentname: {type: String, required: false },
     email: { type: String, unique: true, required: true },
     sex: { type: String, required: true },
-    birthdate: { type: Date, required: false},
+    birthdate: { type: Date, required: false },
     hashPassword: { type: String, required: true},
     minAvatar: { type: String, default: null},
     avatar: { type: String, default: null},
@@ -20,11 +20,13 @@ var  userScheme = new Schema({
     }
 });
 
+
 userScheme.virtual("password")
     .set(function(password){
         this.salt = Math.random() + 'salt',
         this.hashPassword = this.encryptPassword(password);
     });
+
 
 userScheme.methods = {
     encryptPassword(password){

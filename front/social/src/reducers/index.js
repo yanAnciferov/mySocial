@@ -4,6 +4,7 @@ import catcher from './catcher'
 import login from './login'
 import profile from './profile'
 import edit from './edit'
+import avatar from './avatar'
 
 export default {
     register,
@@ -11,5 +12,6 @@ export default {
     catcher,
     login,
     profile,
-    edit
+    edit,
+    avatar
 }

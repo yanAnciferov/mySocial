@@ -319,3 +319,43 @@ div.not-found-papper{
 .edit-wrapper{
   padding: 2em;
 }
+
+div.grid-row{ 
+  margin-top: 1em;
+}
+
+
+.avatar-image-wrapper{
+  overflow: hidden;
+  max-height: 14em;
+}
+
+
+.load-avatar{
+  position: relative;
+  transition: top .2s;
+  background-color: rgba(53, 50, 50, 0.445);
+  height: 3em;
+  color: rgb(230, 230, 230);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+}
+
+.avatar-image-wrapper:hover .load-avatar{
+  top: -3.2em;
+}
+
+.toLoadAvatar{
+  cursor: pointer;
+}
+
+.toLoadAvatar:hover{
+  color: white;
+}
+
+
+div.avatar-load-window{
+  width: 600px;
+}

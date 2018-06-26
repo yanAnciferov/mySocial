@@ -1,3 +1,5 @@
+var { dispatchError }  = require( "../errorHandlers/common");
+
 var email = require("emailjs");
 var emailExistence = require("email-existence")
 var mongoose = require("mongoose");
@@ -34,6 +36,13 @@ function validate(req, res, next) {
 }
 
 function checkMailForExistence(req, res, next){
+    console.log(req.user)
+    if((req.user && req.user.email === req.newUser.email)){
+        console.log("norm")
+        next();
+        return;
+    }
+    console.log("need check")
     emailExistence.check(req.newUser.email, (error, response) => {
       if(response == true){
         next();
@@ -46,16 +55,13 @@ function checkMailForExistence(req, res, next){
 }
   
 function checkMailInDB(req,res,next){
-
     User.findOne({email: req.newUser.email}, (err, user) => {
       if(user === null){
         next();
       }
       else 
       { 
-        res.statusCode = 403;
-        res.message = USER_ERRORS.EMAIL_BUSY;
-        next(res.message);
+        dispatchError(res, next, USER_ERRORS.EMAIL_BUSY, 403);
       }
     })
 }

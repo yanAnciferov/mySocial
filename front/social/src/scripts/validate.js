@@ -217,3 +217,31 @@ export function imageValidation(file, isSubmit) {
 
     return state;
 }
+
+
+
+
+export function validate(state){
+    let newValidateState = {
+        ...state.validateState,
+        [MODEL_NAMES.FIRSTNAME]: nameValidate(state.firstname,true, MODEL_NAMES.FIRSTNAME),
+        [MODEL_NAMES.SURNAME]: nameValidate(state.surname,true, MODEL_NAMES.SURNAME),
+        [MODEL_NAMES.PARRENTNAME]: nameValidate(state.parrentname,false, MODEL_NAMES.PARRENTNAME),
+        [MODEL_NAMES.EMAIL]: emailValidate(state.email),
+        [MODEL_NAMES.BIRTHDATE]: dateValidate(state.birthdate),
+        [MODEL_NAMES.SEX]: sexValidate(state.sex)
+    }
+
+    let isValid = true;
+
+    for(let field in newValidateState )
+    {
+        isValid = isValid && !newValidateState[field].isError
+        if(!isValid) break;
+    }
+
+    return {
+        newValidateState,
+        isValid
+    }
+}

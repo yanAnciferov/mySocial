@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Content from "../../content/registration"
-import {  FormControl, TextField, Select, MenuItem, FormHelperText  } from '@material-ui/core'; 
+import {  FormControl, Select, MenuItem, FormHelperText  } from '@material-ui/core'; 
 import { SEX_TYPES } from '../../constans/registration';
 
 class SelectGenderControl extends Component {

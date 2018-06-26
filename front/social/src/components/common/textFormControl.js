@@ -10,7 +10,7 @@ class TextFormControl extends Component {
         if(!type)
             type="text"
         return (
-        <FormControl className="registerControl" required fullWidth={fullWidth}>
+        <FormControl required fullWidth={fullWidth}>
             <TextField 
                 label={label} 
                 helperText={message}

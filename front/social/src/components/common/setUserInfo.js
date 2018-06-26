@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Content from "../../content/registration"
-import { SEX_TYPES, MODEL_NAMES, DATE } from '../../constans/registration';
+import { MODEL_NAMES, DATE } from '../../constans/registration';
 
-import {  FormControl, FormHelperText, Button, MenuItem,
-    TextField, Select, Grid, Typography  } from '@material-ui/core'; 
+import { Button, Grid  } from '@material-ui/core'; 
 import TextFormControl from './textFormControl';
 import SelectGenderControl from './selectGender'
 
@@ -12,7 +11,7 @@ class SetUserInfo extends Component {
     render() {
 
         let { sex, email, firstname, surname, parrentname, birthdate } = this.props.source.validateState;
-        let { onSubmit, onChange, fieldChange } = this.props;
+        let { onSubmit, fieldChange, buttonText } = this.props;
         let state = {
             ...this.props.source
         };
@@ -39,8 +38,7 @@ class SetUserInfo extends Component {
                         fullWidth/>
                 </Grid>
             </Grid>
-
-                <Grid container spacing={24}>
+            <Grid container spacing={24}>
                 <Grid item xs={12} sm={6}>
                 <TextFormControl
                         value={state.parrentname}
@@ -54,15 +52,19 @@ class SetUserInfo extends Component {
                     
                 </Grid>
             </Grid>
+            <Grid  container spacing={24}>
+                <Grid item xs={12} sm={12}>
                 <TextFormControl 
-                        value={state.email}
-                        label={Content.EmailLabel} 
-                        message={email.message} 
-                        onChange={(e) => fieldChange(MODEL_NAMES.EMAIL,e)} 
-                        isError={email.isError} 
-                        fullWidth/>
-                
-                
+                    value={state.email}
+                    label={Content.EmailLabel} 
+                    message={email.message} 
+                    onChange={(e) => fieldChange(MODEL_NAMES.EMAIL,e)} 
+                    isError={email.isError} 
+                    fullWidth/>
+                </Grid>
+            </Grid>
+            <Grid className="grid-row"  container spacing={24}>
+                <Grid item xs={12} sm={12}>
                 <TextFormControl
                     value={state.birthdate}
                     message={birthdate.message} 
@@ -74,15 +76,23 @@ class SetUserInfo extends Component {
                         min: DATE.MIN,
                         max: DATE.MAX
                     }}/>
+                </Grid>
+            </Grid>
                 
-            <SelectGenderControl 
+            <Grid className="grid-row"  container spacing={24}>
+                <Grid item xs={12} sm={12}>
+                <SelectGenderControl 
                 isError={sex.isError} 
                 value={state.sex} 
                 fieldCange={(e) => fieldChange(MODEL_NAMES.SEX,e)} 
                 message={sex.message} />
 
+                </Grid>
+            </Grid>
+                
+            
             <Grid container justify="flex-end">
-                <Button onClick={onSubmit} type="submit" variant="contained" color="primary">Далее</Button>
+                <Button onClick={onSubmit} type="submit" variant="contained" color="primary">{buttonText}</Button>
             </Grid> 
         </form>
         )

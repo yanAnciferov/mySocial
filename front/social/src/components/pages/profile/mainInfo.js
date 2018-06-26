@@ -21,7 +21,7 @@ class MainInfo extends React.Component {
 class MainInfoWithUser extends React.Component {
 
    render() {
-        const { user: { firstname, surname, birthdate, sex, email } } = this.props;
+        const { user,user: { birthdate, sex, email } } = this.props;
         const items = [
             { key: PROFILE_CONTENT.BIRTHDATE_INFO, value: new Date(birthdate).toLocaleDateString("ru-RU", PROFILE_CONSTS.DATE_FORMAT)},
             { key: PROFILE_CONTENT.SEX_INFO, value: PROFILE_CONTENT.getSex(sex) },
@@ -31,7 +31,7 @@ class MainInfoWithUser extends React.Component {
         return (
             <Paper className="main-info-wrapper">
                 <div className="main-info-header">
-                    <h2 className="main-info-name">{firstname} {surname}</h2>
+                    <h2 className="main-info-name">{PROFILE_CONTENT.getFullName(user)}</h2>
                 </div>
                 <div className="main-info-main">
                     <Grid>

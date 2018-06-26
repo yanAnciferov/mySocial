@@ -5,6 +5,12 @@ import { errors } from "../constans/errors";
 function getUserFromStorage(){
 
     let user = localStorage.getItem("userData");
+    if(user === "undefined")
+    {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userData");
+        return null;
+    }
     return (user) ? JSON.parse(user) : null
 }
 

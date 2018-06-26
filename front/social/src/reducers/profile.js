@@ -5,7 +5,8 @@ import { errors } from "../constans/errors";
 const initialState = {
     userData: null,
     isNotFound: false,
-    currentPageId: ""
+    currentPageId: "",
+    isShowAvatarPicker: false
 }
 
 
@@ -37,6 +38,22 @@ export default function (state = initialState, action) {
                 isNotFound: true
             }
         }        
+    }
+
+    if(action.type === ACTION_FOR_PROFILE.LOAD_AVATAR_OPEN)
+    {
+        return { 
+            ...state,
+            isShowAvatarPicker: true
+        }                
+    }
+
+    if(action.type === ACTION_FOR_PROFILE.LOAD_AVATAR_CLOSE)
+    {
+        return { 
+            ...state,
+            isShowAvatarPicker: false
+        }   
     }
         
 

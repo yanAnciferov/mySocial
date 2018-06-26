@@ -18,6 +18,7 @@ function getAuthUserData(req, res, next){
         dispatchError(res,next,USER_ERRORS.NOT_FOUND, 404);
         return;
       } else { 
+        console.log(result);
           res.data = { 
             ...res.data,
             user: (updateUserAvatarPaths(result)) 

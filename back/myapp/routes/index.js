@@ -1,5 +1,8 @@
-var { finishSend } = require('../scripts/midllewares/common');
+var { checkMailInDBForEdit } = require('../scripts/account/edit');
 
+var { saveEditUser }  = require('../scripts/account/edit');
+var { startEdit } = require('../scripts/account/edit');
+var { finishSend } = require('../scripts/midllewares/common');
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
@@ -41,8 +44,11 @@ router.post(API_METHODS_PATHS.REGISTRATION, uploads.any(), [checkDbConnection, s
 
 router.post(API_METHODS_PATHS.LOGIN, [checkDbConnection, login, createAndSendToken])
         .use(simpleErrorHandler);
-        
+
 router.get(API_METHODS_PATHS.GET_AUTHORIZE_USER_DATA, verifyToken, [checkDbConnection, getAuthUserData, finishSend])
         .use(simpleErrorHandler);
+
+
+router.post("/edit", verifyToken ,[checkDbConnection, startEdit, checkMailInDBForEdit, checkMailForExistence, saveEditUser, getAuthUserData, finishSend]).use(simpleErrorHandler);
 
 module.exports = router;

@@ -6,6 +6,8 @@ import { getUserData } from '../../../actions/Users';
 import Avatar from './avatar'
 import MainInfo from './mainInfo'
 import { PROFILE_CONTENT } from '../../../content/profile';
+import { ACTION_FOR_PROFILE } from '../../../constans/ActionTypes';
+import UpdateAvatarWindow from './updateAvatarWindow';
 
 class Profile extends Component {
 
@@ -26,8 +28,13 @@ class Profile extends Component {
     }
 
     render() {
-      const { userData, isNotFound } = this.props.profile
-      const forRender = (isNotFound) ? <NotFound/> : <Found user={userData}/>
+      const { onLoadAvatarOpen, onLoadAvatarClose, profile:{ userData, isNotFound, isShowAvatarPicker } } = this.props;
+      const forRender = (isNotFound) ? <NotFound/> : 
+        <Found
+          onLoadAvatarOpen={onLoadAvatarOpen}  
+          user={userData}
+          isShowAvatarPicker={isShowAvatarPicker}
+          onLoadAvatarClose={onLoadAvatarClose}/>
       
       return (
         <div >
@@ -41,15 +48,16 @@ class Profile extends Component {
 class Found extends Component
 {
     render(){
-      var {user} = this.props;
+      let {user, onLoadAvatarOpen, onLoadAvatarClose, isShowAvatarPicker} = this.props;
       return (
         <div className="profile-page">
           <div className="left-side-profile">
-              <Avatar user={user}/>
+              <Avatar onLoadAvatarClick={onLoadAvatarOpen} user={user}/>
           </div>
           <div className="right-side-profile">
               <MainInfo user={user}/>
           </div>
+          <UpdateAvatarWindow onClose={onLoadAvatarClose} open={isShowAvatarPicker}/>
         </div>
       )
     }
@@ -80,6 +88,12 @@ export default connect(
     },
     getMyData(){
       dispatch(getAuthUserData())
+    },
+    onLoadAvatarOpen(){
+      dispatch({type: ACTION_FOR_PROFILE.LOAD_AVATAR_OPEN})
+    },
+    onLoadAvatarClose(){
+      dispatch({type: ACTION_FOR_PROFILE.LOAD_AVATAR_CLOSE})
     }
   })
 )(Profile);

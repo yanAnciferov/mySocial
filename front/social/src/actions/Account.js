@@ -2,10 +2,11 @@
 
 import axios from "axios"
 import { MODEL_NAMES } from "../constans/registration"
-import { ACTION_FOR_REGISTRATION, ACTION_FOR_APP, ACTION_FOR_LOGIN } from "../constans/ActionTypes"
+import { ACTION_FOR_REGISTRATION, ACTION_FOR_APP, ACTION_FOR_LOGIN, ACTION_FOR_EDIT } from "../constans/ActionTypes"
 
 import { push } from 'react-router-redux/actions';
 import { COMMON_MESSAGE } from "../constans/common";
+import { getUserModel } from "../scripts/userModel";
 
 
 
@@ -143,3 +144,52 @@ export const getAuthUserData = () => (dispatch, getState) => {
         console.log(err);
     })
 } 
+
+
+
+
+
+export const edit = () => (dispatch, getState) => {
+  
+  let { isValid, isChanged } = getState().edit;
+  if(!isValid || !isChanged){
+   return;
+  }
+
+  const { EDIT_QUERY_ERROR, EDIT_QUERY_SUCCESS } = ACTION_FOR_EDIT;
+  let { token } = getState().app;
+
+  dispatch({
+    type: ACTION_FOR_APP.SHOW_LOADING_WINDOW,
+    payload: "Обновляем ваши данные"
+  })
+  let Authorization = `Bearer ${token}`
+
+  axios.post('/api/account/edit', getUserModel(getState().edit),{
+    headers: {
+      Authorization
+    }
+  })
+     .then((res) => {
+       dispatch({
+         type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
+      });
+      dispatch({
+        type: ACTION_FOR_APP.SET_USER_DATA,
+        payload: res.data.user
+      });
+      dispatch({
+        type: EDIT_QUERY_SUCCESS,
+        payload: res.data.user
+      });
+     })
+     .catch((err) => {
+       dispatch({
+       type: EDIT_QUERY_ERROR,
+       err
+     })
+     dispatch({
+       type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
+     })
+ })
+}

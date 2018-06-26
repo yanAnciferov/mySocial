@@ -1,9 +1,9 @@
-import {nameValidate, dateValidate, emailValidate, sexValidate , imageValidation} from "../scripts/validate"
+import {validate} from "../scripts/validate"
 
-import { ACTION_FOR_REGISTRATION, ACTION_FOR_EDIT } from "../constans/ActionTypes"
-import { errors } from "../constans/errors"
+import { ACTION_FOR_EDIT } from "../constans/ActionTypes"
 
 import { MODEL_NAMES, MESSAGE } from "../constans/registration"
+import { errors } from "../constans/errors";
 
 
 
@@ -16,7 +16,7 @@ const initialState = {
     [MODEL_NAMES.BIRTHDATE]: "",
     [MODEL_NAMES.SEX]: "",
 
-  
+    isChanged: false,
     isValid: true,
     validateState: {
         [MODEL_NAMES.FIRSTNAME]: {
@@ -51,14 +51,13 @@ function getInitState(){
     let user = JSON.parse(localStorage.getItem("userData"));
     
     if(user){
-        console.log(user)
         return {
             ...initialState,
             [MODEL_NAMES.FIRSTNAME]: user.firstname,
             [MODEL_NAMES.SURNAME]: user.surname,
             [MODEL_NAMES.PARRENTNAME]: user.parrentname,
             [MODEL_NAMES.EMAIL]: user.email,
-            [MODEL_NAMES.BIRTHDATE]: user.birthdate,
+            [MODEL_NAMES.BIRTHDATE]: user.birthdate.substr(0,10),
             [MODEL_NAMES.SEX]: user.sex,
             
         }
@@ -70,46 +69,57 @@ function getInitState(){
 }
 
 
-export default function (state = initialState, action) {
-    let actionTypes = ACTION_FOR_REGISTRATION;
-   
+export default function (state = initialState, action) {   
     if(action.type === ACTION_FOR_EDIT.EDIT_ON_SUBMIT){
-        let newValidateState = {
-            ...state.validateState,
-            [MODEL_NAMES.FIRSTNAME]: nameValidate(state.firstname,true, MODEL_NAMES.FIRSTNAME),
-            [MODEL_NAMES.SURNAME]: nameValidate(state.surname,true, MODEL_NAMES.SURNAME),
-            [MODEL_NAMES.PARRENTNAME]: nameValidate(state.parrentname,false, MODEL_NAMES.PARRENTNAME),
-            [MODEL_NAMES.EMAIL]: emailValidate(state.email),
-            [MODEL_NAMES.BIRTHDATE]: dateValidate(state.birthdate),
-            [MODEL_NAMES.SEX]: sexValidate(state.sex)
-        }
-
-        let isFormValid = true;
-
-        for(let field in newValidateState )
-        {
-            isFormValid = isFormValid && !newValidateState[field].isError
-            if(!isFormValid) break;
-        }
+        let { newValidateState, isValid } = validate(state);
 
         return {
             ...state,
             validateState: newValidateState,
-            isValid: isFormValid
+            isValid: isValid
         }
     }
 
     if(action.type === ACTION_FOR_EDIT.EDIT_ON_CHANGE){
         return {
             ...state,
+            isChanged: true,
             [action.payload.name]: action.payload.value
         }
     }
 
-    if(action.type === "@@router/LOCATION_CHANGE" && action.payload.pathname == "/edit"){
-        console.log("!!")
+    if(action.type === "@@router/LOCATION_CHANGE" && action.payload.pathname === "/edit"){
         return getInitState()
     }
+
+    if(action.type === ACTION_FOR_EDIT.EDIT_QUERY_ERROR)
+    {
+        let { err: { response }} = action;
+        if(response.data === errors.INVALID_EMAIL)
+            return {
+                ...state,
+                validateState: {
+                    ...state.validateState,
+                    email: {
+                        isError: true,
+                        message: MESSAGE.EMAIL_NOT_EXISTENCE
+                    }
+                }
+            } 
+
+        if(response.data === errors.EMAIL_BUSY)
+            return {
+                ...state,
+                validateState: {
+                    ...state.validateState,
+                    email: {
+                        isError: true,
+                        message: MESSAGE.EMAIL_BUSY
+                    }
+                }
+            }
+    }
+
 
     return state;
     
