@@ -1,3 +1,5 @@
+var { User }  = require( "../../models/User");
+
 var { loginConfig } = require("../../constants/config");
 
 var { LOGIN } = require("../../constants/errors");
@@ -11,8 +13,12 @@ function verifyToken(req, res, next){
           if(err) {
             dispatchError(res,next,LOGIN.UNAUTHORIZED, 403)
           } else {
-            req.user = authData.data;
-            next();
+            let { data: {  _id }} = authData;
+            User.findById(_id, (err, res) =>  {
+              req.user = res;
+              next();
+            })
+           
           }
         })
     } else {

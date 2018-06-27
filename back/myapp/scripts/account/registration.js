@@ -36,13 +36,12 @@ function validate(req, res, next) {
 }
 
 function checkMailForExistence(req, res, next){
-    console.log(req.user)
+    
     if((req.user && req.user.email === req.newUser.email)){
-        console.log("norm")
         next();
         return;
     }
-    console.log("need check")
+
     emailExistence.check(req.newUser.email, (error, response) => {
       if(response == true){
         next();

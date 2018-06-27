@@ -22,13 +22,13 @@ class AvatarPicker extends React.Component {
     }
     
     handleNewImage = e => {
-        //
         this.props.onImageLoad(e.target.files[0]);
     }
     
     handleScaleMy = (e, value) => {
         const scale = parseFloat(value)
         this.setState({ scale })
+        this.updateRect();
     }
     
     logCallback(e) {
@@ -41,34 +41,33 @@ class AvatarPicker extends React.Component {
 
     handlePositionChange = position => {
         this.setState({ position })
+        this.updateRect();
     }
 
     handleDrop = acceptedFiles => {
-        //API
         this.props.onImageLoad(acceptedFiles[0]);
     }
 
-    // registrationHandle = e => {
-    
-    //     let rect;
-    //     if(this.editor){
-    //         rect = this.editor.getCroppingRect()
-    //     }
-    //     this.props.registration(rect);
-    // }
+
+    updateRect = () => {
+        let rect;
+        if(this.editor){
+            rect = this.editor.getCroppingRect()
+        }
+        this.props.onRectChange(rect)
+    }
     
 
     render() {
 
-        let { source:{ 
-          image: {
-            file:model
-          },
-          validateState: { 
-            image
-          } 
-        }
-      } = this.props
+        let { 
+            image: {
+                file:model
+            },
+            validateState: { 
+                image
+            } 
+        } = this.props
     
       let editorComponent = model ? 
        (<ReactAvatarEditor
@@ -82,9 +81,8 @@ class AvatarPicker extends React.Component {
           onLoadSuccess={this.logCallback.bind(this, 'onLoadSuccess')}
           onImageReady={this.logCallback.bind(this, 'onImageReady')}
           image={model}
-          //className="editor-canvas"
           color={[255,255,255,128]}
-          />) : "Загрузите или перетащите файл с изображением сюда"
+          />) : Content.LoadAvatar
     
         return (
           <div className="create-avatar">
@@ -104,7 +102,7 @@ class AvatarPicker extends React.Component {
               <Grid item xs={4}>
                 <div className="avatar-controll">
                   <div className="avatar-zoom"> 
-                      <span>Масштаб:</span>
+                      <span>{Content.ScaleTitle}</span>
                       <Slider
                           min={1}
                           max={2}

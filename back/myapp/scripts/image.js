@@ -1,3 +1,5 @@
+var { deleteLockedFile }  = require( "./utils");
+
 var {generateRandString} = require("../scripts/utils");
 var {paths} = require("../constants/common");
 var { User } = require('../models/User')
@@ -11,12 +13,8 @@ function saveImage(req,res,next){
 
    
     var { newUser } = req;
-
     User.findOne({email: newUser.email}, (err, result) => {
     var userFromDb = result;
-
-    
-
     let id = userFromDb._id.toString(16)
     let dir = `${paths.PATH_TO_USER_DATA}${id}`
     if (!fs.existsSync(dir))
@@ -28,9 +26,9 @@ function saveImage(req,res,next){
     }else {
         var image = req.files[0];
     }
-
+    sharp.cache(false);
     const croped = sharp(image.path);
-
+    
     croped.metadata()
     .then(metadata => {
         const rectForCrop = 
@@ -49,14 +47,16 @@ function saveImage(req,res,next){
                .then(value => {
                 User.update({email: newUser.email}, {avatar, minAvatar}, function(err, result){
                     if(err) return console.log(err);
-                    else next()
-                });
-                fs.unlink(image.path);
-                
+                    else { 
+                        fs.unlink(image.path)
+                        next();
+                    }
+                });                
                })
         
     })
     .then(data => {
+        
     }).catch((error) => {
         User.deleteOne({email: newUser.email});
         res.statusCode = 403;

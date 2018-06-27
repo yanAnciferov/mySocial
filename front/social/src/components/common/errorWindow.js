@@ -18,7 +18,7 @@ class ErrorWindow extends React.Component {
             maxWidth="xs"
             {...other}
           >
-            <DialogTitle>Ошибка</DialogTitle>
+            <DialogTitle>{Content.Error}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     {value}

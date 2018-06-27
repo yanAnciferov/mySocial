@@ -48,13 +48,14 @@ export default function (state = initialState, action) {
         }                
     }
 
-    if(action.type === ACTION_FOR_PROFILE.LOAD_AVATAR_CLOSE)
+    if(action.type === ACTION_FOR_PROFILE.LOAD_AVATAR_CLOSE || action.type === ACTION_FOR_PROFILE.AVATAR_UPDATE_QUERY_SUCCESS)
     {
         return { 
             ...state,
             isShowAvatarPicker: false
         }   
     }
+
         
 
     return state;

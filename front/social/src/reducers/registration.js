@@ -18,7 +18,7 @@ const initialState = {
 
     image: {
         file: null,
-        rect: null
+        rect: { x: 0, y: 0, width: 1, height: 1 }
     },
 
     step: 0,
@@ -92,6 +92,7 @@ export default function (state = initialState, action) {
         let imageValidationResult = imageValidation(action.payload, false);
 
         let newImage = {
+            ...state.image,
             file: imageValidationResult.isError ? null : action.payload
         }
 
@@ -126,13 +127,10 @@ export default function (state = initialState, action) {
         if(imageValide.isError)
             isValid = false        
         else isValid = true
+        console.log(state)
         return {
             ...state,
             isValid,
-            image: {
-                ...state.image,
-                rect: action.payload
-            },
             validateState: {
                 ...state.validateState,
                 image: imageValide
@@ -218,6 +216,17 @@ export default function (state = initialState, action) {
             ...initialState,
             isSuccessWindowShow: true
         }
+    }
+
+    if(action.type === ACTION_FOR_REGISTRATION.ON_IMAGE_RECT_CHANGE_TO_REGISTRATION){
+        console.log(action.payload)
+        return {
+            ...state,
+            image: {
+                ...state.image,
+                rect: action.payload
+            }
+        }   
     }
 
     return state;

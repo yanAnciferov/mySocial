@@ -359,3 +359,10 @@ div.grid-row{
 div.avatar-load-window{
   width: 600px;
 }
+
+
+div.edit-wrapper span.header{
+  display: block;
+  font-size: 1.4em;
+  margin-bottom: 1em;
+}

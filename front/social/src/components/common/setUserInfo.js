@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Content from "../../content/registration"
 import { MODEL_NAMES, DATE } from '../../constans/registration';
-
+import PropTypes from 'prop-types';
 import { Button, Grid  } from '@material-ui/core'; 
 import TextFormControl from './textFormControl';
 import SelectGenderControl from './selectGender'
@@ -10,11 +10,14 @@ class SetUserInfo extends Component {
     
     render() {
 
-        let { sex, email, firstname, surname, parrentname, birthdate } = this.props.source.validateState;
-        let { onSubmit, fieldChange, buttonText } = this.props;
+        let { 
+            validateState: { sex, email, firstname, surname, parrentname, birthdate },
+            onSubmit, fieldChange, buttonText,
+        } = this.props;
+
         let state = {
-            ...this.props.source
-        };
+            ...this.props
+        }
 
         return (
         <form>
@@ -98,6 +101,29 @@ class SetUserInfo extends Component {
         )
     }
 }
+
+var shapeForValidationField = PropTypes.shape({isError: PropTypes.bool, message: PropTypes.oneOfType([PropTypes.string, PropTypes.array])});
+
+SetUserInfo.propTypes = {
+    buttonText: PropTypes.string,
+    fieldCange: PropTypes.func,
+    validateState: PropTypes.shape({
+        sex: shapeForValidationField,
+        email: shapeForValidationField,
+        firstname: shapeForValidationField, 
+        surname: shapeForValidationField,
+        parrentname: shapeForValidationField,
+        birthdate: shapeForValidationField
+    }),
+    sex: PropTypes.string,
+    email: PropTypes.string,
+    firstname: PropTypes.string,
+    surname: PropTypes.string,
+    parrentname: PropTypes.string,
+    birthdate: PropTypes.string
+  };
+
+
 
 export default SetUserInfo;
 

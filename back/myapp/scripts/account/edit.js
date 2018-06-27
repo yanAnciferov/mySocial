@@ -1,10 +1,12 @@
-var { validateUser }  = require( "../validation");
+var { deleteFiles, getPathToAvatars, getPathForRemove, deleteFilesByUrl } = require("../utils");
+
+var { validateUser } = require("../validation");
 
 var { dispatchError } = require( "../errorHandlers/common");
 var { USER_ERRORS } = require( "../../constants/errors");
 
 var { User } = require ("../../models/User");
-
+var fs =  require("fs");
 function saveEditUser(req,res,next){
     let {user, body} = req;
 
@@ -39,9 +41,8 @@ function checkMailInDBForEdit(req,res,next){
         next();
         return;
     }
-
-    User.findById({email: req.newUser.email}, (err, user) => {
-      if(user === null){
+    User.findOne({email: req.newUser.email}, (err, user) => {
+      if(!user){
         next();
       }
       else 
@@ -50,9 +51,29 @@ function checkMailInDBForEdit(req,res,next){
       }
     })
 }
+
+
+function startUpdateAvatar(req, res, next){
+    let newUser = {
+        ...req.body,
+        imageRect: JSON.parse(req.body.imageRect)
+    }
+    req.newUser = newUser;
+    next();
   
+}
+
+
+function removeOldAvatars(req,res,next){
+    if(req.user.avatar && req.user.minAvatar){
+        deleteFilesByUrl(getPathForRemove(req.user));
+    }
+    next();
+}
 
 
 module.exports.saveEditUser = saveEditUser;
 module.exports.startEdit = startEdit;
 module.exports.checkMailInDBForEdit = checkMailInDBForEdit;
+module.exports.startUpdateAvatar = startUpdateAvatar;
+module.exports.removeOldAvatars = removeOldAvatars;

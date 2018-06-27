@@ -8,89 +8,14 @@ import { ACTION_FOR_REGISTRATION } from "../../../constans/ActionTypes"
 import { registration } from "../../../actions/Account"
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Content from "../../../content/registration"
-
+import AvatarPricker from "../../common/avatarPicker";
 
 class RegistrationAvatar extends React.Component {
-  state = {
-    position: { x: 0.5, y: 0.5 },
-    scale: 1,
-    rotate: 0,
-    borderRadius: 0,
-    preview: null,
-    width: 250,
-    height: 250,
-  }
-
-  handleNewImage = e => {
-    this.props.onImageLoad(e.target.files[0]);
-  }
-
-  handleScaleMy = (e, value) => {
-    const scale = parseFloat(value)
-    this.setState({ scale })
-  }
-
-  logCallback(e) {
-    console.log('callback', e)
-  }
-
-  setEditorRef = editor => {
-    if (editor) this.editor = editor
-  }
-
-  handlePositionChange = position => {
-    this.setState({ position })
-  }
-
-  handleDrop = acceptedFiles => {
-    this.props.onImageLoad(acceptedFiles[0]);
-  }
-
-  registrationHandle = e => {
-   
-    let rect;
-    if(this.editor){
-      rect = this.editor.getCroppingRect()
-    }
-    this.props.registration(rect);
-  }
-
-  skip = e => {
-    this.props.skip();
-  }
-
-  backHandle = e => {
-    this.props.prevStep();
-  }
 
   render() {
 
-    let { register:{ 
-      image: {
-        file:model
-      },
-      validateState: { 
-        image
-      } 
-    }
-  } = this.props
-
-  let editorComponent = model ? 
-   (<ReactAvatarEditor
-      ref={this.setEditorRef}
-      scale={parseFloat(this.state.scale)}
-      width={this.state.width}
-      height={this.state.height}
-      position={this.state.position}
-      onPositionChange={this.handlePositionChange}
-      onLoadFailure={this.logCallback.bind(this, 'onLoadFailed')}
-      onLoadSuccess={this.logCallback.bind(this, 'onLoadSuccess')}
-      onImageReady={this.logCallback.bind(this, 'onImageReady')}
-      image={model}
-      //className="editor-canvas"
-      color={[255,255,255,128]}
-      />) : "Загрузите или перетащите файл с изображением сюда"
-
+    let { onRectChange, onImageLoad, register, skip, registration, prevStep } = this.props;
+   
     return (
       <div className="create-avatar">
         <Toolbar>
@@ -98,56 +23,14 @@ class RegistrationAvatar extends React.Component {
           {Content.StepAvatarHeader}
           </Typography>
         </Toolbar>
-        <Grid container spacing={0}>
-          <Grid item xs={7}>
-            <Dropzone
-              onDrop={this.handleDrop}
-              disableClick
-              multiple={false}
-              style={{ width: this.state.width, height: this.state.height, marginBottom:'70px' }}
-            >
-              <div className="editor-canvas">
-               {editorComponent}
-              </div>
-            </Dropzone>         
-          </Grid>
-          <Grid item xs={4}>
-            <div className="avatar-controll">
-              <div className="avatar-zoom"> 
-                  <span>Масштаб:</span>
-                  <Slider
-                      min={1}
-                      max={2}
-                      step={0.01}
-                      defaultValue={1}
-                      onChange={this.handleScaleMy}
-                      value={this.state.scale}
-                  />
-              </div>
-              <div className="file-input-wrapper">
-                <input
-                    accept="image/*"
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                    onChange={this.handleNewImage}
-                />
-                <label htmlFor="contained-button-file" className="contained-button-file">
-                    <span className="error">{(image.isError) ? image.message : ""}</span>
-                    <Button variant="contained" component="span" >
-                        {Content.LoadFile}
-                    </Button>
-                </label>
-              </div>
-            </div>
-          </Grid>
-        </Grid>
+        
+        <AvatarPricker onRectChange={onRectChange} onImageLoad={onImageLoad} {...register} />
        
         <div className="avatar-buttons">
-            <Button variant="contained" onClick={this.backHandle} color="primary">{Content.PrevButton}</Button>
+            <Button variant="contained" onClick={prevStep} color="primary">{Content.PrevButton}</Button>
             <div>
-              <Button color="primary" onClick={this.skip}>{Content.SkipButton}</Button>
-              <Button variant="contained" onClick={this.registrationHandle} color="primary">{Content.NextButton}</Button>
+              <Button color="primary" onClick={skip}>{Content.SkipButton}</Button>
+              <Button variant="contained" onClick={registration} color="primary">{Content.NextButton}</Button>
             </div>
         </div>
 
@@ -168,8 +51,11 @@ export default connect(
             prevStep: (newValue) => {
               dispatch({ type: ACTION_FOR_REGISTRATION.PREV_STEP})
             },
-            registration: (rect) => {
-              dispatch({ type: ACTION_FOR_REGISTRATION.AVATAR_SUBMIT, payload: rect})
+            onRectChange: (rect) => {
+              dispatch({type: ACTION_FOR_REGISTRATION.ON_IMAGE_RECT_CHANGE_TO_REGISTRATION, payload: rect})
+            },
+            registration: () => {
+              dispatch({ type: ACTION_FOR_REGISTRATION.AVATAR_SUBMIT})
               dispatch(registration());
             },
             skip: () => {

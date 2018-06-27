@@ -2,7 +2,7 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper/Paper';
 import Button from '@material-ui/core/Button/Button';
 import { Link } from 'react-router-dom';
-
+import CommonContent  from "../../../content/common"
 
 class Avatar extends React.Component {
 
@@ -14,7 +14,7 @@ class Avatar extends React.Component {
             <div>{forRender}</div>
             <div className="edit-button-wrapper">
             <Link to={`/edit`}>
-                <Button className="edit-button" variant="contained" color="primary">Редактировать</Button>
+                <Button className="edit-button" variant="contained" color="primary">{CommonContent.Edit}</Button>
             </Link>
             </div>
         </Paper>

@@ -2,13 +2,14 @@
 
 import axios from "axios"
 import { MODEL_NAMES } from "../constans/registration"
-import { ACTION_FOR_REGISTRATION, ACTION_FOR_APP, ACTION_FOR_LOGIN, ACTION_FOR_EDIT } from "../constans/ActionTypes"
+import { ACTION_FOR_REGISTRATION, ACTION_FOR_APP, ACTION_FOR_LOGIN, ACTION_FOR_EDIT, ACTION_FOR_PROFILE } from "../constans/ActionTypes"
 
 import { push } from 'react-router-redux/actions';
 import { COMMON_MESSAGE } from "../constans/common";
 import { getUserModel } from "../scripts/userModel";
-
-
+import registrationContent from "../content/registration"
+import { PROFILE_CONTENT } from "../content/profile"
+import * as API from "../constans/apiUrl"
 
 
 export const registration = () => (dispatch, getState) => {
@@ -29,14 +30,16 @@ export const registration = () => (dispatch, getState) => {
    if(!isValid)
     return;
 
-   var params = new FormData();
+   
 
-   var { REGISTRATION_QUERY_ERROR, REGISTRATION_QUERY_SUCCESS } = ACTION_FOR_REGISTRATION;
+   let { REGISTRATION_QUERY_ERROR, REGISTRATION_QUERY_SUCCESS } = ACTION_FOR_REGISTRATION;
 
    if(isAvatarSkip){
       file = null
       rect = null
    }
+
+   let params = new FormData();
    params.append([MODEL_NAMES.FIRSTNAME], firstname);
    params.append([MODEL_NAMES.SURNAME], surname);
    params.append([MODEL_NAMES.PARRENTNAME], parrentname);
@@ -48,10 +51,10 @@ export const registration = () => (dispatch, getState) => {
 
    dispatch({
      type: ACTION_FOR_APP.SHOW_LOADING_WINDOW,
-     payload: "Идет регистрация"
+     payload: registrationContent.RegistrationLoad
    })
 
-  axios.post('/api/account/registration',params)
+  axios.post(API.REGISTRATION,params)
       .then((res) => {
         dispatch({
           type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
@@ -96,7 +99,7 @@ export const login = () => (dispatch, getState) => {
     })
  
 
-    axios.post('/api/account/login',{email: email.trim(), password})
+    axios.post(API.LOGIN,{email: email.trim(), password})
     .then((res) => {
         dispatch({
           type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
@@ -128,7 +131,7 @@ export const getAuthUserData = () => (dispatch, getState) => {
    if(!isAuthorize)
     return;
     
-    axios.get('/api/account/getAuthUserData', {
+    axios.get(API.GET_AUTH_USER_DATA, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -161,11 +164,11 @@ export const edit = () => (dispatch, getState) => {
 
   dispatch({
     type: ACTION_FOR_APP.SHOW_LOADING_WINDOW,
-    payload: "Обновляем ваши данные"
+    payload: PROFILE_CONTENT.UPDATE_DATA_LOAD
   })
   let Authorization = `Bearer ${token}`
 
-  axios.post('/api/account/edit', getUserModel(getState().edit),{
+  axios.post(API.EDIT, getUserModel(getState().edit),{
     headers: {
       Authorization
     }
@@ -186,6 +189,59 @@ export const edit = () => (dispatch, getState) => {
      .catch((err) => {
        dispatch({
        type: EDIT_QUERY_ERROR,
+       err
+     })
+     dispatch({
+       type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
+     })
+ })
+}
+
+
+
+
+export const updateAvatar = () => (dispatch, getState) => {
+  
+  let { isValid, image, image: {file, rect } } = getState().avatar;
+  let { authorizedUser: { email } } = getState().app;
+  if(!isValid){
+    return;
+  }
+
+  const { AVATAR_UPDATE_QUERY_ERROR, AVATAR_UPDATE_QUERY_SUCCESS } = ACTION_FOR_PROFILE;
+  let { token } = getState().app;
+  
+  dispatch({
+    type: ACTION_FOR_APP.SHOW_LOADING_WINDOW,
+    payload: PROFILE_CONTENT.UPDATE_AVATAR_LOAD
+  })
+  let Authorization = `Bearer ${token}`
+  console.log(image)
+  let params = new FormData();
+  params.append("email", email);
+  params.append("imageFile", file);
+  params.append("imageRect", JSON.stringify(rect));
+
+  axios.post(API.UPDATE_AVATAR, params,{
+    headers: {
+      Authorization
+    }
+  })
+     .then((res) => {
+       dispatch({
+         type: ACTION_FOR_APP.HIDE_LOADING_WINDOW
+      });
+      dispatch({
+        type: ACTION_FOR_APP.SET_USER_DATA,
+        payload: res.data.user
+      });
+      dispatch({
+        type: AVATAR_UPDATE_QUERY_SUCCESS
+      });
+     })
+     .catch((err) => {
+       dispatch({
+       type: AVATAR_UPDATE_QUERY_ERROR,
        err
      })
      dispatch({

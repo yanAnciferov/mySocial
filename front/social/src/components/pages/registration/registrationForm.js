@@ -32,7 +32,12 @@ class RegistrationForm extends Component {
             <Typography variant="title" color="inherit">
                 {Content.StepCommonInfoHeader}
             </Typography>
-            <SetUserInfo buttonText={Content.NextStep} onSubmit={this.onSubmit} onChange={onChange} fieldChange={this.fieldChange} source={register} />
+            <SetUserInfo 
+                    buttonText={Content.NextStep} 
+                    onSubmit={this.onSubmit} 
+                    onChange={onChange} 
+                    fieldChange={this.fieldChange} 
+                    {...register} />
         </div>
     );
     }

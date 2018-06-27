@@ -1,3 +1,5 @@
+var { setTimeout } = require( 'timers');
+
 var { paths } = require('../constants/common');
 var fs = require('fs');
 
@@ -28,11 +30,28 @@ function deleteFiles(files){
   }
 }
 
+function deleteFilesByUrl(Urls){
+  for(var url in Urls){
+    fs.unlink(Urls[url], (err) => {
+      if (err) console.log(err);
+    });
+}
+}
+
+
 function getPathToAvatars({minAvatar, avatar, _id}){
   let pathToImage = `${paths.FULL_PATH_TO_USER_DATA}${_id.toString(16)}/` 
   return {
     minAvatar: (minAvatar) ? pathToImage + minAvatar : paths.PATH_TO_DEFAULT_AVATAR,
     avatar: (avatar) ? pathToImage + avatar : paths.PATH_TO_DEFAULT_AVATAR
+  }
+}
+
+function getPathForRemove({minAvatar, avatar, _id}){
+  let pathToImage = `${paths.PATH_TO_USER_DATA}${_id.toString(16)}/` 
+  return {
+    minAvatar: pathToImage + minAvatar,
+    avatar: pathToImage + avatar
   }
 }
 
@@ -43,8 +62,12 @@ function updateUserAvatarPaths(user){
   return user;
 }
 
+
+
 module.exports.deleteFiles = deleteFiles;
 module.exports.generateRandString = generateRandString;
 module.exports.deleteFolder = deleteFolder;
 module.exports.getPathToAvatars = getPathToAvatars;
 module.exports.updateUserAvatarPaths = updateUserAvatarPaths;
+module.exports.getPathForRemove = getPathForRemove;
+module.exports.deleteFilesByUrl = deleteFilesByUrl;

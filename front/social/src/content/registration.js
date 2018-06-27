@@ -19,7 +19,10 @@ const GoToProfile = "Перейти в профиль"
 const Male = "Мужской"
 const Female = "Женский"
 
+const RegistrationLoad = "Идет регистрация" 
+
 const FinalRegistration = "Завершение регистрации"
+const LoadAvatar = "Загрузите или перетащите файл с изображением сюда"
 
 function MessageAboutSuccesRegistration(firstname){
     return `Поздравляем вас, ${firstname}, вы успешно прошли регистрацию!`
@@ -50,5 +53,7 @@ export default {
     Male,
     Female,
     FinalRegistration,
-    NextStep
+    NextStep,
+    RegistrationLoad,
+    LoadAvatar
 }

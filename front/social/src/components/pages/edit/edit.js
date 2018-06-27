@@ -5,6 +5,7 @@ import SetUserInfo from "../../common/setUserInfo"
 import { ACTION_FOR_EDIT } from "../../../constans/ActionTypes"
 import { edit } from '../../../actions/Account';
 import CommonContent from "../../../content/common"
+import { PROFILE_CONTENT } from "../../../content/profile"
 
 class Edit extends Component {
 
@@ -27,12 +28,12 @@ class Edit extends Component {
         let { edit, onChange } = this.props;
         return (
             <Paper className="edit-wrapper">
-                <span className="header">Основная информация</span>
+                <span className="header">{PROFILE_CONTENT.MAIN_INFO}</span>
                 <SetUserInfo
                     onSubmit={this.onSubmit} 
                     onChange={onChange} 
                     fieldChange={this.fieldChange} 
-                    source={edit} 
+                    {...edit} 
                     buttonText={CommonContent.Save}/>
             </Paper>
         );
