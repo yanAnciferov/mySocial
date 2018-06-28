@@ -1,9 +1,8 @@
-import {imageValidation,validate} from "../scripts/validate"
+import {imageValidation} from "../scripts/validate"
 
-import { ACTION_FOR_REGISTRATION, ACTION_FOR_EDIT, ACTION_FOR_PROFILE } from "../constans/ActionTypes"
-import { errors } from "../constans/errors"
+import { ACTION_FOR_EDIT, ACTION_FOR_PROFILE } from "../constans/ActionTypes"
 
-import { MODEL_NAMES, MESSAGE } from "../constans/registration"
+import { MESSAGE } from "../constans/registration"
 
 
 
@@ -25,9 +24,7 @@ const initialState = {
 
 
 export default function (state = initialState, action) {
-    let actionTypes = ACTION_FOR_REGISTRATION;
-
-
+    
     if(action.type === ACTION_FOR_EDIT.ON_IMAGE_LOAD_TO_EDIT){
         
         let imageValidationResult = imageValidation(action.payload, false);

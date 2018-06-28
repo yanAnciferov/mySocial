@@ -1,8 +1,5 @@
 import React from 'react'
-import ReactAvatarEditor from 'react-avatar-editor'
-import Dropzone from 'react-dropzone'
-import { Button, Typography, Grid } from "@material-ui/core"
-import Slider from '@material-ui/lab/Slider'
+import { Button, Typography } from "@material-ui/core"
 import { connect } from 'react-redux'
 import { ACTION_FOR_REGISTRATION } from "../../../constans/ActionTypes"
 import { registration } from "../../../actions/Account"

@@ -9,7 +9,7 @@ var { API_METHODS_PATHS } = require("../constants/apiUrl");
 var { simpleErrorHandler } = require("../scripts/errorHandlers/common")
 
 
-router.get(API_METHODS_PATHS.GET_USER_DATA, [verifyToken, checkDbConnection], getUserData)
+router.get(API_METHODS_PATHS.GET_USER_DATA, [verifyToken, getUserData])
         .use(simpleErrorHandler);
 
 module.exports = router;

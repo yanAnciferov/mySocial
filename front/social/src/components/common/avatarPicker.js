@@ -1,12 +1,8 @@
 import React from 'react'
 import ReactAvatarEditor from 'react-avatar-editor'
 import Dropzone from 'react-dropzone'
-import { Button, Typography, Grid } from "@material-ui/core"
+import { Button, Grid } from "@material-ui/core"
 import Slider from '@material-ui/lab/Slider'
-import { connect } from 'react-redux'
-import { ACTION_FOR_REGISTRATION } from "../../constans/ActionTypes"
-import { registration } from "../../actions/Account"
-import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Content from "../../content/registration"
 
 class AvatarPicker extends React.Component {

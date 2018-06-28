@@ -1,12 +1,12 @@
 
 import React from 'react'
-import { Dialog, DialogTitle, DialogActions, Button, DialogContent, DialogContentText} from "@material-ui/core"
+import { Dialog, DialogTitle, DialogActions, Button, DialogContent } from "@material-ui/core"
 import Content from "../../../content/common"
 import AvatarPicker from "../../common/avatarPicker"
 import { connect } from 'react-redux';
 import { ACTION_FOR_EDIT } from '../../../constans/ActionTypes';
 import { updateAvatar } from '../../../actions/Account';
-
+import { PROFILE_CONTENT } from "../../../content/profile"
 class UpdateAvatarWindow extends React.Component {
 
     handleClose= (event, value) => {
@@ -23,7 +23,7 @@ class UpdateAvatarWindow extends React.Component {
             {...other}
             maxWidth={false}
           >
-            <DialogTitle>Выбор аватара</DialogTitle>
+            <DialogTitle>{PROFILE_CONTENT.PICK_AVATAR}</DialogTitle>
             <DialogContent className="avatar-load-window">
                 <AvatarPicker onRectChange={onRectChange} onImageLoad={onImageLoad} {...avatar} />
           </DialogContent>

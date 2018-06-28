@@ -3,10 +3,8 @@ var { saveEditUser }  = require('../scripts/account/edit');
 var { startEdit } = require('../scripts/account/edit');
 var { finishSend } = require('../scripts/midllewares/common');
 var express = require('express');
-var router = express.Router();
 var multer = require('multer');
 var jwt = require('jsonwebtoken');
-var { User } = require('../models/User')
 var { start, checkMailInDB, createUser, checkMailForExistence,
    validate,  clearRegistrationRequest } = require('../scripts/account/registration');
 var { registrationError } = require('../scripts/errorHandlers/account')
@@ -17,11 +15,7 @@ var { login } = require('../scripts/account/login')
 var { createAndSendToken, createToken } = require("../scripts/midllewares/token")
 var { verifyToken } = require('../scripts/midllewares/token')
 var { getAuthUserData } = require('../scripts/account/account')
-var { checkDbConnection } = require('../scripts/midllewares/checkDbConnection')
-var fs = require('fs')
 var { API_METHODS_PATHS } = require('../constants/apiUrl')
-var {deleteFolder} = require('../scripts/utils')
-var {paths} = require("../constants/common")
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -34,21 +28,23 @@ var storage = multer.diskStorage({
 
 var uploads = multer({storage});
 
+var router = express.Router();
+
 router.use(simpleErrorHandler)
 
-router.post(API_METHODS_PATHS.REGISTRATION, uploads.any(), [checkDbConnection, start, validate, checkMailForExistence, 
+router.post(API_METHODS_PATHS.REGISTRATION, uploads.any(), [start, validate, checkMailForExistence, 
   checkMailInDB, createUser, sendPassword, saveImage, createToken, getAuthUserData, finishSend ])
         .use(registrationError);
 
-router.post(API_METHODS_PATHS.LOGIN, [checkDbConnection, login, createAndSendToken])
+router.post(API_METHODS_PATHS.LOGIN, [login, createAndSendToken])
         .use(simpleErrorHandler);
 
-router.get(API_METHODS_PATHS.GET_AUTHORIZE_USER_DATA, verifyToken, [checkDbConnection, getAuthUserData, finishSend])
+router.get(API_METHODS_PATHS.GET_AUTHORIZE_USER_DATA, verifyToken, [getAuthUserData, finishSend])
         .use(simpleErrorHandler);
 
 
-router.post("/edit", verifyToken ,[checkDbConnection, startEdit, checkMailInDBForEdit, checkMailForExistence, saveEditUser, getAuthUserData, finishSend]).use(simpleErrorHandler);
+router.post(API_METHODS_PATHS.EDIT, verifyToken ,[startEdit, checkMailInDBForEdit, checkMailForExistence, saveEditUser, getAuthUserData, finishSend]).use(simpleErrorHandler);
 
-router.post("/updateAvatar", uploads.any(), [verifyToken, checkDbConnection, startUpdateAvatar, saveImage, removeOldAvatars,getAuthUserData, finishSend ]).use(simpleErrorHandler);
+router.post(API_METHODS_PATHS.UPDATE_AVATAR, uploads.any(), [verifyToken, startUpdateAvatar, saveImage, removeOldAvatars,getAuthUserData, finishSend ]).use(simpleErrorHandler);
 
 module.exports = router;

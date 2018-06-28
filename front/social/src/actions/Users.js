@@ -1,36 +1,19 @@
 
 import axios from "axios"
-import { ACTION_FOR_PROFILE } from "../constans/ActionTypes"
-
+import * as API from "../constans/apiUrl"
+import { getUserDataSuccess, getUserDataError } from "../scripts/actionHandlers/users";
 
 export const getUserData = (id) => (dispatch, getState) => {
-    const {
-      token,
-      isAuthorize
-     } = getState().app;
+  const { isAuthorize } = getState().app;
   
-     if(!isAuthorize)
-      return;
+  if(!isAuthorize)
+    return;
 
-      const Authorization = `Bearer ${token}`;
-      axios.get('/api/users/getUserData',{
-        headers: {
-          Authorization
-        }, 
-        params: {
-          id
-        }
-      })
-      .then((res) => {
-          dispatch({
-            type: ACTION_FOR_PROFILE.CURRENT_USER_SUCCESS,
-            payload: res.data
-          })
-        })
-        .catch((err) => {
-            dispatch({
-                type: ACTION_FOR_PROFILE.CURRENT_USER_ERROR,
-                err
-            })
-      })
-  } 
+  axios.get(API.GET_USER_DATA, { params: { id } })
+  .then((res) => {
+    getUserDataSuccess(dispatch, res.data);
+  })
+  .catch((err) => {
+    getUserDataError(dispatch, err);
+  })
+} 

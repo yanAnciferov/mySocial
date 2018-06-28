@@ -10,10 +10,10 @@ const REGISTRATION = "/registration"
 const LOGIN = "/login"
 const GET_AUTHORIZE_USER_DATA = "/getAuthUserData"
 
-const USERS = API + "/users";
+const USER = API + "/user";
 const GET_USER_DATA = "/getUserData";
-
-
+const EDIT = "/edit"
+const UPDATE_AVATAR = "/updateAvatar"
 
 module.exports.API;
 module.exports.SERVER_DOMAIN;
@@ -25,12 +25,14 @@ module.exports.ACCOUNT = {
 
 module.exports.API_ROUTERS_PATHS = {
     ACCOUNT,
-    USERS
+    USER
 }
 
 module.exports.API_METHODS_PATHS = {
     GET_AUTHORIZE_USER_DATA,
     GET_USER_DATA,
     REGISTRATION,
-    LOGIN
+    LOGIN,
+    EDIT,
+    UPDATE_AVATAR
 }

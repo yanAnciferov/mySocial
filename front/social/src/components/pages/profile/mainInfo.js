@@ -23,7 +23,7 @@ class MainInfoWithUser extends React.Component {
    render() {
         const { user,user: { birthdate, sex, email } } = this.props;
         const items = [
-            { key: PROFILE_CONTENT.BIRTHDATE_INFO, value: new Date(birthdate).toLocaleDateString("ru-RU", PROFILE_CONSTS.DATE_FORMAT)},
+            { key: PROFILE_CONTENT.BIRTHDATE_INFO, value: new Date(birthdate).toLocaleDateString(PROFILE_CONSTS.LOCAL_FORMAT, PROFILE_CONSTS.DATE_FORMAT)},
             { key: PROFILE_CONTENT.SEX_INFO, value: PROFILE_CONTENT.getSex(sex) },
             { key: PROFILE_CONTENT.EMAIL_INFO, value: email }
         ]

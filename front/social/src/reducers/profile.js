@@ -30,7 +30,7 @@ export default function (state = initialState, action) {
 
     if(action.type === ACTION_FOR_PROFILE.CURRENT_USER_ERROR)
     {
-        if(action.err.response.data === errors.NOT_FOUND)
+        if(!action.err.response || action.err.response.data === errors.NOT_FOUND)
         {
             return { 
                 ...state,

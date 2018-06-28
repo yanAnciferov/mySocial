@@ -6,6 +6,8 @@ const SEX = "sex"
 const BIRTHDATE = "birthdate"
 const IMAGE = "image"
 const RECT = "rect"
+
+
 module.exports.USER = {
     FIRSTNAME,
     SURNAME,

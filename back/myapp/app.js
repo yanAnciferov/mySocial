@@ -5,11 +5,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var indexRouter = require('./routes/index');
+var account = require('./routes/account');
 var usersRouter = require('./routes/users');
 var { API_ROUTERS_PATHS } = require("./constants/apiUrl")
 var app = express();
-
+var { checkDbConnection } = require('./scripts/midllewares/checkDbConnection')
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -26,8 +26,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(API_ROUTERS_PATHS.ACCOUNT, indexRouter);
-app.use(API_ROUTERS_PATHS.USERS, usersRouter);
+app.use(checkDbConnection)
+app.use(API_ROUTERS_PATHS.ACCOUNT, account)
+app.use(API_ROUTERS_PATHS.USER, usersRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

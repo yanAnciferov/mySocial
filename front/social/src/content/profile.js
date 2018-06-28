@@ -14,6 +14,8 @@ const UPDATE_AVATAR_LOAD = "Обновляем ваш аватар"
 const MAIL_CONTENT = "Мужской";
 const FEMAIL_CONTENT = "Женский";
 const MAIN_INFO = "Основная информация"
+const UPDATE_AVATAR = "Обновить аватар"
+const PICK_AVATAR = "Выбор аватара"
 
 function getSex(sex){
     return sex === SEX_TYPES.MALE ? MAIL_CONTENT : FEMAIL_CONTENT
@@ -36,6 +38,8 @@ export const PROFILE_CONTENT = {
     UPDATE_DATA_LOAD,
     UPDATE_AVATAR_LOAD,
     MAIN_INFO,
+    UPDATE_AVATAR,
+    PICK_AVATAR,
     getSex,
     getFullName
 }

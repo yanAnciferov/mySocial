@@ -1,9 +1,10 @@
 import { ACTION_FOR_APP, ACTION_FOR_PROFILE } from "../constans/ActionTypes"
 import { errors } from "../constans/errors";
+import { updateAxiosHeaderAuthorization } from "../axios";
 
 
 function getUserFromStorage(){
-
+    updateAxiosHeaderAuthorization(localStorage.getItem("token"));
     let user = localStorage.getItem("userData");
     if(user === "undefined")
     {
@@ -60,23 +61,15 @@ export default function (state = initialState, action) {
         }
     }
     
-    if(action.type === ACTION_FOR_APP.LOGIN){
+
+    if(action.type === ACTION_FOR_APP.SET_AUTHORIZE_USER_DATA || action.type === ACTION_FOR_APP.LOGIN){
         let { token } = action.payload;
         localStorage.setItem("token", token);
+        updateAxiosHeaderAuthorization(token);
         return { 
             ...state,
             isAuthorize: true,
             token
-        }
-    }
-
-
-    if(action.type === ACTION_FOR_APP.SET_AUTHORIZE_USER_DATA){
-        let { token } = action.payload;
-        localStorage.setItem("token", token);
-        return { 
-            ...state,
-            isAuthorize: true
         }
     }
 
@@ -90,7 +83,7 @@ export default function (state = initialState, action) {
         }
     }
 
-    if(action.type === ACTION_FOR_PROFILE.CURRENT_USER_ERROR)
+    if(action.type === ACTION_FOR_PROFILE.CURRENT_USER_ERROR && action.err.response)
     {
 
         if(action.err.response.data === errors.UNAUTHORIZED)
