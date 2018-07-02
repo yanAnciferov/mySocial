@@ -1,5 +1,5 @@
+var { consoleLogErrorHandler } = require( "./errorHandlers/common");
 var { deleteLockedFile }  = require( "./utils");
-
 var {generateRandString} = require("../scripts/utils");
 var {paths} = require("../constants/common");
 var { User } = require('../models/User')
@@ -46,7 +46,9 @@ function saveImage(req,res,next){
                       croped.extract(rectForCrop).resize(300,300).toFile(`${dir}/${minAvatar}`)])
                .then(value => {
                 User.update({email: newUser.email}, {avatar, minAvatar}, function(err, result){
-                    if(err) return console.log(err);
+                    if(err) {
+                        consoleLogErrorHandler(err);
+                    }
                     else { 
                         fs.unlink(image.path)
                         next();

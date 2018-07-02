@@ -8,20 +8,36 @@ import { PROFILE_CONTENT } from '../../../content/profile';
 class Avatar extends React.Component {
 
     render() {
-      const { user, onLoadAvatarClick } = this.props;   
+      const { user, onLoadAvatarClick, isMyPage } = this.props;
+    
       const forRender = user ? <AvatarImageControl onLoadAvatarClick={onLoadAvatarClick} user={user} /> : <div className="avatar-emitter" />
       return (
         <Paper className="avatar-wrapper">
             <div>{forRender}</div>
             <div className="edit-button-wrapper">
-            <Link to={`/edit`}>
-                <Button className="edit-button" variant="contained" color="primary">{CommonContent.Edit}</Button>
-            </Link>
+                <AvatarButton isMyPage={isMyPage} />
             </div>
         </Paper>
       )
     }
   }
+
+
+class AvatarButton extends React.Component
+{
+  render() {
+    let { isMyPage } = this.props;
+    let forRender = isMyPage ? 
+      <Link to={`/edit`}>
+        <Button className="edit-button" variant="contained" color="primary">{CommonContent.Edit}</Button>
+      </Link> : 
+      <Button className="edit-button" variant="contained" color="primary">Добавить в друзья</Button>
+
+    return (
+      <div>{forRender}</div>
+    )
+  }
+}
 
 
 class AvatarImageControl extends React.Component

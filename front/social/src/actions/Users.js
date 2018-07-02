@@ -17,3 +17,4 @@ export const getUserData = (id) => (dispatch, getState) => {
     getUserDataError(dispatch, err);
   })
 } 
+

@@ -9,6 +9,8 @@ import { withRouter } from 'react-router-dom';
 import Routes from './components/common/routes';
 import MainMenu from './components/common/mainMenu'
 import RegistrationSuccess from './components/pages/registration/registrationSuccess';
+import { subscribe } from "./actions/io"
+import MessageQueue from "./components/common/messages/message"
 
 class App extends Component {
   
@@ -16,6 +18,7 @@ class App extends Component {
 
     let {
       onCloseErrorWindow,
+      onTest,
       app: {
         loadingWindow
       },
@@ -33,6 +36,7 @@ class App extends Component {
         <Header />
         <div className="main-wrapper-content">
           <MainMenu/>
+          <MessageQueue />
           <Routes />
         </div>
         <ErrorWindow onClose={onCloseErrorWindow} open={errorWindow.isVisible} value={errorWindow.message} />

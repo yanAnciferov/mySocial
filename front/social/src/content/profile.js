@@ -1,4 +1,5 @@
 import { SEX_TYPES } from "../constans/registration";
+import { TIME } from "../constans/common";
 
 const BIRTHDATE_INFO = "Дата рождения:";
 const SEX_INFO = "Пол:"
@@ -15,6 +16,7 @@ const MAIL_CONTENT = "Мужской";
 const FEMAIL_CONTENT = "Женский";
 const MAIN_INFO = "Основная информация"
 const UPDATE_AVATAR = "Обновить аватар"
+const AGE_INFO = "Возраст: "
 const PICK_AVATAR = "Выбор аватара"
 
 function getSex(sex){
@@ -23,6 +25,10 @@ function getSex(sex){
 
 function getFullName({firstname, surname, parrentname}){
     return parrentname ? `${surname} ${firstname} ${parrentname}` : ` ${firstname} ${surname}`
+}
+
+function getAge(date){
+    return `${((new Date().getTime() - new Date(date)) / (TIME.COUNT_MILLISECONDS_IN_YEAR)) | 0} лет`;
 }
 
 export const PROFILE_CONTENT = {
@@ -40,6 +46,8 @@ export const PROFILE_CONTENT = {
     MAIN_INFO,
     UPDATE_AVATAR,
     PICK_AVATAR,
+    AGE_INFO,
     getSex,
-    getFullName
+    getFullName,
+    getAge
 }

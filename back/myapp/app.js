@@ -6,6 +6,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var account = require('./routes/account');
+var search = require('./routes/search')
 var usersRouter = require('./routes/users');
 var { API_ROUTERS_PATHS } = require("./constants/apiUrl")
 var app = express();
@@ -26,8 +27,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(checkDbConnection)
-app.use(API_ROUTERS_PATHS.ACCOUNT, account)
+app.use(checkDbConnection);
+app.use(API_ROUTERS_PATHS.SEARCH, search);
+app.use(API_ROUTERS_PATHS.ACCOUNT, account);
 app.use(API_ROUTERS_PATHS.USER, usersRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

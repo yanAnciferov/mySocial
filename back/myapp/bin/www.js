@@ -1,15 +1,6 @@
-//import { Stream } from 'stream';
-
-//#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-
 var app = require('../app');
 var debug = require('debug')('myapp:server');
-var http = require('http');
-
+var server = require('http').createServer(app);
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
@@ -18,8 +9,8 @@ var upload = multer();
 var cors = require('cors');
 var { simpleErrorHandler } = require("../scripts/errorHandlers/common")
 var mongoose = require('mongoose');
-
-
+var io = require("socket.io")(server);
+var onConnection = require("../scripts/io/io")
 
 router.use(bodyParser.json()); 
 
@@ -30,7 +21,7 @@ router.use(express.static('public'));
 
 
 mongoose.connect('mongodb://localhost/social')
-  .then(() => console.log("mongo started"))
+  .then(() => { console.log("mongo started");})
   .catch(e => console.log(e))
 
   
@@ -47,7 +38,6 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -116,3 +106,8 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+
+
+
+io.on('connection', (socket) => { onConnection(socket, io) });

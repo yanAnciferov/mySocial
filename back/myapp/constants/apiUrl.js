@@ -1,5 +1,3 @@
-
-
 const API = "/api";
 const SERVER_DOMAIN = "localhost:3001";
 const DEFAULT_AVATAR_PATH = "/uploads/";
@@ -15,6 +13,10 @@ const GET_USER_DATA = "/getUserData";
 const EDIT = "/edit"
 const UPDATE_AVATAR = "/updateAvatar"
 
+
+const SEARCH = API + "/search";
+
+
 module.exports.API;
 module.exports.SERVER_DOMAIN;
 module.exports.DEFAULT_AVATAR_PATH;
@@ -25,7 +27,8 @@ module.exports.ACCOUNT = {
 
 module.exports.API_ROUTERS_PATHS = {
     ACCOUNT,
-    USER
+    USER,
+    SEARCH
 }
 
 module.exports.API_METHODS_PATHS = {

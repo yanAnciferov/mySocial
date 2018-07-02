@@ -1,7 +1,7 @@
 import { ACTION_FOR_APP, ACTION_FOR_PROFILE } from "../constans/ActionTypes"
 import { errors } from "../constans/errors";
 import { updateAxiosHeaderAuthorization } from "../axios";
-
+import { connectToServer } from "../socket"
 
 function getUserFromStorage(){
     updateAxiosHeaderAuthorization(localStorage.getItem("token"));
@@ -12,8 +12,12 @@ function getUserFromStorage(){
         localStorage.removeItem("userData");
         return null;
     }
+    else{
+        connectToServer(user);
+    }
     return (user) ? JSON.parse(user) : null
 }
+
 
 
 const initialState = {
@@ -99,7 +103,54 @@ export default function (state = initialState, action) {
         }
         
     }
-  
+
+    if(action.type === ACTION_FOR_APP.ON_INCOMING){
+        let incoming = state.authorizedUser.incoming;
+        incoming.push(action.payload);
+        return {
+            ...state,
+            authorizedUser: {
+                ...state.authorizedUser,
+                incoming
+            }
+        }
+    }
+
+    if(action.type === ACTION_FOR_APP.ON_OUTGOING){
+        let outgoing = state.authorizedUser.outgoing;
+        outgoing.push(action.payload);
+        return {
+            ...state,
+            authorizedUser: {
+                ...state.authorizedUser,
+                outgoing
+            }
+        }
+    }
+
+
+    if(action.type === ACTION_FOR_APP.ON_ACCEPT  || action.type === ACTION_FOR_APP.ON_ACCEPTED){
+        let friends = state.authorizedUser.friends;
+        let outgoing = state.authorizedUser.outgoing;
+        let incoming = state.authorizedUser.incoming;
+
+        let outIndex = outgoing.findIndex(value => { return value._id === action.payload._id } );
+        if(outIndex != -1)
+            outgoing.splice(outIndex, 1);
+
+        let inIndex = incoming.findIndex(value => { return value._id === action.payload._id } );
+        if(inIndex != -1)
+            incoming.splice(outIndex, 1);
+
+        friends.push(action.payload);
+        return {
+            ...state,
+            authorizedUser: {
+                ...state.authorizedUser,
+                friends
+            }
+        }
+    } 
 
     return state;
 }

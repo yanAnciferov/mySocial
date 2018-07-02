@@ -63,7 +63,6 @@ function getInitState(){
         }
     }
     else {
-        console.log(user === false)
         return { ...initialState };
     }
 }

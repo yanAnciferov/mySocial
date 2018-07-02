@@ -14,6 +14,9 @@ var  userScheme = new Schema({
     hashPassword: { type: String, required: true},
     minAvatar: { type: String, default: null},
     avatar: { type: String, default: null},
+    friends: { type: Array, default: []},
+    incoming: { type: Array, default: []},
+    outgoing: { type: Array, default: []},
     salt: {
         type: String,
         required: true

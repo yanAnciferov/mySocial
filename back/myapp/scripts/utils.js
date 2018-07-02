@@ -1,3 +1,5 @@
+var { consoleLogErrorHandler }  = require('./errorHandlers/common');
+
 var { setTimeout } = require( 'timers');
 
 var { paths } = require('../constants/common');
@@ -25,7 +27,7 @@ function deleteFiles(files){
     for(var file in files){
       file = files[file];
       fs.unlink(file.path, (err) => {
-        if (err) console.log(err);
+        if (err) consoleLogErrorHandler(err);
       });
   }
 }
@@ -33,7 +35,7 @@ function deleteFiles(files){
 function deleteFilesByUrl(Urls){
   for(var url in Urls){
     fs.unlink(Urls[url], (err) => {
-      if (err) console.log(err);
+      if (err) consoleLogErrorHandler(err);
     });
 }
 }

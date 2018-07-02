@@ -1,3 +1,5 @@
+var { userQueries }  = require("../../constants/common");
+
 var { USER_ERRORS } = require("../../constants/errors");
 
 var { paths } = require("../../constants/common");
@@ -11,9 +13,10 @@ var { dispatchError } = require("../errorHandlers/common")
 var jwt = require("jsonwebtoken");
 
 
+
 function getAuthUserData(req, res, next){
     let { user } = req;
-    User.findById(user._id, "firstname surname email birthdate avatar sex minAvatar parrentname", (err, result) => {
+    User.findById(user._id, userQueries.commonUserQuery, (err, result) => {
       if(err || !result){
         dispatchError(res,next,USER_ERRORS.NOT_FOUND, 404);
         return;

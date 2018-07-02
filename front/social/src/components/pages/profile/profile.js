@@ -28,11 +28,15 @@ class Profile extends Component {
     }
 
     render() {
-      const { onLoadAvatarOpen, onLoadAvatarClose, profile:{ userData, isNotFound, isShowAvatarPicker } } = this.props;
+      const { onLoadAvatarOpen, onLoadAvatarClose, id ,profile:{ userData, isNotFound, isShowAvatarPicker }, app: {authorizedUser} } = this.props;
+      
+      const isMyPage = id === authorizedUser._id;
+     
       const forRender = (isNotFound) ? <NotFound/> : 
         <Found
           onLoadAvatarOpen={onLoadAvatarOpen}  
           user={userData}
+          isMyPage={isMyPage}
           isShowAvatarPicker={isShowAvatarPicker}
           onLoadAvatarClose={onLoadAvatarClose}/>
       
@@ -48,14 +52,14 @@ class Profile extends Component {
 class Found extends Component
 {
     render(){
-      let {user, onLoadAvatarOpen, onLoadAvatarClose, isShowAvatarPicker} = this.props;
+      let {user, onLoadAvatarOpen, onLoadAvatarClose, isShowAvatarPicker, isMyPage} = this.props;
       return (
         <div className="profile-page">
           <div className="left-side-profile">
-              <Avatar onLoadAvatarClick={onLoadAvatarOpen} user={user}/>
+              <Avatar isMyPage={isMyPage} onLoadAvatarClick={onLoadAvatarOpen} user={user}/>
           </div>
           <div className="right-side-profile">
-              <MainInfo user={user}/>
+              <MainInfo isMyPage={isMyPage} user={user}/>
           </div>
           <UpdateAvatarWindow onClose={onLoadAvatarClose} open={isShowAvatarPicker}/>
         </div>

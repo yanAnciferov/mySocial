@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import Login from '../pages/login/login';
 import Profile from '../pages/profile/profile';
 import Edit from '../pages/edit/edit';
+import Search from '../pages/search/search';
 
 class Routes extends Component {
   
@@ -28,6 +29,9 @@ class Routes extends Component {
           )}/>
           <Route path="/edit" render={() => (
             isAuthorize ? (<Edit/>) : (<Redirect from="/edit" to="/login"/>)
+          )}/>
+            <Route path="/search" render={() => (
+            isAuthorize ? (<Search/>) : (<Redirect from="/search" to="/login"/>)
           )}/>
           <Route  children={({ match }) => (
             <Route path="/:id" render={({ match:pathlessMatch }) => (
