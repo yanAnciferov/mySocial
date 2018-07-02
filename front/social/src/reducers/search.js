@@ -44,54 +44,45 @@ export default function (state = initialState, action) {
         }
     }
 
-    if(action.type === ACTION_FOR_APP.ON_INCOMING)
+    if(action.type === ACTION_FOR_APP.ON_INCOMING || action.type === ACTION_FOR_APP.ON_OUTGOING
+        || action.type === ACTION_FOR_APP.ON_ACCEPT || action.type === ACTION_FOR_APP.ON_ACCEPTED)
     {
-        let { result } = state;
-        let subscriber = action.payload;
-        let index = result.findIndex((value) => value._id === subscriber._id);
-        if(index != -1)
-        {
-            let updateResults = result;
-            updateResults[index].friendState = FRIEND_STATES.FRIEND_INCOMING;
-            return {
-                ...state,
-                result: updateResults
-            }
-        }
-    }
-
-    if(action.type === ACTION_FOR_APP.ON_OUTGOING)
-    {
-        let { result } = state;
-        let subscriber = action.payload;
-        let index = result.findIndex((value) => value._id === subscriber._id);
-        if(index != -1)
-        {
-            let updateResults = result;
-            updateResults[index].friendState = FRIEND_STATES.FRIEND_OUTGOING;
-            return {
-                ...state,
-                result: updateResults
-            }
-        }
-    }
-
-    if(action.type === ACTION_FOR_APP.ON_ACCEPT || action.type === ACTION_FOR_APP.ON_ACCEPTED)
-    {
-        let { result } = state;
-        let subscriber = action.payload;
-        let index = result.findIndex((value) => value._id === subscriber._id);
-        if(index != -1)
-        {
-            let updateResults = result;
-            updateResults[index].friendState = FRIEND_STATES.FRIEND_YES
-            return {
-                ...state,
-                result: updateResults
-            }
-        }
+        return updateList(action.type, state, action.payload);
     }
  
     return state;
+    
+}
+
+
+function updateList(type, state, user){
+    let { result } = state;
+    let index = result.findIndex((value) => value._id === user._id);
+    let newFriendState;
+    if(index === -1)
+        return state;
+    
+    switch (type) {
+        case ACTION_FOR_APP.ON_INCOMING:
+            newFriendState = FRIEND_STATES.FRIEND_INCOMING;
+            break;
+        case ACTION_FOR_APP.ON_OUTGOING:
+            newFriendState = FRIEND_STATES.FRIEND_OUTGOING;
+            break;
+        case ACTION_FOR_APP.ON_ACCEPT:
+        case ACTION_FOR_APP.ON_ACCEPTED:
+            newFriendState = FRIEND_STATES.FRIEND_YES;
+            break;    
+        
+        default:
+            break;
+    }
+    let updateResults = result;
+    updateResults[index].friendState = newFriendState;
+    return {
+        ...state,
+        result: updateResults
+    }
+    
     
 }

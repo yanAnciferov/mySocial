@@ -9,7 +9,6 @@ import { withRouter } from 'react-router-dom';
 import Routes from './components/common/routes';
 import MainMenu from './components/common/mainMenu'
 import RegistrationSuccess from './components/pages/registration/registrationSuccess';
-import { subscribe } from "./actions/io"
 import MessageQueue from "./components/common/messages/message"
 
 class App extends Component {

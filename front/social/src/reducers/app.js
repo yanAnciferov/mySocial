@@ -130,24 +130,24 @@ export default function (state = initialState, action) {
 
 
     if(action.type === ACTION_FOR_APP.ON_ACCEPT  || action.type === ACTION_FOR_APP.ON_ACCEPTED){
-        let friends = state.authorizedUser.friends;
-        let outgoing = state.authorizedUser.outgoing;
-        let incoming = state.authorizedUser.incoming;
+        let { friends, outgoing, incoming } = state.authorizedUser;
 
-        let outIndex = outgoing.findIndex(value => { return value._id === action.payload._id } );
-        if(outIndex != -1)
-            outgoing.splice(outIndex, 1);
+        let delegate = value => { return value._id === action.payload._id };
 
-        let inIndex = incoming.findIndex(value => { return value._id === action.payload._id } );
-        if(inIndex != -1)
-            incoming.splice(outIndex, 1);
+        let outIndex = outgoing.findIndex(delegate);
+        let inIndex = incoming.findIndex(delegate);
+
+        if(outIndex != -1) outgoing.splice(outIndex, 1);
+        if(inIndex != -1) incoming.splice(inIndex, 1);
 
         friends.push(action.payload);
         return {
             ...state,
             authorizedUser: {
                 ...state.authorizedUser,
-                friends
+                friends,
+                outgoing,
+                incoming
             }
         }
     } 
