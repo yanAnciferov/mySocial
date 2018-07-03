@@ -5,6 +5,7 @@ import login from './login'
 import profile from './profile'
 import edit from './edit'
 import avatar from './avatar'
+import search from './search'
 
 export default {
     register,
@@ -13,5 +14,6 @@ export default {
     login,
     profile,
     edit,
-    avatar
+    avatar,
+    search
 }

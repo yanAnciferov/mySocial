@@ -15,9 +15,18 @@ class MainMenu extends React.Component {
     }
   
     render() {
+
+        
+
         const { authorizedUser } = this.props.app;
+                
         if(!authorizedUser)
             return null;
+
+        let { incoming:{ length } } = authorizedUser;
+        let forFriendsRender = length ? <div>+{authorizedUser.incoming.length}</div> : null
+
+
         return (
             <div className="main-menu">
             <Paper className="main-menu-paper">
@@ -27,12 +36,17 @@ class MainMenu extends React.Component {
                             <ListItemText primary={PROFILE_CONTENT.MY_PAGE} />
                         </MenuItem>
                     </Link>
-                    <MenuItem >
-                        <ListItemText primary={PROFILE_CONTENT.MY_FRIENDS} />
-                    </MenuItem>
-                    <MenuItem>
-                        <ListItemText primary={PROFILE_CONTENT.SEARCH} />
-                    </MenuItem>
+                    <Link to={`/${authorizedUser._id}/friends`}>
+                        <MenuItem >
+                            <ListItemText primary={PROFILE_CONTENT.MY_FRIENDS} />
+                            { forFriendsRender }
+                        </MenuItem>
+                    </Link>
+                    <Link to={`/search`}>
+                        <MenuItem >
+                            <ListItemText primary={PROFILE_CONTENT.SEARCH} />
+                        </MenuItem>
+                    </Link>
                     <MenuItem>
                         <ListItemText primary={PROFILE_CONTENT.MY_NEWS} />
                     </MenuItem>

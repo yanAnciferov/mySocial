@@ -4,6 +4,8 @@ import { errors } from "../constans/errors";
 
 const initialState = {
     userData: null,
+    friends: [],
+    incoming: [],
     isNotFound: false,
     currentPageId: "",
     isShowAvatarPicker: false
@@ -38,6 +40,15 @@ export default function (state = initialState, action) {
                 isNotFound: true
             }
         }        
+    }
+
+    if(action.type === ACTION_FOR_PROFILE.SET_USER_FRIENDS)
+    {
+        return{
+            ...state,
+            friends: action.payload.friends,
+            incoming: action.payload.incoming
+        } 
     }
 
     if(action.type === ACTION_FOR_PROFILE.LOAD_AVATAR_OPEN)

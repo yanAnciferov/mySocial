@@ -14,7 +14,7 @@ var { saveImage } = require('../scripts/image')
 var { login } = require('../scripts/account/login')
 var { createAndSendToken, createToken } = require("../scripts/midllewares/token")
 var { verifyToken } = require('../scripts/midllewares/token')
-var { getAuthUserData } = require('../scripts/account/account')
+var { getAuthUserData, addFriendsToUser } = require('../scripts/account/account')
 var { API_METHODS_PATHS } = require('../constants/apiUrl')
 
 var storage = multer.diskStorage({
@@ -39,7 +39,7 @@ router.post(API_METHODS_PATHS.REGISTRATION, uploads.any(), [start, validate, che
 router.post(API_METHODS_PATHS.LOGIN, [login, createAndSendToken])
         .use(simpleErrorHandler);
 
-router.get(API_METHODS_PATHS.GET_AUTHORIZE_USER_DATA, verifyToken, [getAuthUserData, finishSend])
+router.get(API_METHODS_PATHS.GET_AUTHORIZE_USER_DATA, verifyToken, [getAuthUserData, addFriendsToUser, finishSend])
         .use(simpleErrorHandler);
 
 

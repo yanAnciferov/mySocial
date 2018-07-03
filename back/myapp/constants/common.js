@@ -21,6 +21,16 @@ const PATH_TO_USER_DATA_FOR_CLIENT = "/usersData/";
 const FULL_PATH_TO_USER_DATA = SERVER_DOMAIN + PATH_TO_USER_DATA_FOR_CLIENT;
 const PATH_TO_DEFAULT_AVATAR = FULL_PATH_TO_USER_DATA + "default_avatar.png"
 
+
+const commonUserQuery = "firstname email outgoing incoming friends surname parrentname birthdate sex minAvatar avatar"
+const minUserQuery = "firstname email surname parrentname birthdate sex minAvatar avatar"
+const forMessageUserQuery = "firstname surname parrentname minAvatar avatar"
+
+const FRIEND_YES = "FRIEND_YES"
+const FRIEND_NO = "FRIEND_NO"
+const FRIEND_INCOMING = "FRIEND_INCOMING"
+const FRIEND_OUTGOING = "FRIEND_OUTGOING"
+
 module.exports.IMAGE_SIZE = {
     COUNT_BYTES_IN_KB,
     MAX_IMAGE_SIZE_IN_MB,
@@ -58,4 +68,18 @@ module.exports.paths = {
     FULL_PATH_TO_USER_DATA,
     PATH_TO_DEFAULT_AVATAR,
     PATH_TO_USER_DATA_FOR_CLIENT
+}
+
+module.exports.userQueries = {
+    minUserQuery,
+    commonUserQuery,
+    forMessageUserQuery
+}
+
+
+module.exports.FRIEND_STATES = {
+    FRIEND_YES,
+    FRIEND_NO,
+    FRIEND_INCOMING,
+    FRIEND_OUTGOING
 }

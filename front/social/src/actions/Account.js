@@ -8,6 +8,7 @@ import { PROFILE_CONTENT } from "../content/profile"
 import * as API from "../constans/apiUrl"
 import { registrationSuccess, loginSuccess, loginError, getAuthUserDataError, editSuccess, editError, updateAvatarSuccess, updateAvatarError, registrationError, getAuthUserDataSuccess } from "../scripts/actionHandlers/account";
 import { ShowLoadingWindow } from "../scripts/actionHandlers/common";
+import { getMyFriendsSuccess, getMyFriendsError } from "../scripts/actionHandlers/friends";
 
 
 export const registration = () => (dispatch, getState) => {
@@ -138,3 +139,19 @@ export const updateAvatar = () => (dispatch, getState) => {
     updateAvatarError(dispatch,err)
   })
 }
+
+
+export const getAuthUserFriendList = (id) => (dispatch, getState) => {
+  const { isAuthorize } = getState().app;
+  
+  if(!isAuthorize)
+    return;
+
+  axios.get("api/user/getUserFriendList", { params: { id } })
+  .then((res) => {
+    getMyFriendsSuccess(dispatch, res.data);
+  })
+  .catch((err) => {
+    getMyFriendsError(dispatch, err);
+  })
+} 

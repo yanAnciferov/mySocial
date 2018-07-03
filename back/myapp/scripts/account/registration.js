@@ -75,7 +75,6 @@ function createUser(req,res,next){
     User.createUser(newUser, (err, user) => {
         if (err){
               res.statusCode = 403;
-              console.log(err)
               res.message = err;
               next(res.message);
         } else {

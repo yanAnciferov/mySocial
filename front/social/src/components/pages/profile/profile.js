@@ -1,38 +1,25 @@
 import React, { Component } from 'react';
 import { Paper } from "@material-ui/core"
 import { connect } from 'react-redux';
-import { getAuthUserData } from '../../../actions/Account';
-import { getUserData } from '../../../actions/Users';
 import Avatar from './avatar'
 import MainInfo from './mainInfo'
 import { PROFILE_CONTENT } from '../../../content/profile';
 import { ACTION_FOR_PROFILE } from '../../../constans/ActionTypes';
 import UpdateAvatarWindow from './updateAvatarWindow';
+import FriendsBlock from './friendsBlock'
 
 class Profile extends Component {
 
-    componentWillMount(){
-      this.update(this.props.id);
-    }
-
-    componentWillReceiveProps(nextProps){
-      if(nextProps.id !== this.props.id)
-        this.update(nextProps.id);
-    }
-
-    update(id){
-      const {props} = this;
-      if(id !== props.app.authorizedUser._id)
-        props.onEnter(id);
-      else props.getMyData();
-    }
-
     render() {
-      const { onLoadAvatarOpen, onLoadAvatarClose, profile:{ userData, isNotFound, isShowAvatarPicker } } = this.props;
+      const { onLoadAvatarOpen, onLoadAvatarClose, id ,profile:{ userData, isNotFound, isShowAvatarPicker }, app: {authorizedUser} } = this.props;
+      
+      const isMyPage = id === authorizedUser._id;
+     
       const forRender = (isNotFound) ? <NotFound/> : 
         <Found
           onLoadAvatarOpen={onLoadAvatarOpen}  
           user={userData}
+          isMyPage={isMyPage}
           isShowAvatarPicker={isShowAvatarPicker}
           onLoadAvatarClose={onLoadAvatarClose}/>
       
@@ -44,18 +31,18 @@ class Profile extends Component {
     }
 }
 
-
 class Found extends Component
 {
     render(){
-      let {user, onLoadAvatarOpen, onLoadAvatarClose, isShowAvatarPicker} = this.props;
+      let {user, onLoadAvatarOpen, onLoadAvatarClose, isShowAvatarPicker, isMyPage} = this.props;
       return (
         <div className="profile-page">
           <div className="left-side-profile">
-              <Avatar onLoadAvatarClick={onLoadAvatarOpen} user={user}/>
+              <Avatar isMyPage={isMyPage} onLoadAvatarClick={onLoadAvatarOpen} user={user}/>
+              <FriendsBlock user={user}/>
           </div>
           <div className="right-side-profile">
-              <MainInfo user={user}/>
+              <MainInfo isMyPage={isMyPage} user={user}/>
           </div>
           <UpdateAvatarWindow onClose={onLoadAvatarClose} open={isShowAvatarPicker}/>
         </div>
@@ -83,12 +70,6 @@ export default connect(
       app: state.app
   }),
   dispatch => ({
-    onEnter: (id) => {
-      dispatch(getUserData(id))
-    },
-    getMyData(){
-      dispatch(getAuthUserData())
-    },
     onLoadAvatarOpen(){
       dispatch({type: ACTION_FOR_PROFILE.LOAD_AVATAR_OPEN})
     },
