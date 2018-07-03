@@ -12,7 +12,7 @@ class FriendsBlock extends Component {
         <Paper className="profile-friends">
           <Link className="friends-link" to={`/${user._id}/friends`}>Друзья</Link>
           <div className="min-friends-list">
-            {user.friends.map((value, index) => {
+            {user.friends.slice(0, 6).map((value, index) => {
               return <li key={index} className="min-friend-wrapper">
                         <UserViewForFriendBlock user={value} />
                     </li>
