@@ -50,9 +50,20 @@ function changeUserForMessage(user){
 }
 
 
+function changeUserForClient(user){
+    return{
+        ...updateUserAvatarPaths(user),
+        friends: [],
+        outgoing: [],
+        incoming: []
+    }
+}
+
+
 module.exports = {
     getFriendState,
     itsMe,
     changeUserForSearchRes,
-    changeUserForMessage
+    changeUserForMessage,
+    changeUserForClient
 }

@@ -5,7 +5,7 @@ var { CURRENT_USER_SUCCESS, CURRENT_USER_ERROR } = ACTION_FOR_PROFILE;
 export function getUserDataSuccess (dispatch, data) {
     dispatch({
         type: CURRENT_USER_SUCCESS,
-        payload: data
+        payload: data.user
     })
 }
 

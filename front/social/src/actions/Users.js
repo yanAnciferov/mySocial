@@ -2,6 +2,7 @@
 import axios from "axios"
 import * as API from "../constans/apiUrl"
 import { getUserDataSuccess, getUserDataError } from "../scripts/actionHandlers/users";
+import { getFriendsSuccess, getFriendsError } from "../scripts/actionHandlers/friends";
 
 export const getUserData = (id) => (dispatch, getState) => {
   const { isAuthorize } = getState().app;
@@ -18,3 +19,16 @@ export const getUserData = (id) => (dispatch, getState) => {
   })
 } 
 
+export const getUserFriendList = (id) => (dispatch, getState) => {
+  const { isAuthorize } = getState().app;
+  if(!isAuthorize)
+    return;
+
+  axios.get("api/user/getUserFriendList", { params: { id } })
+  .then((res) => {
+    getFriendsSuccess(dispatch, res.data);
+  })
+  .catch((err) => {
+    getFriendsError(dispatch, err);
+  })
+} 

@@ -5,9 +5,10 @@ import Registration from "../pages/registration/registration"
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Login from '../pages/login/login';
-import Profile from '../pages/profile/profile';
 import Edit from '../pages/edit/edit';
 import Search from '../pages/search/search';
+import ProfileRoutes from "../pages/profile/profileRoute"
+
 
 class Routes extends Component {
   
@@ -33,12 +34,9 @@ class Routes extends Component {
             <Route path="/search" render={() => (
             isAuthorize ? (<Search/>) : (<Redirect from="/search" to="/login"/>)
           )}/>
-          <Route  children={({ match }) => (
-            <Route path="/:id" render={({ match:pathlessMatch }) => (
-              isAuthorize ? (<Profile id={pathlessMatch.params.id}/>) : (<Redirect from="/:id" to="/login"/>)
-            )}/>
+          <Route path="/:id" children={({ match }) => (
+            <ProfileRoutes id={match.params.id}/>
           )}/>
-          <Route/>
         </Switch>
      </div>
     )

@@ -17,7 +17,6 @@ class App extends Component {
 
     let {
       onCloseErrorWindow,
-      onTest,
       app: {
         loadingWindow
       },

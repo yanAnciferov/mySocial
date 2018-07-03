@@ -137,8 +137,8 @@ export default function (state = initialState, action) {
         let outIndex = outgoing.findIndex(delegate);
         let inIndex = incoming.findIndex(delegate);
 
-        if(outIndex != -1) outgoing.splice(outIndex, 1);
-        if(inIndex != -1) incoming.splice(inIndex, 1);
+        if(outIndex !== -1) outgoing.splice(outIndex, 1);
+        if(inIndex !== -1) incoming.splice(inIndex, 1);
 
         friends.push(action.payload);
         return {
@@ -150,7 +150,19 @@ export default function (state = initialState, action) {
                 incoming
             }
         }
-    } 
+    }
+    
+    if(action.type === ACTION_FOR_APP.SET_AUTH_USER_FRIENDS){
+        return {
+            ...state,
+            authorizedUser: {
+                ...state.authorizedUser,
+                friends: action.payload.friends,
+                incoming: action.payload.incoming,
+                outgoing: action.payload.outgoing
+            }
+        }
+    }
 
     return state;
 }

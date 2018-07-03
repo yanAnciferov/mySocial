@@ -36,10 +36,12 @@ class MainMenu extends React.Component {
                             <ListItemText primary={PROFILE_CONTENT.MY_PAGE} />
                         </MenuItem>
                     </Link>
-                    <MenuItem >
-                        <ListItemText primary={PROFILE_CONTENT.MY_FRIENDS} />
-                        { forFriendsRender }
-                    </MenuItem>
+                    <Link to={`/${authorizedUser._id}/friends`}>
+                        <MenuItem >
+                            <ListItemText primary={PROFILE_CONTENT.MY_FRIENDS} />
+                            { forFriendsRender }
+                        </MenuItem>
+                    </Link>
                     <Link to={`/search`}>
                         <MenuItem >
                             <ListItemText primary={PROFILE_CONTENT.SEARCH} />

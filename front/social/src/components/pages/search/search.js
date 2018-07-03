@@ -2,15 +2,13 @@ import React, { Component } from 'react';
 import { Paper } from "@material-ui/core"
 import { connect } from 'react-redux';
 import TextFormControl from "../../common/textFormControl"
-import UserList from "./usersList"
+import UserList from "../../common/usersList"
 import { search } from '../../../actions/Search';
 import { push } from 'react-router-redux/actions';
-import { onSubscribed, onAccept } from '../../../socket';
 import { ACTION_FOR_SEARCH } from '../../../constans/ActionTypes';
 import { SearchContent } from '../../../content/search';
 
 class Search extends Component {
-
 
     componentWillMount(){
         this.props.startSearch();
@@ -27,13 +25,10 @@ class Search extends Component {
 
     render() { 
         
-        let { subscribeToUser, acceptToFriend } = this.props;
         let { result, query } = this.props.search;
         let forRender = result.length ? 
-            <UserList 
-                onSubsribed={subscribeToUser} 
-                usersList={this.props.search.result} 
-                onAccept={acceptToFriend}/> : <div className="search-noresult">{SearchContent.notFound}</div>
+            <UserList usersList={this.props.search.result} /> : 
+                <div className="search-noresult">{SearchContent.notFound}</div>
         return (
         <div >
             <Paper className="search-wrapper">
@@ -64,12 +59,6 @@ export default connect(
             query.set('query', value)
             dispatch(push({ pathname: '/search', search: query.toString() }));
             dispatch(search());
-        },
-        subscribeToUser: (email) => {
-            dispatch(onSubscribed(email))
-        },
-        acceptToFriend: (id) => {
-            dispatch(onAccept(id))
         },
         onChange: (value) => {
             dispatch({type: ACTION_FOR_SEARCH.ON_QUERY_CHANGE, payload: value});

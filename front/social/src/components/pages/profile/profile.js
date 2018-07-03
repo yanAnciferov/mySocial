@@ -1,31 +1,14 @@
 import React, { Component } from 'react';
 import { Paper } from "@material-ui/core"
 import { connect } from 'react-redux';
-import { getAuthUserData } from '../../../actions/Account';
-import { getUserData } from '../../../actions/Users';
 import Avatar from './avatar'
 import MainInfo from './mainInfo'
 import { PROFILE_CONTENT } from '../../../content/profile';
 import { ACTION_FOR_PROFILE } from '../../../constans/ActionTypes';
 import UpdateAvatarWindow from './updateAvatarWindow';
+import FriendsBlock from './friendsBlock'
 
 class Profile extends Component {
-
-    componentWillMount(){
-      this.update(this.props.id);
-    }
-
-    componentWillReceiveProps(nextProps){
-      if(nextProps.id !== this.props.id)
-        this.update(nextProps.id);
-    }
-
-    update(id){
-      const {props} = this;
-      if(id !== props.app.authorizedUser._id)
-        props.onEnter(id);
-      else props.getMyData();
-    }
 
     render() {
       const { onLoadAvatarOpen, onLoadAvatarClose, id ,profile:{ userData, isNotFound, isShowAvatarPicker }, app: {authorizedUser} } = this.props;
@@ -48,7 +31,6 @@ class Profile extends Component {
     }
 }
 
-
 class Found extends Component
 {
     render(){
@@ -57,6 +39,7 @@ class Found extends Component
         <div className="profile-page">
           <div className="left-side-profile">
               <Avatar isMyPage={isMyPage} onLoadAvatarClick={onLoadAvatarOpen} user={user}/>
+              <FriendsBlock user={user}/>
           </div>
           <div className="right-side-profile">
               <MainInfo isMyPage={isMyPage} user={user}/>
@@ -87,12 +70,6 @@ export default connect(
       app: state.app
   }),
   dispatch => ({
-    onEnter: (id) => {
-      dispatch(getUserData(id))
-    },
-    getMyData(){
-      dispatch(getAuthUserData())
-    },
     onLoadAvatarOpen(){
       dispatch({type: ACTION_FOR_PROFILE.LOAD_AVATAR_OPEN})
     },

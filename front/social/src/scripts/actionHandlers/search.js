@@ -9,5 +9,5 @@ export function onSearchSuccess(dispatch, data){
 
 
 export function onSearchError(dispatch, err){
-    
+    console.log(err)
 }
