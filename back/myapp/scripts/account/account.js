@@ -1,3 +1,7 @@
+var { Publication } = require( "../../models/Publication");
+var { Promise } = require( "mongoose");
+var { getPublicationForSend } = require( "../../models/PublicationUtils");
+
 var { userQueries }  = require("../../constants/common");
 
 var { USER_ERRORS } = require("../../constants/errors");
@@ -16,12 +20,17 @@ var { changeUserForSearchRes } = require("../../models/UserUtils");
 
 function getAuthUserData(req, res, next){
   let { user } = req;
-  User.findById(user._id, userQueries.commonUserQuery)
-  .lean()
+  let querie = [ 
+                User.findById(user._id, userQueries.commonUserQuery).lean(),
+                Publication.find({idPublisher: user._id}).limit(5).lean() 
+              ];
+  Promise.all(querie)
   .then(result => {
+    let userData = updateUserAvatarPaths(result[0]);
+    userData.publications = result[1].map(value => { return getPublicationForSend(value, result[0]); })
+    
     res.data = {
-      ...res.data,
-      user: updateUserAvatarPaths(result)
+      user: userData
     }
     next();
   })
@@ -29,6 +38,8 @@ function getAuthUserData(req, res, next){
     dispatchError(res,next,USER_ERRORS.NOT_FOUND, 404);
     return;
   })
+
+
 }
 
 function addFriendsToUser(req, res, next){

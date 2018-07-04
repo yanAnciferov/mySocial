@@ -67,6 +67,18 @@ export default function (state = initialState, action) {
         }   
     }
 
+    if(action.type === ACTION_FOR_APP.ADD_PUBLICATION_TO_WALL)
+    {
+        let { userData } = state;
+        if(userData && action.payload.user._id === userData._id){
+            userData.publications.push(action.payload);
+            return { 
+                ...state,
+                userData
+            }   
+        }
+    }
+
         
 
     return state;

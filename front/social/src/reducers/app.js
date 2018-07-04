@@ -28,7 +28,8 @@ const initialState = {
     },
     isAuthorize: localStorage.getItem("token") !== null,
     token: localStorage.getItem("token"),
-    authorizedUser: getUserFromStorage()
+    authorizedUser: getUserFromStorage(),
+    wallPublications: []
 }
 
 
@@ -162,6 +163,17 @@ export default function (state = initialState, action) {
                 outgoing: action.payload.outgoing
             }
         }
+    }
+
+    if(action.type === ACTION_FOR_APP.ADD_PUBLICATION_TO_WALL){
+        let { authorizedUser } = state;
+        if(authorizedUser && authorizedUser._id === action.payload.user._id){
+            authorizedUser.publications.push(action.payload);
+            return {
+                ...state
+            }
+        }
+        
     }
 
     return state;

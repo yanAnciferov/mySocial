@@ -6,15 +6,23 @@ import MainInfo from './mainInfo'
 import { PROFILE_CONTENT } from '../../../content/profile';
 import { ACTION_FOR_PROFILE } from '../../../constans/ActionTypes';
 import UpdateAvatarWindow from './updateAvatarWindow';
-import FriendsBlock from './friendsBlock'
+import FriendsBlock from './friendsBlock';
+import PublicationCreator from "../../common/publicationCreator";
+import PublicationList from './publication';
+import Wall from './wall';
 
 class Profile extends Component {
 
     render() {
-      const { onLoadAvatarOpen, onLoadAvatarClose, id ,profile:{ userData, isNotFound, isShowAvatarPicker }, app: {authorizedUser} } = this.props;
+      const { 
+        onLoadAvatarOpen, 
+        onLoadAvatarClose, 
+        id,
+        profile:{ userData, isNotFound, isShowAvatarPicker }, 
+        app: {authorizedUser } 
+      } = this.props;
       
       const isMyPage = id === authorizedUser._id;
-     
       const forRender = (isNotFound) ? <NotFound/> : 
         <Found
           onLoadAvatarOpen={onLoadAvatarOpen}  
@@ -34,7 +42,15 @@ class Profile extends Component {
 class Found extends Component
 {
     render(){
-      let {user, onLoadAvatarOpen, onLoadAvatarClose, isShowAvatarPicker, isMyPage} = this.props;
+      let { 
+        user,
+        onLoadAvatarOpen,
+        onLoadAvatarClose, 
+        isShowAvatarPicker, 
+        isMyPage
+      } = this.props;
+
+    
       return (
         <div className="profile-page">
           <div className="left-side-profile">
@@ -43,13 +59,14 @@ class Found extends Component
           </div>
           <div className="right-side-profile">
               <MainInfo isMyPage={isMyPage} user={user}/>
+              <PublicationCreator isMyPage={isMyPage} />
+              <Wall isMyPage={isMyPage} user={user}/>              
           </div>
           <UpdateAvatarWindow onClose={onLoadAvatarClose} open={isShowAvatarPicker}/>
         </div>
       )
     }
 }
-
 
 class NotFound extends Component
 {

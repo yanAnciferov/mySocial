@@ -1,3 +1,7 @@
+var { validatePublication, savePublication }  = require('../scripts/midllewares/publication');
+var { saveImageSimple }  = require('../scripts/image');
+var { startToCreatePublication }  = require('../scripts/midllewares/publication');
+
 var { checkMailInDBForEdit, startUpdateAvatar, removeOldAvatars } = require('../scripts/account/edit');
 var { saveEditUser }  = require('../scripts/account/edit');
 var { startEdit } = require('../scripts/account/edit');
@@ -47,4 +51,7 @@ router.post(API_METHODS_PATHS.EDIT, verifyToken ,[startEdit, checkMailInDBForEdi
 
 router.post(API_METHODS_PATHS.UPDATE_AVATAR, uploads.any(), [verifyToken, startUpdateAvatar, saveImage, removeOldAvatars,getAuthUserData, finishSend ]).use(simpleErrorHandler);
 
+
+router.post("/newPublication", uploads.any(), [verifyToken, startToCreatePublication ,validatePublication, saveImageSimple, savePublication, finishSend ])
+        .use(simpleErrorHandler);
 module.exports = router;

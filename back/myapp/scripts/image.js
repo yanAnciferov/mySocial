@@ -1,3 +1,5 @@
+var { dispatchError }  = require("./errorHandlers/common");
+
 var { consoleLogErrorHandler } = require( "./errorHandlers/common");
 var { deleteLockedFile }  = require( "./utils");
 var {generateRandString} = require("../scripts/utils");
@@ -11,7 +13,6 @@ var { USER_ERRORS } = require("../constants/errors");
 
 function saveImage(req,res,next){
 
-   
     var { newUser } = req;
     User.findOne({email: newUser.email}, (err, result) => {
     var userFromDb = result;
@@ -23,9 +24,9 @@ function saveImage(req,res,next){
     if(req.files.length == 0){
         next();
         return;
-    }else {
-        var image = req.files[0];
     }
+    
+    var image = req.files[0];
     sharp.cache(false);
     const croped = sharp(image.path);
     
@@ -67,4 +68,35 @@ function saveImage(req,res,next){
     })
 }
 
+
+
+
+function saveImageSimple(req,res,next){
+    if(req.files.length == 0){
+        next();
+        return;
+    }
+    let image = req.files[0];
+    let fileName = `${generateRandString(32, -10)}.${image.filename.split('.').pop()}`;
+    let dir = `${paths.PATH_TO_USER_DATA}${req.user._id}`
+    let newPath = `${dir}/${fileName}`;
+    fs.rename(image.path,newPath, (err) => {
+        if(err)
+        {
+            dispatchError(res, next,USER_ERRORS.SAVE_FILE_ERROR ,403);
+            return;
+        }
+        req.savedFile = {
+            fullPath: newPath,
+            fileName
+        };
+        next(); 
+    })
+    
+}
+
+
+
+
 module.exports.saveImage = saveImage;
+module.exports.saveImageSimple = saveImageSimple;

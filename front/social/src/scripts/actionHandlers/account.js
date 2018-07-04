@@ -1,5 +1,5 @@
 import { getAuthUserData } from "../../actions/Account";
-import { ACTION_FOR_APP, ACTION_FOR_LOGIN, ACTION_FOR_REGISTRATION, ACTION_FOR_EDIT, ACTION_FOR_PROFILE } from "../../constans/ActionTypes";
+import { ACTION_FOR_APP, ACTION_FOR_LOGIN, ACTION_FOR_REGISTRATION, ACTION_FOR_EDIT, ACTION_FOR_PROFILE, ACTION_FOR_PUBLICATION } from "../../constans/ActionTypes";
 import { push } from "react-router-redux/actions";
 import { HideLoadingWindow } from "./common";
 
@@ -107,4 +107,17 @@ export function updateAvatarError(dispatch,err){
         err
     })
     HideLoadingWindow(dispatch);
+}
+
+
+
+export function sendPublicationSuccess(dispatch,data){
+    dispatch({
+       type: ACTION_FOR_PUBLICATION.ON_PUBLICATION_SUCCESS
+    });
+}
+
+
+export function sendPublicationError(dispatch,err){
+    console.log(err);
 }

@@ -6,7 +6,7 @@ class TextFormControl extends Component {
     
     render() {
     
-        let { label, message, isError, value, onChange, fullWidth, type, inputProps } = this.props;
+        let { label, message, isError, value, onChange, fullWidth, type, inputProps, multiline } = this.props;
         if(!type)
             type="text"
         return (
@@ -19,6 +19,7 @@ class TextFormControl extends Component {
                 error={isError}
                 type={type}
                 inputProps={inputProps}
+                multiline={multiline}
                 />
         </FormControl>
         );

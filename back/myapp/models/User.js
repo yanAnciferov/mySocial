@@ -17,6 +17,7 @@ var  userScheme = new Schema({
     friends: { type: Array, default: []},
     incoming: { type: Array, default: []},
     outgoing: { type: Array, default: []},
+    publication: { type: Array, default: [] },
     salt: {
         type: String,
         required: true

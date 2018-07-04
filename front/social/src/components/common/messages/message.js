@@ -38,12 +38,15 @@ class MessageQueue extends React.Component {
 
         socketOn(OUTGOING,({subscribed})=>{
            this.props.onOutgoing(subscribed);
-        })
+        });
 
         socketOn(ACCEPTED,({subscribed})=>{
             this.props.onAccepted(subscribed);
-        })
+        });
 
+        socketOn("newPublication", (data) => {
+            this.props.onNewPublication(data.publication);
+        });
        
     }
 
@@ -129,6 +132,9 @@ class MessageQueue extends React.Component {
       },
       onAccept: (subscriber) => {
         dispatch({ type: ACTION_FOR_APP.ON_ACCEPTED, payload: subscriber });
+      },
+      onNewPublication: (publication) => {
+        dispatch({ type: ACTION_FOR_APP.ADD_PUBLICATION_TO_WALL, payload: publication });
       }
   })
 )(MessageQueue);

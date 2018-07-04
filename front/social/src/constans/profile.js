@@ -1,4 +1,5 @@
 const DATE_FORMAT = { year: 'numeric', month: 'long', day: 'numeric' };
+const DATE_FORMAT_FOR_PUBLICATION = { year: 'numeric', month: 'short', day: 'numeric' };
 const LOCAL_FORMAT = "ru-RU";
 
 
@@ -17,5 +18,6 @@ export const FRIEND_STATES = {
 
 export const PROFILE_CONSTS = {
     DATE_FORMAT,
+    DATE_FORMAT_FOR_PUBLICATION,
     LOCAL_FORMAT
 }
