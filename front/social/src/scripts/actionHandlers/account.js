@@ -23,6 +23,7 @@ export function registrationSuccess(dispatch,data){
     dispatch({
         type: REGISTRATION_QUERY_SUCCESS
     });
+    dispatch(push(`/${data.user._id}`))
 }
 
 
@@ -42,7 +43,7 @@ export function loginSuccess(dispatch,data){
         type: LOGIN,
         payload: data
     });
-    dispatch(getAuthUserData());
+    dispatch(getAuthUserData(true));
 }
 
 
@@ -55,12 +56,14 @@ export function loginError(dispatch,err){
 }
 
 
-export function getAuthUserDataSuccess(dispatch,data){
+export function getAuthUserDataSuccess(dispatch,data, redirect){
     dispatch({
         type: ACTION_FOR_APP.SET_USER_DATA,
         payload: data.user
     })
-    dispatch(push(`/${data.user._id}`))
+    
+    if(redirect)
+        dispatch(push(`/${data.user._id}`))
 }
 
 
@@ -91,6 +94,7 @@ export function editError(dispatch,err){
 
 export function updateAvatarSuccess(dispatch,data){
     HideLoadingWindow(dispatch);
+    console.log(data.user)
      dispatch({
        type: ACTION_FOR_APP.SET_USER_DATA,
        payload: data.user

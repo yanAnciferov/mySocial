@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Paper, TextField } from "@material-ui/core";
-import Link from 'react-router-dom/Link';
-import TextFormControl from "./textFormControl";
 import Button from '@material-ui/core/Button/Button';
 import { ACTION_FOR_PUBLICATION } from '../../constans/ActionTypes';
 import { connect } from 'react-redux';
 import { sendNewPublication } from "../../actions/Account"
+import commonContent from '../../content/common';
+import { PROFILE_CONTENT } from '../../content/profile';
 
 
 class PublicationCreator extends Component {
@@ -38,10 +38,8 @@ class PublicationCreator extends Component {
 
     
     render() {
-        let { onFocus, onLostFocus, state, onChange, 
-            props: { publication: { text }, isMyPage }  } = this;
-        if(!isMyPage)
-            return null;
+        let { onFocus, onLostFocus, onChange, 
+            props: { publication: { text } }  } = this;
         return (
         <Paper className="pubcreate-wrapper">
             <form onSubmit={this.onSubmit}>
@@ -52,11 +50,11 @@ class PublicationCreator extends Component {
                     onFocus={onFocus} 
                     onBlur={onLostFocus}
                     onChange={onChange}
-                    placeholder="Что у вас нового?" 
+                    placeholder={PROFILE_CONTENT.WHATS_APP} 
                     value={text}
                     />
                 <div className="pubcreate-submit-wrapper">
-                    <Button type="submit" className="pubcreate-submit" variant="contained" color="primary">Отправить</Button>
+                    <Button type="submit" className="pubcreate-submit" variant="contained" color="primary">{commonContent.Send}</Button>
                 </div>
             </form>
         </Paper>
@@ -75,7 +73,6 @@ export default connect(
         },
         onSubmit: () => {
             dispatch({type: ACTION_FOR_PUBLICATION.ON_PUB_SUBMIT});
-            console.log('!!')
             dispatch(sendNewPublication());
         }
     })

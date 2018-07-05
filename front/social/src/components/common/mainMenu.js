@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { ACTION_FOR_APP } from '../../constans/ActionTypes';
 import Paper from '@material-ui/core/Paper/Paper';
 import { PROFILE_CONTENT } from '../../content/profile';
+import { MENU_LINKS } from '../../constans/common';
 
 
 class MainMenu extends React.Component {
@@ -15,9 +16,7 @@ class MainMenu extends React.Component {
     }
   
     render() {
-
-        
-
+        const { FEED, SEARCH, getUrlToMyFriends, getUrlToMyPage } = MENU_LINKS;
         const { authorizedUser } = this.props.app;
                 
         if(!authorizedUser)
@@ -26,30 +25,31 @@ class MainMenu extends React.Component {
         let { incoming:{ length } } = authorizedUser;
         let forFriendsRender = length ? <div>+{authorizedUser.incoming.length}</div> : null
 
-
         return (
             <div className="main-menu">
             <Paper className="main-menu-paper">
                 <MenuList>
-                    <Link to={`/${authorizedUser._id}`}>
+                    <Link to={getUrlToMyPage(authorizedUser._id)}>
                         <MenuItem >
                             <ListItemText primary={PROFILE_CONTENT.MY_PAGE} />
                         </MenuItem>
                     </Link>
-                    <Link to={`/${authorizedUser._id}/friends`}>
+                    <Link to={getUrlToMyFriends(authorizedUser._id)}>
                         <MenuItem >
                             <ListItemText primary={PROFILE_CONTENT.MY_FRIENDS} />
                             { forFriendsRender }
                         </MenuItem>
                     </Link>
-                    <Link to={`/search`}>
+                    <Link to={SEARCH}>
                         <MenuItem >
                             <ListItemText primary={PROFILE_CONTENT.SEARCH} />
                         </MenuItem>
                     </Link>
-                    <MenuItem>
-                        <ListItemText primary={PROFILE_CONTENT.MY_NEWS} />
-                    </MenuItem>
+                    <Link to={FEED}>
+                        <MenuItem >
+                            <ListItemText primary={PROFILE_CONTENT.MY_NEWS} />
+                        </MenuItem>
+                    </Link>
                     <MenuItem>
                         <ListItemText primary={PROFILE_CONTENT.SETTINGS} />
                     </MenuItem>

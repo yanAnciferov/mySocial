@@ -1,13 +1,10 @@
+var { PUBLICATION } = require( "../../constants/modelNames");
 var { Publication } = require( "../../models/Publication");
 var { Promise } = require( "mongoose");
-var { getPublicationForSend } = require( "../../models/PublicationUtils");
-
+var { getPublicationForSendWithUpdateUserAvatar } = require( "../../models/PublicationUtils");
 var { userQueries }  = require("../../constants/common");
-
 var { USER_ERRORS } = require("../../constants/errors");
-
 var { paths } = require("../../constants/common");
-
 var { loginConfig } = require("../../constants/config");
 var { changeUserForClient } = require("../../models/UserUtils");
 var { LOGIN } = require("../../constants/errors");
@@ -15,22 +12,38 @@ var { updateUserAvatarPaths } = require("../utils")
 var { User } = require("../../models/User");
 var { dispatchError } = require("../errorHandlers/common")
 var jwt = require("jsonwebtoken");
-var { changeUserForSearchRes } = require("../../models/UserUtils");
+var { changeUserForSearchRes, updateAvatarsForArrayUsers } = require("../../models/UserUtils");
 
 
 function getAuthUserData(req, res, next){
   let { user } = req;
   let querie = [ 
-                User.findById(user._id, userQueries.commonUserQuery).lean(),
-                Publication.find({idPublisher: user._id}).limit(5).lean() 
+                User.findById(user._id, userQueries.commonUserQuery)
+                .populate({
+                  path: userQueries.friends,
+                  select: userQueries.titleUserQuery,
+                  options: {
+                    limit: 6,
+                  }
+                })
+                .lean(),
+
+                Publication.find({user: user._id})
+                .populate(PUBLICATION.USER ,userQueries.titleUserQuery)
+                .sort(userQueries.DEC_DATE_PUBLICATE_SORT)
+                .limit(userQueries.LIMIT_ON_COUNT_PUBLICATION)
+                .lean()
               ];
   Promise.all(querie)
   .then(result => {
     let userData = updateUserAvatarPaths(result[0]);
-    userData.publications = result[1].map(value => { return getPublicationForSend(value, result[0]); })
-    
+    userData.publications = result[1].map(value => { return getPublicationForSendWithUpdateUserAvatar(value); })
     res.data = {
-      user: userData
+      ...res.data,
+      user: {
+        ...userData,
+        friends: updateAvatarsForArrayUsers(userData.friends)
+      } 
     }
     next();
   })
@@ -38,12 +51,9 @@ function getAuthUserData(req, res, next){
     dispatchError(res,next,USER_ERRORS.NOT_FOUND, 404);
     return;
   })
-
-
 }
 
 function addFriendsToUser(req, res, next){
-  console.log(res.data.user.friends)
   User.find({'_id': { $in: res.data.user.friends } }, userQueries.minUserQuery)
   .limit(10)
   .lean()

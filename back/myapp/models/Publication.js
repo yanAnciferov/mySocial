@@ -1,9 +1,11 @@
+var { MODEL_NAMES } = require('../constants/modelNames');
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
 var  publicationSchema = new Schema({
-    idPublisher: { type: String, required: true },
+    user: { type: Schema.Types.ObjectId, ref: MODEL_NAMES.USER, required: true },
     datePublication: { type: Date, required: true },
     textBody: { type: String, default: "", required: false },
     imageBody: { type: String, default: null, required: false }
@@ -20,6 +22,5 @@ publicationSchema.statics = {
     }
 }
 
-
-exports.Publication = mongoose.model("Publication", publicationSchema);
+exports.Publication = mongoose.model(MODEL_NAMES.PUBLICATION, publicationSchema);
 

@@ -2,22 +2,24 @@ import { SEX_TYPES } from "../constans/registration";
 import { TIME } from "../constans/common";
 
 const BIRTHDATE_INFO = "Дата рождения:";
-const SEX_INFO = "Пол:"
+const SEX_INFO = "Пол:";
 const PAGE_NOT_FOUNT = "Страница не существует";
-const MY_PAGE = "Моя страница"
-const MY_FRIENDS = "Друзья"
-const MY_NEWS = "Новости"
-const SEARCH = "Поиск"
-const SETTINGS = "Настройки"
-const EMAIL_INFO = "Почта:"
-const UPDATE_DATA_LOAD = "Обновляем ваши данные"
-const UPDATE_AVATAR_LOAD = "Обновляем ваш аватар"
+const MY_PAGE = "Моя страница";
+const MY_FRIENDS = "Друзья";
+const MY_NEWS = "Новости";
+const SEARCH = "Поиск";
+const SETTINGS = "Настройки";
+const EMAIL_INFO = "Почта:";
+const UPDATE_DATA_LOAD = "Обновляем ваши данные";
+const UPDATE_AVATAR_LOAD = "Обновляем ваш аватар";
 const MAIL_CONTENT = "Мужской";
 const FEMAIL_CONTENT = "Женский";
-const MAIN_INFO = "Основная информация"
-const UPDATE_AVATAR = "Обновить аватар"
-const AGE_INFO = "Возраст: "
-const PICK_AVATAR = "Выбор аватара"
+const MAIN_INFO = "Основная информация";
+const UPDATE_AVATAR = "Обновить аватар";
+const AGE_INFO = "Возраст: ";
+const PICK_AVATAR = "Выбор аватара";
+const NEWS_NOT_FOUND = "В вашей новостной ленте нет ни одной новости";
+const WHATS_APP = "Что у вас нового?";
 
 function getSex(sex){
     return sex === SEX_TYPES.MALE ? MAIL_CONTENT : FEMAIL_CONTENT
@@ -47,6 +49,8 @@ export const PROFILE_CONTENT = {
     UPDATE_AVATAR,
     PICK_AVATAR,
     AGE_INFO,
+    NEWS_NOT_FOUND,
+    WHATS_APP,
     getSex,
     getFullName,
     getAge

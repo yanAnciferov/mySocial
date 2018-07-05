@@ -19,8 +19,10 @@ class MyFriends extends Component {
         let { emptyMessages } = FriendContent;
         const { value } = this.state;
         const { user } = this.props;
-        const lists = [user.friends, user.incoming, user.outgoing];
-        let forRender = lists[value].length ? <UserList usersList={lists[value]} /> : <div className="friends-list-empty">{emptyMessages[value]}</div>
+        const lists = [user.friends, user.outgoing, user.incoming];
+        let forRender = lists[value].length ? 
+            <UserList usersList={lists[value]} /> 
+            : <div className="friends-list-empty">{emptyMessages[value]}</div>
         return (
         <div className="friends-wrapper">
             <Paper className="friends-content">

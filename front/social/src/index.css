@@ -272,6 +272,7 @@ div.main-menu-paper{
 
 .main-info-wrapper{
   padding: 1em;
+  margin-bottom: 1em;
 }
 
 .main-info-name{
@@ -501,7 +502,7 @@ div.edit-wrapper span.header{
   padding: 2em;
 }
 
-.friends-list-empty{
+.friends-list-empty, .no-news{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -588,7 +589,7 @@ div.edit-wrapper span.header{
 }
 
 .pubcreate-wrapper{
-  margin-top: 1em;
+  margin-bottom: 1em;
   padding: 1em;
 }
 
@@ -605,7 +606,7 @@ button.pubcreate-submit{
   width: 100%;
   padding: 1em;
   box-sizing: border-box;
-  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 .publication-title-wrapper{
@@ -654,5 +655,9 @@ button.pubcreate-submit{
 
 .publication-list ul{
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
+}
+
+.unauthorized-menu button{
+  color: white;
 }

@@ -1,4 +1,4 @@
-import { ACTION_FOR_APP, ACTION_FOR_PROFILE } from "../constans/ActionTypes"
+import { ACTION_FOR_APP, ACTION_FOR_PROFILE, ACTION_FROM_SERVER } from "../constans/ActionTypes"
 import { errors } from "../constans/errors";
 import { updateAxiosHeaderAuthorization } from "../axios";
 import { connectToServer } from "../socket"
@@ -80,8 +80,7 @@ export default function (state = initialState, action) {
 
     
     if(action.type === ACTION_FOR_APP.SET_USER_DATA){
-        localStorage.setItem("userData", JSON.stringify(action.payload))
-        
+        localStorage.setItem("userData", JSON.stringify(action.payload));
         return { 
             ...state,
             authorizedUser: action.payload
@@ -105,53 +104,6 @@ export default function (state = initialState, action) {
         
     }
 
-    if(action.type === ACTION_FOR_APP.ON_INCOMING){
-        let incoming = state.authorizedUser.incoming;
-        incoming.push(action.payload);
-        return {
-            ...state,
-            authorizedUser: {
-                ...state.authorizedUser,
-                incoming
-            }
-        }
-    }
-
-    if(action.type === ACTION_FOR_APP.ON_OUTGOING){
-        let outgoing = state.authorizedUser.outgoing;
-        outgoing.push(action.payload);
-        return {
-            ...state,
-            authorizedUser: {
-                ...state.authorizedUser,
-                outgoing
-            }
-        }
-    }
-
-
-    if(action.type === ACTION_FOR_APP.ON_ACCEPT  || action.type === ACTION_FOR_APP.ON_ACCEPTED){
-        let { friends, outgoing, incoming } = state.authorizedUser;
-
-        let delegate = value => { return value._id === action.payload._id };
-
-        let outIndex = outgoing.findIndex(delegate);
-        let inIndex = incoming.findIndex(delegate);
-
-        if(outIndex !== -1) outgoing.splice(outIndex, 1);
-        if(inIndex !== -1) incoming.splice(inIndex, 1);
-
-        friends.push(action.payload);
-        return {
-            ...state,
-            authorizedUser: {
-                ...state.authorizedUser,
-                friends,
-                outgoing,
-                incoming
-            }
-        }
-    }
     
     if(action.type === ACTION_FOR_APP.SET_AUTH_USER_FRIENDS){
         return {
@@ -165,15 +117,65 @@ export default function (state = initialState, action) {
         }
     }
 
-    if(action.type === ACTION_FOR_APP.ADD_PUBLICATION_TO_WALL){
+    if(action.type === ACTION_FOR_APP.ON_ADD_PUBLICATION){
         let { authorizedUser } = state;
         if(authorizedUser && authorizedUser._id === action.payload.user._id){
-            authorizedUser.publications.push(action.payload);
+            authorizedUser.publications.unshift(action.payload);
             return {
                 ...state
             }
         }
         
+    }
+
+    if(action.type === ACTION_FROM_SERVER.TO_INCOMIG)
+    {
+        let { friends, incoming, _id } = state.authorizedUser;
+        let user = action.payload;
+        let index = friends.findIndex(value => { return value._id === _id })
+        incoming.push(user);
+        friends.splice(index ,1);
+        return {
+            ...state
+        }
+    }
+
+    if(action.type === ACTION_FROM_SERVER.TO_OUTGOING)
+    {
+        let { friends, outgoing, _id } = state.authorizedUser;
+        let user = action.payload;
+        let index = friends.findIndex(value => { return value._id === _id })
+        outgoing.push(user);
+        friends.splice(index ,1);
+        return {
+            ...state
+        }
+    }
+
+    if(action.type === ACTION_FROM_SERVER.TO_NO_FRIEND)
+    {
+        let { friends, incoming, outgoing } = state.authorizedUser;
+        let user = action.payload;
+        let delegate = value => { return value._id === user._id };
+        friends.splice(friends.findIndex(delegate) ,1);
+        outgoing.splice(outgoing.findIndex(delegate) ,1);
+        incoming.splice(incoming.findIndex(delegate) ,1);
+        return {
+            ...state
+        }
+    }
+
+    if(action.type === ACTION_FROM_SERVER.TO_FRIEND)
+    {
+        let { friends, incoming, outgoing, _id } = state.authorizedUser;
+        let user = action.payload;
+        let delegate = value => { return value._id === _id };
+        friends.push(user);
+        outgoing.splice(outgoing.findIndex(delegate) ,1);
+        incoming.splice(incoming.findIndex(delegate) ,1);
+        return {
+            ...state
+        }
     }
 
     return state;

@@ -1,7 +1,6 @@
 var { notifyAboutNewPublication }  = require( "../io/notice");
-
 var { Publication } = require("../../models/Publication");
-var { simpleErrorHandler, dispatchError } = require("../errorHandlers/common");
+var { simpleErrorHandler, dispatchError, consoleLogErrorHandler } = require("../errorHandlers/common");
 var { COMMON, USER_ERRORS } = require("../../constants/errors");
 var { validatePublication } = require("../../scripts/validation")
 
@@ -22,7 +21,7 @@ function validatingPublication(req,res,next)
 function savePublication(req,res,next){
 
     let newPub = {
-        idPublisher: req.user._id,
+        user: req.user._id,
         datePublication: Date.now(),
         textBody: req.publication.textBody,
         imageBody: req.savedFile ? req.savedFile.fileName : null
@@ -31,10 +30,11 @@ function savePublication(req,res,next){
     Publication.createPublication(newPub)
         .then(result => { 
             res.data = { message: "publication created" };
-            notifyAboutNewPublication(req.user, result);
+            notifyAboutNewPublication(req.user, result._doc);
             next();
         })
         .catch(err => {
+            consoleLogErrorHandler(err);
             dispatchError(res,next, COMMON.DB_SAVE_ERROR, 503); 
         })
 } 

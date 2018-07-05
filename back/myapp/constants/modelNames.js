@@ -7,6 +7,13 @@ const BIRTHDATE = "birthdate"
 const IMAGE = "image"
 const RECT = "rect"
 
+const USER = "User";
+const PUBLICATION = "Publication";
+
+module.exports.MODEL_NAMES = {
+    USER,
+    PUBLICATION
+}
 
 module.exports.USER = {
     FIRSTNAME,
@@ -17,4 +24,11 @@ module.exports.USER = {
     BIRTHDATE,
     IMAGE,
     RECT
+}
+
+
+const USER = 'user';
+
+module.exports.PUBLICATION = {
+    USER
 }

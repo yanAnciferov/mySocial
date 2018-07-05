@@ -49,6 +49,7 @@ export const registration = () => (dispatch, getState) => {
 
   axios.post(API.REGISTRATION,params)
     .then((res) => {
+      console.log(res);
       registrationSuccess(dispatch,res.data);
     })
     .catch((err) => {
@@ -75,7 +76,7 @@ export const login = () => (dispatch, getState) => {
 } 
 
 
-export const getAuthUserData = () => (dispatch, getState) => {
+export const getAuthUserData = (redirect) => (dispatch, getState) => {
   const { isAuthorize } = getState().app;
 
   if(!isAuthorize)
@@ -83,7 +84,7 @@ export const getAuthUserData = () => (dispatch, getState) => {
     
   axios.get(API.GET_AUTH_USER_DATA)
   .then((res) => {
-    getAuthUserDataSuccess(dispatch,res.data)
+    getAuthUserDataSuccess(dispatch,res.data, redirect)
   })
   .catch((err) => {
     getAuthUserDataError(dispatch,err);
@@ -147,7 +148,7 @@ export const getAuthUserFriendList = (id) => (dispatch, getState) => {
   if(!isAuthorize)
     return;
 
-  axios.get("api/user/getUserFriendList", { params: { id } })
+  axios.get(API.GET_USER_FRIEND_LIST, { params: { id } })
   .then((res) => {
     getMyFriendsSuccess(dispatch, res.data);
   })
@@ -163,11 +164,11 @@ export const sendNewPublication = () => (dispatch, getState) => {
   if(!isAuthorize)
     return;
 
-  const { isValid, text } = getState().publication;
+  const { text } = getState().publication;
   let params = new FormData();
   params.append("imageFile", null);
   params.append("textBody", text);
-  axios.post("api/account/newPublication", params)
+  axios.post(API.NEW_PUBLICATION, params)
   .then((res) => {
     sendPublicationSuccess(dispatch, res.data);
   })

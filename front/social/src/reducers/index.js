@@ -7,6 +7,7 @@ import edit from './edit'
 import avatar from './avatar'
 import search from './search'
 import publication from './publication'
+import feed from './feed'
 
 export default {
     register,
@@ -17,5 +18,6 @@ export default {
     edit,
     avatar,
     search,
-    publication
+    publication,
+    feed
 }

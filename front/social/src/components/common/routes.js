@@ -8,6 +8,8 @@ import Login from '../pages/login/login';
 import Edit from '../pages/edit/edit';
 import Search from '../pages/search/search';
 import ProfileRoutes from "../pages/profile/profileRoute"
+import Feed from '../pages/feed/feed';
+import { MENU_LINKS } from '../../constans/common';
 
 
 class Routes extends Component {
@@ -15,26 +17,29 @@ class Routes extends Component {
   render() {
     const { authorizedUser } = this.props.app;
     const isAuthorize = authorizedUser !== null;
-    const toMyPagePath = isAuthorize ? `/${authorizedUser._id}` : "/login";
+    const toMyPagePath = isAuthorize ? `/${authorizedUser._id}` : MENU_LINKS.LOGIN;
     return (
       <div className="main-content">
       <Switch>
-          <Route exact path="/" render={() => (
+          <Route exact path={MENU_LINKS.DEFAULT} render={() => (
             <Redirect to={toMyPagePath}/>
           )}/>
-          <Route path="/registration" render={() => (
+          <Route path={MENU_LINKS.REGISTRATION} render={() => (
             isAuthorize ? (<Redirect to={toMyPagePath}/>) : (<Registration/>)
           )}/>
-          <Route path="/login" render={() => (
+          <Route path={MENU_LINKS.LOGIN} render={() => (
             isAuthorize ? (<Redirect to={toMyPagePath}/>) : (<Login/>)
           )}/>
-          <Route path="/edit" render={() => (
-            isAuthorize ? (<Edit/>) : (<Redirect from="/edit" to="/login"/>)
+          <Route path={MENU_LINKS.EDIT}  render={() => (
+            isAuthorize ? (<Edit/>) : (<Redirect from={MENU_LINKS.EDIT} to={MENU_LINKS.LOGIN}/>)
           )}/>
-            <Route path="/search" render={() => (
-            isAuthorize ? (<Search/>) : (<Redirect from="/search" to="/login"/>)
+            <Route path={MENU_LINKS.SEARCH} render={() => (
+            isAuthorize ? (<Search/>) : (<Redirect from={MENU_LINKS.SEARCH} to={MENU_LINKS.LOGIN}/>)
           )}/>
-          <Route path="/:id" children={({ match }) => (
+          <Route path={MENU_LINKS.FEED} render={() => (
+            isAuthorize ? (<Feed/>) : (<Redirect from={MENU_LINKS.FEED} to={MENU_LINKS.LOGIN}/>)
+          )}/>
+          <Route path={MENU_LINKS.ID} children={({ match }) => (
             <ProfileRoutes id={match.params.id}/>
           )}/>
         </Switch>

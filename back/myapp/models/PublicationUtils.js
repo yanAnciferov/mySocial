@@ -1,28 +1,14 @@
 var { paths }  = require("../constants/common");
-
 var { buildPathToImage } = require("../scripts/utils");
 
-
-function getPublicationForSend(publication, user){
-    let { datePublication, imageBody, textBody } = publication;
-    let { _id, firstname, surname, parrentname, minAvatar } = user;
+function getPublicationForSend(publication){
+    let { imageBody } = publication;
     imageBody = imageBody ? buildPathToImage(publication.imageBody, user._id) : null;
-    return{
-        datePublication,
-        imageBody,
-        textBody,
-        user: {
-            _id,
-            firstname,
-            surname,
-            parrentname,
-            minAvatar
-        }
-    }
+    return publication
 }
 
-function getPublicationForSendWithUpdateUserAvatar(publication, user){
-    let pubclication = getPublicationForSend(publication, user);
+function getPublicationForSendWithUpdateUserAvatar(publication){
+    let pubclication = getPublicationForSend(publication);
     let { user: { minAvatar, _id } } = pubclication;
     return {
         ...pubclication,

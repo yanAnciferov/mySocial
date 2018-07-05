@@ -1,4 +1,4 @@
-
+var { MODEL_NAMES }  = require( '../constants/modelNames');
 var mongoose = require('mongoose');
 var crypto = require('crypto')
 var Schema = mongoose.Schema;
@@ -62,5 +62,5 @@ userScheme.statics = {
 }
 
 
-exports.User = mongoose.model("User", userScheme);
+exports.User = mongoose.model(MODEL_NAMES.USER, userScheme);
 

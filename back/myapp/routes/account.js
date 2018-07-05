@@ -49,9 +49,8 @@ router.get(API_METHODS_PATHS.GET_AUTHORIZE_USER_DATA, verifyToken, [getAuthUserD
 
 router.post(API_METHODS_PATHS.EDIT, verifyToken ,[startEdit, checkMailInDBForEdit, checkMailForExistence, saveEditUser, getAuthUserData, finishSend]).use(simpleErrorHandler);
 
-router.post(API_METHODS_PATHS.UPDATE_AVATAR, uploads.any(), [verifyToken, startUpdateAvatar, saveImage, removeOldAvatars,getAuthUserData, finishSend ]).use(simpleErrorHandler);
+router.post(API_METHODS_PATHS.UPDATE_AVATAR, uploads.any(), [verifyToken, startUpdateAvatar, saveImage, removeOldAvatars, getAuthUserData, finishSend ]).use(simpleErrorHandler);
 
-
-router.post("/newPublication", uploads.any(), [verifyToken, startToCreatePublication ,validatePublication, saveImageSimple, savePublication, finishSend ])
+router.post(API_METHODS_PATHS.NEW_PUBLICATION, uploads.any(), [verifyToken, startToCreatePublication ,validatePublication, saveImageSimple, savePublication, finishSend ])
         .use(simpleErrorHandler);
 module.exports = router;

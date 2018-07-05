@@ -1,5 +1,6 @@
 import { ACTION_FOR_APP,  ACTION_FOR_PROFILE } from "../constans/ActionTypes"
 import { errors } from "../constans/errors";
+import { updateFriendStateForUser, checkTypeOnFriendStateChange } from "./reducerUtils";
 
 
 const initialState = {
@@ -66,20 +67,16 @@ export default function (state = initialState, action) {
             isShowAvatarPicker: false
         }   
     }
-
-    if(action.type === ACTION_FOR_APP.ADD_PUBLICATION_TO_WALL)
+    
+    if(checkTypeOnFriendStateChange(action.type))
     {
-        let { userData } = state;
-        if(userData && action.payload.user._id === userData._id){
-            userData.publications.push(action.payload);
-            return { 
+        let user = action.payload;
+        if(state.userData && user._id === state.userData._id)
+            return {
                 ...state,
-                userData
-            }   
-        }
+                userData: updateFriendStateForUser(action.type, state.userData)
+            };
     }
-
-        
 
     return state;
 }

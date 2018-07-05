@@ -7,6 +7,7 @@ import Profile from '../profile/profile';
 import Friends from '../friends/friend';
 import { getUserData } from '../../../actions/Users';
 import { getAuthUserData } from '../../../actions/Account';
+import { MENU_LINKS } from '../../../constans/common';
 
 class ProfileRoutes extends Component {
   
@@ -21,6 +22,8 @@ class ProfileRoutes extends Component {
   
     update(id){
         const {props} = this;
+        if(!props.app.authorizedUser)
+            return
         if(id !== props.app.authorizedUser._id)
             props.onEnter(id);
         else props.getMyData();
@@ -30,13 +33,15 @@ class ProfileRoutes extends Component {
   render() {
     const { authorizedUser } = this.props.app;
     const isAuthorize = authorizedUser !== null;
+    const { ID, FRIENDS, LOGIN } = MENU_LINKS;
     return (
         <Switch>
-            <Route exact path="/:id" render={({ match:pathlessMatch }) => (
-                isAuthorize ? (<Profile id={pathlessMatch.params.id}/>) : (<Redirect from="/:id" to="/login"/>)
+            <Route exact path={`/${ID}${FRIENDS}`} render={({ match:pathlessMatch }) => (
+                isAuthorize ? (<Friends id={pathlessMatch.params.id}/>) : (<Redirect from={`/${ID}${FRIENDS}`} to={LOGIN}/>)
             )}/>
-            <Route exact path="/:id/friends" render={({ match:pathlessMatch }) => (
-                isAuthorize ? (<Friends id={pathlessMatch.params.id}/>) : (<Redirect from="/friends/:id" to="/login"/>)
+            
+            <Route path={ID} render={({ match:pathlessMatch }) => (
+                isAuthorize ? (<Profile id={pathlessMatch.params.id}/>) : (<Redirect from={ID} to={LOGIN}/>)
             )}/>
         </Switch>
     )

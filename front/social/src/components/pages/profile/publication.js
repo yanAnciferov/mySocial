@@ -1,13 +1,6 @@
-
-
-
 import React, { Component } from 'react';
-import { Paper, TextField } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import Link from 'react-router-dom/Link';
-import Button from '@material-ui/core/Button/Button';
-import { ACTION_FOR_PUBLICATION } from '../../../constans/ActionTypes';
-import { connect } from 'react-redux';
-import { sendNewPublication } from "../../../actions/Account"
 import { PROFILE_CONSTS } from '../../../constans/profile';
 
 
@@ -65,6 +58,5 @@ class PublicationList extends Component {
         );
     }
 }
-
 
 export default PublicationList;

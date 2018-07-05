@@ -59,11 +59,15 @@ function changeUserForClient(user){
     }
 }
 
+function updateAvatarsForArrayUsers(users){
+    return users.map(user => { return updateUserAvatarPaths(user); });
+}
 
 module.exports = {
     getFriendState,
     itsMe,
     changeUserForSearchRes,
     changeUserForMessage,
-    changeUserForClient
+    changeUserForClient,
+    updateAvatarsForArrayUsers
 }

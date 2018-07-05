@@ -7,8 +7,7 @@ import { PROFILE_CONTENT } from '../../../content/profile';
 import { ACTION_FOR_PROFILE } from '../../../constans/ActionTypes';
 import UpdateAvatarWindow from './updateAvatarWindow';
 import FriendsBlock from './friendsBlock';
-import PublicationCreator from "../../common/publicationCreator";
-import PublicationList from './publication';
+import PublicationOnProfile from "../../common/publicationOnProfile";
 import Wall from './wall';
 
 class Profile extends Component {
@@ -49,7 +48,6 @@ class Found extends Component
         isShowAvatarPicker, 
         isMyPage
       } = this.props;
-
     
       return (
         <div className="profile-page">
@@ -59,7 +57,7 @@ class Found extends Component
           </div>
           <div className="right-side-profile">
               <MainInfo isMyPage={isMyPage} user={user}/>
-              <PublicationCreator isMyPage={isMyPage} />
+              <PublicationOnProfile isMyPage={isMyPage} />
               <Wall isMyPage={isMyPage} user={user}/>              
           </div>
           <UpdateAvatarWindow onClose={onLoadAvatarClose} open={isShowAvatarPicker}/>

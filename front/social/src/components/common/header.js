@@ -40,14 +40,14 @@ class Header extends React.Component {
 class UnauthorizedMenu extends React.Component {
   render(){
     return (
-      <div>
+      <div className="unauthorized-menu">
         <Link to="/login">
-        <Button color="inherit">
-            {content.ToLogin}
-        </Button>
+          <Button>
+              {content.ToLogin}
+          </Button>
         </Link>
         <Link to="/registration">
-            <Button color="inherit">
+            <Button>
                 {content.ToRegistration}
             </Button>
         </Link>
