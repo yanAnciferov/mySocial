@@ -1,5 +1,5 @@
 var { userQueries }  = require("../constants/common");
-var { PUBLICATION } = require( "../../constants/modelNames");
+var { PUBLICATION } = require("../constants/modelNames");
 var { Publication } = require("../models/Publication");
 var { getPublicationForSendWithUpdateUserAvatar }  = require("../models/PublicationUtils");
 

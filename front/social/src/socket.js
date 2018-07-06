@@ -2,15 +2,12 @@ import io from 'socket.io-client';
 import { JOIN } from './constans/socketEvents';
 import { DOMAIN } from './constans/apiUrl';
 
-
 var socket = null;
 
-function connectToServer(user){
-    if(!user) return;
-
-    let test = JSON.parse(user);
+function connectToServer(id){
+    console.log(id);
     socket = io.connect(DOMAIN);
-    socket.emit(JOIN, { id: test._id });   
+    socket.emit(JOIN, { id });   
 }
 
 function socketOn(event,callback)

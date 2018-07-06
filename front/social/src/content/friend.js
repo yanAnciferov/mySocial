@@ -15,7 +15,7 @@ const subscribersLabel = "Подписчики"
 const noAnotherFriens = "У пользователя пока нет друзей"
 const noAnotherIncomings = "У пользователя пока нет подписчиков"
 
-const emptyMessages = [noFriens, noIncomings, noOutgoings];
+const emptyMessages = [noFriens, noOutgoings, noIncomings];
 const anotherEmptyMessages = [noAnotherFriens, noAnotherIncomings];
 
 

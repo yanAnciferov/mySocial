@@ -1,4 +1,4 @@
-import { ACTION_FOR_APP, ACTION_FOR_PROFILE, ACTION_FROM_SERVER } from "../constans/ActionTypes"
+import { ACTION_FOR_APP, ACTION_FOR_PROFILE, ACTION_FROM_SERVER, ACTION_COMMON } from "../constans/ActionTypes"
 import { errors } from "../constans/errors";
 import { updateAxiosHeaderAuthorization } from "../axios";
 import { connectToServer } from "../socket"
@@ -6,16 +6,17 @@ import { connectToServer } from "../socket"
 function getUserFromStorage(){
     updateAxiosHeaderAuthorization(localStorage.getItem("token"));
     let user = localStorage.getItem("userData");
-    if(user === "undefined")
+    if(!user)
     {
         localStorage.removeItem("token");
         localStorage.removeItem("userData");
         return null;
     }
     else{
-        connectToServer(user);
+        let res = JSON.parse(user);
+        connectToServer(res._id);
+        return res;
     }
-    return (user) ? JSON.parse(user) : null
 }
 
 
@@ -55,6 +56,12 @@ export default function (state = initialState, action) {
         }
     }
 
+    if(action.type === ACTION_COMMON.ON_ROUTE_LOCATION_CHANGE){
+        return {
+            ...state
+        }
+    }
+
     if(action.type === ACTION_FOR_APP.LOGOUT){
         localStorage.removeItem("token");
         localStorage.removeItem("userData");
@@ -86,6 +93,7 @@ export default function (state = initialState, action) {
             authorizedUser: action.payload
         }
     }
+
 
     if(action.type === ACTION_FOR_PROFILE.CURRENT_USER_ERROR && action.err.response)
     {
@@ -130,11 +138,14 @@ export default function (state = initialState, action) {
 
     if(action.type === ACTION_FROM_SERVER.TO_INCOMIG)
     {
-        let { friends, incoming, _id } = state.authorizedUser;
+        let { friends, incoming } = state.authorizedUser;
         let user = action.payload;
-        let index = friends.findIndex(value => { return value._id === _id })
+        let index = friends.findIndex(value => { return value._id === user._id })
         incoming.push(user);
-        friends.splice(index ,1);
+        if(index !== -1) {
+            friends.splice(index ,1);
+        }
+
         return {
             ...state
         }
@@ -142,11 +153,15 @@ export default function (state = initialState, action) {
 
     if(action.type === ACTION_FROM_SERVER.TO_OUTGOING)
     {
-        let { friends, outgoing, _id } = state.authorizedUser;
+        let { friends, outgoing } = state.authorizedUser;
         let user = action.payload;
-        let index = friends.findIndex(value => { return value._id === _id })
+        let index = friends.findIndex(value => { return value._id === user._id })
+
+        if(index !== -1) {
+            friends.splice(index ,1);
+        }
+
         outgoing.push(user);
-        friends.splice(index ,1);
         return {
             ...state
         }
@@ -157,9 +172,13 @@ export default function (state = initialState, action) {
         let { friends, incoming, outgoing } = state.authorizedUser;
         let user = action.payload;
         let delegate = value => { return value._id === user._id };
-        friends.splice(friends.findIndex(delegate) ,1);
-        outgoing.splice(outgoing.findIndex(delegate) ,1);
-        incoming.splice(incoming.findIndex(delegate) ,1);
+        let friendIndex = friends.findIndex(delegate);
+        let outgoingIndex = outgoing.findIndex(delegate);
+        let incomingIndex = incoming.findIndex(delegate);
+        if(friendIndex !== -1) friends.splice(friendIndex ,1);
+        if(outgoingIndex !== -1) outgoing.splice(outgoingIndex ,1);
+        if(incomingIndex !== -1) incoming.splice(incomingIndex ,1);
+
         return {
             ...state
         }
@@ -167,12 +186,14 @@ export default function (state = initialState, action) {
 
     if(action.type === ACTION_FROM_SERVER.TO_FRIEND)
     {
-        let { friends, incoming, outgoing, _id } = state.authorizedUser;
+        let { friends, incoming, outgoing } = state.authorizedUser;
         let user = action.payload;
-        let delegate = value => { return value._id === _id };
+        let delegate = value => { return value._id === user._id };
         friends.push(user);
-        outgoing.splice(outgoing.findIndex(delegate) ,1);
-        incoming.splice(incoming.findIndex(delegate) ,1);
+        let forOut = outgoing.findIndex(delegate);
+        let forIn = incoming.findIndex(delegate)
+        if(forOut !== -1) outgoing.splice(forOut ,1);
+        if(forIn !== -1) incoming.splice(forIn ,1);
         return {
             ...state
         }

@@ -9,17 +9,24 @@ var { User } = require("../models/User");
 var { getPathToImages, updateUserAvatarPaths } = require("./utils")
 var jwt = require("jsonwebtoken");
 var { dispatchError, consoleLogErrorHandler } = require("./errorHandlers/common")
-var { changeUserForSearchRes } = require("../models/UserUtils")
+var { changeUserForSearchRes, updateUserArrayForSend } = require("../models/UserUtils")
 var { userQueries } = require("../constants/common")
 
 function getUserData(req, res, next){
     let { id } = req.query;
     let querie = [ 
-                    User.findById(id, userQueries.commonUserQuery).lean(),
+                    User.findById(id, userQueries.commonUserQuery)
+                    .populate({
+                    path: userQueries.friends,
+                    select: userQueries.minUserQuery,
+                    options: {
+                        limit: 6,
+                    }
+                    })
+                    .lean(),
                     Publication.find({user: id})
                     .populate(PUBLICATION.USER, userQueries.titleUserQuery)
                     .sort(userQueries.DEC_DATE_PUBLICATE_SORT)
-                    .limit(userQueries.LIMIT_ON_COUNT_PUBLICATION)
                     .lean() 
                 ];
     Promise.all(querie)
@@ -27,7 +34,12 @@ function getUserData(req, res, next){
       let userData = changeUserForSearchRes(result[0], req.user);
       userData.publications = result[1].map(value => { return getPublicationForSendWithUpdateUserAvatar(value); })
       res.data = {
-        user: userData
+        user: {
+            ...userData,
+            friends: updateUserArrayForSend(userData.friends, userData),
+            outgoing: updateUserArrayForSend(userData.outgoing, userData),
+            incoming: updateUserArrayForSend(userData.incoming, userData)
+        }
       }
       next();
     })
@@ -62,6 +74,9 @@ function getList(req, res, next){
             dispatchError(res,next,USER_ERRORS.NOT_FOUND,404);
         })
 }
+
+
+
 
 module.exports.getUserData = getUserData;
 module.exports.getUserFriendList = getList;

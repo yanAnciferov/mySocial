@@ -6,6 +6,7 @@ import content from "../../content/header"
 import { connect } from 'react-redux';
 import { ACTION_FOR_APP } from '../../constans/ActionTypes';
 import CircleAvatar from "./circleAvatar"
+import { disconnectToServer } from '../../socket';
 
 class Header extends React.Component {
 
@@ -113,6 +114,7 @@ class HeaderPopupMenu extends React.Component {
     dispatch => ({
       onLogout: () => {
         dispatch({ type: ACTION_FOR_APP.LOGOUT});
+        disconnectToServer();
       }
   })
 )(Header);

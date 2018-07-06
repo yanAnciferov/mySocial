@@ -1,4 +1,4 @@
-var { PUBLICATION } = require( "../../constants/modelNames");
+var { PUBLICATION } = require("../../constants/modelNames");
 var { Publication } = require( "../../models/Publication");
 var { Promise } = require( "mongoose");
 var { getPublicationForSendWithUpdateUserAvatar } = require( "../../models/PublicationUtils");
@@ -12,8 +12,7 @@ var { updateUserAvatarPaths } = require("../utils")
 var { User } = require("../../models/User");
 var { dispatchError } = require("../errorHandlers/common")
 var jwt = require("jsonwebtoken");
-var { changeUserForSearchRes, updateAvatarsForArrayUsers } = require("../../models/UserUtils");
-
+var { changeUserForSearchRes, updateAvatarsForArrayUsers, updateUserArrayForSend } = require("../../models/UserUtils");
 
 function getAuthUserData(req, res, next){
   let { user } = req;
@@ -21,7 +20,7 @@ function getAuthUserData(req, res, next){
                 User.findById(user._id, userQueries.commonUserQuery)
                 .populate({
                   path: userQueries.friends,
-                  select: userQueries.titleUserQuery,
+                  select: userQueries.minUserQuery,
                   options: {
                     limit: 6,
                   }
@@ -31,29 +30,37 @@ function getAuthUserData(req, res, next){
                 Publication.find({user: user._id})
                 .populate(PUBLICATION.USER ,userQueries.titleUserQuery)
                 .sort(userQueries.DEC_DATE_PUBLICATE_SORT)
-                .limit(userQueries.LIMIT_ON_COUNT_PUBLICATION)
                 .lean()
               ];
   Promise.all(querie)
   .then(result => {
     let userData = updateUserAvatarPaths(result[0]);
-    userData.publications = result[1].map(value => { return getPublicationForSendWithUpdateUserAvatar(value); })
+
+    userData.publications = result[1].map(value => { 
+      return getPublicationForSendWithUpdateUserAvatar(value);
+    });
+    
     res.data = {
       ...res.data,
       user: {
         ...userData,
-        friends: updateAvatarsForArrayUsers(userData.friends)
+        friends: updateUserArrayForSend(userData.friends, userData),
+        outgoing: updateUserArrayForSend(userData.outgoing, userData),
+        incoming: updateUserArrayForSend(userData.incoming, userData)
+        }
       } 
-    }
     next();
   })
   .catch(err => {
+    console.log(err);
     dispatchError(res,next,USER_ERRORS.NOT_FOUND, 404);
     return;
   })
 }
 
 function addFriendsToUser(req, res, next){
+  next();
+  return;
   User.find({'_id': { $in: res.data.user.friends } }, userQueries.minUserQuery)
   .limit(10)
   .lean()

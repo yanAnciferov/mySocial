@@ -9,10 +9,12 @@ const RECT = "rect"
 
 const USER = "User";
 const PUBLICATION = "Publication";
+const FRIEND_STATE = "FriendState"
 
 module.exports.MODEL_NAMES = {
     USER,
-    PUBLICATION
+    PUBLICATION,
+    FRIEND_STATE
 }
 
 module.exports.USER = {
@@ -27,8 +29,7 @@ module.exports.USER = {
 }
 
 
-const USER = 'user';
 
 module.exports.PUBLICATION = {
-    USER
+    USER: 'user'
 }

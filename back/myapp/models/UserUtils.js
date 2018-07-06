@@ -59,6 +59,12 @@ function changeUserForClient(user){
     }
 }
 
+function updateUserArrayForSend(users, authorizeUser){
+    return users.map(value => {
+        return changeUserForSearchRes(value, authorizeUser);
+      })
+}
+
 function updateAvatarsForArrayUsers(users){
     return users.map(user => { return updateUserAvatarPaths(user); });
 }
@@ -69,5 +75,6 @@ module.exports = {
     changeUserForSearchRes,
     changeUserForMessage,
     changeUserForClient,
-    updateAvatarsForArrayUsers
+    updateAvatarsForArrayUsers,
+    updateUserArrayForSend
 }

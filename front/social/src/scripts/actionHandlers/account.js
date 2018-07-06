@@ -63,7 +63,9 @@ export function getAuthUserDataSuccess(dispatch,data, redirect){
     })
     
     if(redirect)
-        dispatch(push(`/${data.user._id}`))
+    {
+        dispatch(push(`/${data.user._id}`));
+    }
 }
 
 
@@ -94,7 +96,6 @@ export function editError(dispatch,err){
 
 export function updateAvatarSuccess(dispatch,data){
     HideLoadingWindow(dispatch);
-    console.log(data.user)
      dispatch({
        type: ACTION_FOR_APP.SET_USER_DATA,
        payload: data.user

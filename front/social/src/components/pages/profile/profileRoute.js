@@ -16,7 +16,8 @@ class ProfileRoutes extends Component {
     }
   
     componentWillReceiveProps(nextProps){
-        if(nextProps.id !== this.props.id)
+        const {props} = this;
+        if(nextProps.id !== props.id)
             this.update(nextProps.id);
     }
   
@@ -36,8 +37,8 @@ class ProfileRoutes extends Component {
     const { ID, FRIENDS, LOGIN } = MENU_LINKS;
     return (
         <Switch>
-            <Route exact path={`/${ID}${FRIENDS}`} render={({ match:pathlessMatch }) => (
-                isAuthorize ? (<Friends id={pathlessMatch.params.id}/>) : (<Redirect from={`/${ID}${FRIENDS}`} to={LOGIN}/>)
+            <Route exact path={`${ID}${FRIENDS}`} render={({ match:pathlessMatch }) => (
+                isAuthorize ? (<Friends id={pathlessMatch.params.id}/>) : (<Redirect from={`${ID}${FRIENDS}`} to={LOGIN}/>)
             )}/>
             
             <Route path={ID} render={({ match:pathlessMatch }) => (

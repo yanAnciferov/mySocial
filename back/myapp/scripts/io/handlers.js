@@ -1,5 +1,5 @@
 var { consoleLogErrorHandler } = require("../errorHandlers/common");
-var { JOIN, OUTGOING, INCOMING, ACCEPT, ACCEPTED, REMOVE, REJECT, REJECTED }  = require("../../constants/socketEvents");
+var { JOIN, OUTGOING, INCOMING, ACCEPT, ACCEPTED, REMOVE, REMOVED, REJECT, REJECTED }  = require("../../constants/socketEvents");
 var { userQueries } = require("../../constants/common");
 var { Promise } = require( "mongoose");
 var { User } = require("../../models/User");
@@ -52,7 +52,9 @@ function friendsHandler(data, socket, io, delegate, resActions){
 
             let [ fromRes, toRes ] = results;
 
-            delegate(fromRes, toRes);
+            if(!delegate(fromRes, toRes)){
+                return;
+            }
             
             Promise.all([fromRes.save(), toRes.save()])
                 .then(() => {
@@ -67,40 +69,58 @@ function outgoingDelegate(outgoingUser, incomingUser){
     if(checkOnContainInOutgoingAndIncomig(outgoingUser, incomingUser)){
         outgoingUser.outgoing.push(incomingUser._id);
         incomingUser.incoming.push(outgoingUser._id);
+        return true;
     }
+    return false;
 }
 
 function acceptDelegate(outgoingUser, incomingUser){
-    if(checkOnContainInFriends(outgoingUser, incomingUser)){
+    let result = checkOnOutgoing(outgoingUser, incomingUser);
+    if(result && checkOnContainInFriends(outgoingUser, incomingUser)){
         outgoingUser.friends.push(incomingUser._id);
         incomingUser.friends.push(outgoingUser._id);
-
-        outgoingUser.incoming.splice(outgoingUser.incoming.findIndex(
-            value => { return incomingUser._id === value._id },1))
-        incomingUser.outgoing.splice(incomingUser.outgoing.findIndex(
-            value => { return outgoingUser._id === value._id },1))
-         
-    }
+        
+        outgoingUser.incoming.splice(result.out,1);
+        incomingUser.outgoing.splice(result.in,1);
+        return true;
+    }return false;
 }
 
 function removeDelegate(removing, removable){
-    removing.friends.splice((value)=>{ return removable._id === value._id; }, 1)
-    removable.friends.splice((value)=>{ return removing._id === value._id; }, 1)
+    if(!checkOnContainInFriends(removing, removable) 
+        && checkOnContainInOutgoingAndIncomig(removing, removable)){
+          
+        let removingIndex = findUserInArray(removing.friends, removable);
+        let removableIndex = findUserInArray(removable.friends,removing);
+    
+        if(removingIndex !== -1 && removableIndex !== -1)
+        {
+            removing.friends.splice(removingIndex, 1);
+            removable.friends.splice(removableIndex, 1);
+        }
+        else return false;
 
-    if(checkOnContainInOutgoingAndIncomig(removing, removable)){
         removable.outgoing.push(removing._id);
         removing.incoming.push(removable._id);
+        return true;
     }
+    return false;
 }
 
 
 function rejectDelegate(rejecting, rejectble){
     if(!checkOnContainInOutgoingAndIncomig(rejecting, rejectble)){
-        rejecting.outgoing.splice(rejecting.outgoing.findIndex(
-            value => { return rejectble._id === value._id },1))
-            rejectble.incoming.splice(rejectble.incoming.findIndex(
-            value => { return rejecting._id === value._id },1))
+
+        let rejectionIndex = findUserInArray(rejecting.outgoing, rejectble);
+        let rejectbleIndex = findUserInArray(rejectble.incoming, rejecting);
+
+        if(rejectionIndex !== -1 && rejectbleIndex !== -1){
+            rejecting.outgoing.splice(rejectionIndex,1);
+            rejectble.incoming.splice(rejectbleIndex,1);
+            return true;
+        }       
     }
+    return false;
 }
 
 function checkOnContainInOutgoingAndIncomig(outgoingUser, incomingUser){
@@ -114,4 +134,16 @@ function checkOnContainInOutgoingAndIncomig(outgoingUser, incomingUser){
 function checkOnContainInFriends(outgoingUser, incomingUser){
     return outgoingUser.friends.indexOf(incomingUser._id) == -1 && 
         incomingUser.friends.indexOf(outgoingUser._id) == -1
+}
+
+function checkOnOutgoing(outgoingUser, incomingUser){
+    let index1 = findUserInArray(incomingUser.outgoing,outgoingUser);
+    let index2 = findUserInArray(outgoingUser.incoming,incomingUser);
+
+    return (index1 !== -1 && index2 !== -1) ? { out: index2,  in: index1 } : null;
+}
+
+function findUserInArray(array, user){
+    return array.findIndex(value => { return user._id.toString(16) === value._id.toString(16)})
+
 }
