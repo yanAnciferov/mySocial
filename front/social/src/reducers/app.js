@@ -1,4 +1,4 @@
-import { ACTION_FOR_APP, ACTION_FOR_PROFILE } from "../constans/ActionTypes"
+import { ACTION_FOR_APP, ACTION_FOR_PROFILE, ACTION_FROM_SERVER, ACTION_COMMON } from "../constans/ActionTypes"
 import { errors } from "../constans/errors";
 import { updateAxiosHeaderAuthorization } from "../axios";
 import { connectToServer } from "../socket"
@@ -6,16 +6,17 @@ import { connectToServer } from "../socket"
 function getUserFromStorage(){
     updateAxiosHeaderAuthorization(localStorage.getItem("token"));
     let user = localStorage.getItem("userData");
-    if(user === "undefined")
+    if(!user)
     {
         localStorage.removeItem("token");
         localStorage.removeItem("userData");
         return null;
     }
     else{
-        connectToServer(user);
+        let res = JSON.parse(user);
+        connectToServer(res._id);
+        return res;
     }
-    return (user) ? JSON.parse(user) : null
 }
 
 
@@ -28,7 +29,8 @@ const initialState = {
     },
     isAuthorize: localStorage.getItem("token") !== null,
     token: localStorage.getItem("token"),
-    authorizedUser: getUserFromStorage()
+    authorizedUser: getUserFromStorage(),
+    wallPublications: []
 }
 
 
@@ -51,6 +53,12 @@ export default function (state = initialState, action) {
                 isVisible: false,
                 message: ""
             }
+        }
+    }
+
+    if(action.type === ACTION_COMMON.ON_ROUTE_LOCATION_CHANGE){
+        return {
+            ...state
         }
     }
 
@@ -79,13 +87,13 @@ export default function (state = initialState, action) {
 
     
     if(action.type === ACTION_FOR_APP.SET_USER_DATA){
-        localStorage.setItem("userData", JSON.stringify(action.payload))
-        
+        localStorage.setItem("userData", JSON.stringify(action.payload));
         return { 
             ...state,
             authorizedUser: action.payload
         }
     }
+
 
     if(action.type === ACTION_FOR_PROFILE.CURRENT_USER_ERROR && action.err.response)
     {
@@ -104,53 +112,6 @@ export default function (state = initialState, action) {
         
     }
 
-    if(action.type === ACTION_FOR_APP.ON_INCOMING){
-        let incoming = state.authorizedUser.incoming;
-        incoming.push(action.payload);
-        return {
-            ...state,
-            authorizedUser: {
-                ...state.authorizedUser,
-                incoming
-            }
-        }
-    }
-
-    if(action.type === ACTION_FOR_APP.ON_OUTGOING){
-        let outgoing = state.authorizedUser.outgoing;
-        outgoing.push(action.payload);
-        return {
-            ...state,
-            authorizedUser: {
-                ...state.authorizedUser,
-                outgoing
-            }
-        }
-    }
-
-
-    if(action.type === ACTION_FOR_APP.ON_ACCEPT  || action.type === ACTION_FOR_APP.ON_ACCEPTED){
-        let { friends, outgoing, incoming } = state.authorizedUser;
-
-        let delegate = value => { return value._id === action.payload._id };
-
-        let outIndex = outgoing.findIndex(delegate);
-        let inIndex = incoming.findIndex(delegate);
-
-        if(outIndex !== -1) outgoing.splice(outIndex, 1);
-        if(inIndex !== -1) incoming.splice(inIndex, 1);
-
-        friends.push(action.payload);
-        return {
-            ...state,
-            authorizedUser: {
-                ...state.authorizedUser,
-                friends,
-                outgoing,
-                incoming
-            }
-        }
-    }
     
     if(action.type === ACTION_FOR_APP.SET_AUTH_USER_FRIENDS){
         return {
@@ -161,6 +122,80 @@ export default function (state = initialState, action) {
                 incoming: action.payload.incoming,
                 outgoing: action.payload.outgoing
             }
+        }
+    }
+
+    if(action.type === ACTION_FOR_APP.ON_ADD_PUBLICATION){
+        let { authorizedUser } = state;
+        if(authorizedUser && authorizedUser._id === action.payload.user._id){
+            authorizedUser.publications.unshift(action.payload);
+            return {
+                ...state
+            }
+        }
+        
+    }
+
+    if(action.type === ACTION_FROM_SERVER.TO_INCOMIG)
+    {
+        let { friends, incoming } = state.authorizedUser;
+        let user = action.payload;
+        let index = friends.findIndex(value => { return value._id === user._id })
+        incoming.push(user);
+        if(index !== -1) {
+            friends.splice(index ,1);
+        }
+
+        return {
+            ...state
+        }
+    }
+
+    if(action.type === ACTION_FROM_SERVER.TO_OUTGOING)
+    {
+        let { friends, outgoing } = state.authorizedUser;
+        let user = action.payload;
+        let index = friends.findIndex(value => { return value._id === user._id })
+
+        if(index !== -1) {
+            friends.splice(index ,1);
+        }
+
+        outgoing.push(user);
+        return {
+            ...state
+        }
+    }
+
+    if(action.type === ACTION_FROM_SERVER.TO_NO_FRIEND)
+    {
+        let { friends, incoming, outgoing } = state.authorizedUser;
+        let user = action.payload;
+        let delegate = value => { return value._id === user._id };
+        let friendIndex = friends.findIndex(delegate);
+        let outgoingIndex = outgoing.findIndex(delegate);
+        let incomingIndex = incoming.findIndex(delegate);
+        if(friendIndex !== -1) friends.splice(friendIndex ,1);
+        if(outgoingIndex !== -1) outgoing.splice(outgoingIndex ,1);
+        if(incomingIndex !== -1) incoming.splice(incomingIndex ,1);
+
+        return {
+            ...state
+        }
+    }
+
+    if(action.type === ACTION_FROM_SERVER.TO_FRIEND)
+    {
+        let { friends, incoming, outgoing } = state.authorizedUser;
+        let user = action.payload;
+        let delegate = value => { return value._id === user._id };
+        friends.push(user);
+        let forOut = outgoing.findIndex(delegate);
+        let forIn = incoming.findIndex(delegate)
+        if(forOut !== -1) outgoing.splice(forOut ,1);
+        if(forIn !== -1) incoming.splice(forIn ,1);
+        return {
+            ...state
         }
     }
 

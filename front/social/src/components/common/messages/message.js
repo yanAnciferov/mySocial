@@ -2,7 +2,7 @@ import React from 'react';
 import { socketOn } from "../../../socket"
 import Link from 'react-router-dom/Link';
 import connect from 'react-redux/lib/connect/connect';
-import { ACTION_FOR_APP } from '../../../constans/ActionTypes';
+import { ACTION_FOR_APP, ACTION_FROM_SERVER } from '../../../constans/ActionTypes';
 import { PROFILE_CONTENT } from '../../../content/profile';
 import { onAddMessage, onIncomingMessage } from '../../../content/message';
 import { INCOMING, ACCEPT, OUTGOING, ACCEPTED } from '../../../constans/socketEvents';
@@ -11,39 +11,58 @@ import { INCOMING, ACCEPT, OUTGOING, ACCEPTED } from '../../../constans/socketEv
 class MessageQueue extends React.Component {
 
     componentWillMount(){
-        socketOn(INCOMING,({subscriber})=>{
-            this.props.onIncoming(subscriber);
-            console.log(subscriber);
+
+        let { toIncoming, toOutgoing, toFriend, toNoFriend, onNewPublication } = this.props;
+        socketOn(INCOMING,({user})=>{
+            toIncoming(user);
             this.addMessage({
                 header: onIncomingMessage.header,
-                imageUrl: subscriber.minAvatar,
-                link: `/${subscriber._id}`,
-                textLink: PROFILE_CONTENT.getFullName(subscriber),
+                imageUrl: user.minAvatar,
+                link: `/${user._id}`,
+                textLink: PROFILE_CONTENT.getFullName(user),
                 message: onIncomingMessage.message
             });
         });
 
-        socketOn(ACCEPT,({subscriber})=>{
-            this.props.onAccept(subscriber);
-            console.log(subscriber);
+        socketOn(ACCEPT,({user})=>{
+            toFriend(user);          
+        });
+
+
+        socketOn(OUTGOING,({user})=>{
+           toOutgoing(user);
+        });
+
+        socketOn(ACCEPTED,({user})=>{
+            toFriend(user);
             this.addMessage({
                 header: onAddMessage.header,
-                imageUrl: subscriber.minAvatar,
-                link: `/${subscriber._id}`,
-                textLink: PROFILE_CONTENT.getFullName(subscriber),
+                imageUrl: user.minAvatar,
+                link: `/${user._id}`,
+                textLink: PROFILE_CONTENT.getFullName(user),
                 message: onAddMessage.message
             });
         });
 
+        socketOn('rejected',({user})=>{
+            toNoFriend(user)
+         });
+ 
+         socketOn('removed',({user})=>{
+            toIncoming(user);
+         });
 
-        socketOn(OUTGOING,({subscribed})=>{
-           this.props.onOutgoing(subscribed);
-        })
+         socketOn('reject',({user})=>{
+            toNoFriend(user);
+         });
+ 
+         socketOn('remove',({user})=>{
+            toOutgoing(user);
+         });
 
-        socketOn(ACCEPTED,({subscribed})=>{
-            this.props.onAccepted(subscribed);
-        })
-
+        socketOn("newPublication", (data) => {
+            onNewPublication(data.publication);
+        });
        
     }
 
@@ -118,17 +137,20 @@ class MessageQueue extends React.Component {
         app: state.app
     }),
     dispatch => ({
-      onIncoming: (subscriber) => {
-        dispatch({ type: ACTION_FOR_APP.ON_INCOMING, payload: subscriber });
+      toFriend: (user) => {
+        dispatch({ type: ACTION_FROM_SERVER.TO_FRIEND, payload: user });
       },
-      onOutgoing: (subscriber) => {
-        dispatch({ type: ACTION_FOR_APP.ON_OUTGOING, payload: subscriber });
+      toOutgoing: (user) => {
+        dispatch({ type: ACTION_FROM_SERVER.TO_OUTGOING, payload: user });
       },
-      onAccepted: (subscriber) => {
-        dispatch({ type: ACTION_FOR_APP.ON_ACCEPT, payload: subscriber });
+      toIncoming: (user) => {
+        dispatch({ type: ACTION_FROM_SERVER.TO_INCOMIG, payload: user });
       },
-      onAccept: (subscriber) => {
-        dispatch({ type: ACTION_FOR_APP.ON_ACCEPTED, payload: subscriber });
+      toNoFriend: (user) => {
+        dispatch({ type: ACTION_FROM_SERVER.TO_NO_FRIEND, payload: user });
+      },
+      onNewPublication: (publication) => {
+        dispatch({ type: ACTION_FOR_APP.ON_ADD_PUBLICATION, payload: publication });
       }
   })
 )(MessageQueue);

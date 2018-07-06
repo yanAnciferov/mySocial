@@ -9,7 +9,7 @@ var upload = multer();
 var cors = require('cors');
 var { simpleErrorHandler } = require("../scripts/errorHandlers/common")
 var mongoose = require('mongoose');
-var io = require("socket.io")(server);
+var { initialazeIO } = require("../scripts/io/io")
 var onConnection = require("../scripts/io/io")
 
 router.use(bodyParser.json()); 
@@ -107,7 +107,4 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
-
-
-
-io.on('connection', (socket) => { onConnection(socket, io) });
+initialazeIO(server);

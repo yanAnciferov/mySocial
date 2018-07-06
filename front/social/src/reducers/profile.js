@@ -1,5 +1,6 @@
 import { ACTION_FOR_APP,  ACTION_FOR_PROFILE } from "../constans/ActionTypes"
 import { errors } from "../constans/errors";
+import { updateFriendStateForUser, checkTypeOnFriendStateChange } from "./reducerUtils";
 
 
 const initialState = {
@@ -66,8 +67,16 @@ export default function (state = initialState, action) {
             isShowAvatarPicker: false
         }   
     }
-
-        
+    
+    if(checkTypeOnFriendStateChange(action.type))
+    {
+        let user = action.payload;
+        if(state.userData && user._id === state.userData._id)
+            return {
+                ...state,
+                userData: updateFriendStateForUser(action.type, state.userData)
+            };
+    }
 
     return state;
 }

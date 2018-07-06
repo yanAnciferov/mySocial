@@ -6,6 +6,7 @@ import content from "../../content/header"
 import { connect } from 'react-redux';
 import { ACTION_FOR_APP } from '../../constans/ActionTypes';
 import CircleAvatar from "./circleAvatar"
+import { disconnectToServer } from '../../socket';
 
 class Header extends React.Component {
 
@@ -40,14 +41,14 @@ class Header extends React.Component {
 class UnauthorizedMenu extends React.Component {
   render(){
     return (
-      <div>
+      <div className="unauthorized-menu">
         <Link to="/login">
-        <Button color="inherit">
-            {content.ToLogin}
-        </Button>
+          <Button>
+              {content.ToLogin}
+          </Button>
         </Link>
         <Link to="/registration">
-            <Button color="inherit">
+            <Button>
                 {content.ToRegistration}
             </Button>
         </Link>
@@ -113,6 +114,7 @@ class HeaderPopupMenu extends React.Component {
     dispatch => ({
       onLogout: () => {
         dispatch({ type: ACTION_FOR_APP.LOGOUT});
+        disconnectToServer();
       }
   })
 )(Header);

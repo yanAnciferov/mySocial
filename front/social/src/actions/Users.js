@@ -24,7 +24,7 @@ export const getUserFriendList = (id) => (dispatch, getState) => {
   if(!isAuthorize)
     return;
 
-  axios.get("api/user/getUserFriendList", { params: { id } })
+  axios.get(API.GET_USER_FRIEND_LIST, { params: { id } })
   .then((res) => {
     getFriendsSuccess(dispatch, res.data);
   })

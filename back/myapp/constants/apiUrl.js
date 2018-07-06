@@ -12,10 +12,12 @@ const USER = API + "/user";
 const GET_USER_DATA = "/getUserData";
 const EDIT = "/edit"
 const UPDATE_AVATAR = "/updateAvatar"
-
+const GET_USER_FRIEND_LIST = "/getUserFriendList"
+const NEW_PUBLICATION = "/newPublication";
 
 const SEARCH = API + "/search";
 
+const FEED = API + "/feed";
 
 module.exports.API;
 module.exports.SERVER_DOMAIN;
@@ -28,7 +30,8 @@ module.exports.ACCOUNT = {
 module.exports.API_ROUTERS_PATHS = {
     ACCOUNT,
     USER,
-    SEARCH
+    SEARCH,
+    FEED
 }
 
 module.exports.API_METHODS_PATHS = {
@@ -37,5 +40,7 @@ module.exports.API_METHODS_PATHS = {
     REGISTRATION,
     LOGIN,
     EDIT,
-    UPDATE_AVATAR
+    UPDATE_AVATAR,
+    GET_USER_FRIEND_LIST,
+    NEW_PUBLICATION
 }

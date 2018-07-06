@@ -219,7 +219,6 @@ export default function (state = initialState, action) {
     }
 
     if(action.type === ACTION_FOR_REGISTRATION.ON_IMAGE_RECT_CHANGE_TO_REGISTRATION){
-        console.log(action.payload)
         return {
             ...state,
             image: {

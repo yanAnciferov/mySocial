@@ -22,6 +22,8 @@ const INCORRECT_DATA_FOR_LOGIN = "incorrect data for login"
 const INCORRECT_EMAIL_FOR_LOGIN = "incorrect email for login"
 const INCORRECT_PASSWORD_FOR_LOGIN = "incorrect password for login"
 const NOT_FOUND = "not found"
+const DB_SAVE_ERROR = "db save error"
+const PUBLICATION_VALIDATE_ERROR = "publication validate error"
 
 module.exports.USER_ERRORS = {
     ERROR_SEND_MESSAGE_TO_EMAIL,
@@ -43,12 +45,14 @@ module.exports.USER_ERRORS = {
     FAILED_SEND_MESSAGE_TO_EMAIL,
     SAVE_FILE_ERROR,
     REGISTRATION_USER_MODEL_INVALIDE,
-    NOT_FOUND
+    NOT_FOUND,
+    PUBLICATION_VALIDATE_ERROR
 }
 
 module.exports.COMMON = {
     NO_ERROR,
-    REQUIRED
+    REQUIRED,
+    DB_SAVE_ERROR
 }
 
 module.exports.LOGIN = {

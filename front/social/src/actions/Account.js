@@ -6,7 +6,7 @@ import { getUserModel } from "../scripts/userModel";
 import registrationContent from "../content/registration"
 import { PROFILE_CONTENT } from "../content/profile"
 import * as API from "../constans/apiUrl"
-import { registrationSuccess, loginSuccess, loginError, getAuthUserDataError, editSuccess, editError, updateAvatarSuccess, updateAvatarError, registrationError, getAuthUserDataSuccess } from "../scripts/actionHandlers/account";
+import { registrationSuccess, loginSuccess, loginError, getAuthUserDataError, editSuccess, editError, updateAvatarSuccess, updateAvatarError, registrationError, getAuthUserDataSuccess, sendPublicationSuccess } from "../scripts/actionHandlers/account";
 import { ShowLoadingWindow } from "../scripts/actionHandlers/common";
 import { getMyFriendsSuccess, getMyFriendsError } from "../scripts/actionHandlers/friends";
 
@@ -49,6 +49,7 @@ export const registration = () => (dispatch, getState) => {
 
   axios.post(API.REGISTRATION,params)
     .then((res) => {
+      console.log(res);
       registrationSuccess(dispatch,res.data);
     })
     .catch((err) => {
@@ -75,7 +76,7 @@ export const login = () => (dispatch, getState) => {
 } 
 
 
-export const getAuthUserData = () => (dispatch, getState) => {
+export const getAuthUserData = (redirect) => (dispatch, getState) => {
   const { isAuthorize } = getState().app;
 
   if(!isAuthorize)
@@ -83,7 +84,7 @@ export const getAuthUserData = () => (dispatch, getState) => {
     
   axios.get(API.GET_AUTH_USER_DATA)
   .then((res) => {
-    getAuthUserDataSuccess(dispatch,res.data)
+    getAuthUserDataSuccess(dispatch,res.data, redirect)
   })
   .catch((err) => {
     getAuthUserDataError(dispatch,err);
@@ -147,7 +148,7 @@ export const getAuthUserFriendList = (id) => (dispatch, getState) => {
   if(!isAuthorize)
     return;
 
-  axios.get("api/user/getUserFriendList", { params: { id } })
+  axios.get(API.GET_USER_FRIEND_LIST, { params: { id } })
   .then((res) => {
     getMyFriendsSuccess(dispatch, res.data);
   })
@@ -155,3 +156,23 @@ export const getAuthUserFriendList = (id) => (dispatch, getState) => {
     getMyFriendsError(dispatch, err);
   })
 } 
+
+
+export const sendNewPublication = () => (dispatch, getState) => {
+  const { isAuthorize } = getState().app;
+  
+  if(!isAuthorize)
+    return;
+
+  const { text } = getState().publication;
+  let params = new FormData();
+  params.append("imageFile", null);
+  params.append("textBody", text);
+  axios.post(API.NEW_PUBLICATION, params)
+  .then((res) => {
+    sendPublicationSuccess(dispatch, res.data);
+  })
+  .catch((err) => {
+    sendPublicationSuccess(dispatch, err);
+  })
+}

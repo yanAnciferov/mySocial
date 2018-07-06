@@ -1,4 +1,7 @@
-var { Promise }  = require("mongoose");
+var { PUBLICATION }  = require("../constants/modelNames");
+var { getPublicationForSendWithUpdateUserAvatar } = require("../models/PublicationUtils");
+var { Publication } = require("../models/Publication");
+var { Promise } = require("mongoose");
 var { USER_ERRORS } = require("../constants/errors");
 var { loginConfig } = require("../constants/config");
 var { LOGIN } = require("../constants/errors");
@@ -6,49 +9,74 @@ var { User } = require("../models/User");
 var { getPathToImages, updateUserAvatarPaths } = require("./utils")
 var jwt = require("jsonwebtoken");
 var { dispatchError, consoleLogErrorHandler } = require("./errorHandlers/common")
-var { changeUserForSearchRes } = require("../models/UserUtils")
+var { changeUserForSearchRes, updateUserArrayForSend } = require("../models/UserUtils")
 var { userQueries } = require("../constants/common")
 
 function getUserData(req, res, next){
-    var { id } = req.query;
-    User.findById(id, userQueries.commonUserQuery)
-    .lean()
+    let { id } = req.query;
+    let querie = [ 
+                    User.findById(id, userQueries.commonUserQuery)
+                    .populate({
+                    path: userQueries.friends,
+                    select: userQueries.minUserQuery,
+                    options: {
+                        limit: 6,
+                    }
+                    })
+                    .lean(),
+                    Publication.find({user: id})
+                    .populate(PUBLICATION.USER, userQueries.titleUserQuery)
+                    .sort(userQueries.DEC_DATE_PUBLICATE_SORT)
+                    .lean() 
+                ];
+    Promise.all(querie)
     .then(result => {
-        res.data = { 
-            user: changeUserForSearchRes(result, req.user)
+      let userData = changeUserForSearchRes(result[0], req.user);
+      userData.publications = result[1].map(value => { return getPublicationForSendWithUpdateUserAvatar(value); })
+      res.data = {
+        user: {
+            ...userData,
+            friends: updateUserArrayForSend(userData.friends, userData),
+            outgoing: updateUserArrayForSend(userData.outgoing, userData),
+            incoming: updateUserArrayForSend(userData.incoming, userData)
         }
-        console.log(res.data)
-        next();
+      }
+      next();
     })
     .catch(err => {
-        dispatchError(res,next,USER_ERRORS.NOT_FOUND,404);
+        console.log(err);
+      dispatchError(res,next,USER_ERRORS.NOT_FOUND, 404);
+      return;
     })
-}
+  
+  
+  }
 
 function getList(req, res, next){
 
     var { id } = req.query;
-    User.findById(id, "friends incoming outgoing")
+    User.findById(id, userQueries.friends)
+    .populate(userQueries.friends, userQueries.minUserQuery)
         .lean()
-        .then(userFriendsId => {
-            Promise.all([
-                User.find({'_id': { $in: userFriendsId.friends } }, userQueries.minUserQuery).lean(),
-                User.find({'_id': { $in: userFriendsId.incoming } }, userQueries.minUserQuery).lean(),
-                User.find({'_id': { $in: userFriendsId.outgoing } }, userQueries.minUserQuery).lean()
-            ])
-            .then(results => {
-                res.send({
-                    friends: results[0].map(value => { return changeUserForSearchRes(value, req.user) } ),
-                    incoming: results[1].map(value => { return changeUserForSearchRes(value, req.user) } ),
-                    outgoing: results[2].map(value => { return changeUserForSearchRes(value, req.user) } )
-                });
-            })
-            .catch(err => consoleLogErrorHandler(err));
+        .then(results => {
+
+            let { friends, incoming, outgoing} = results;
+            let delegate = value => { return changeUserForSearchRes(value, req.user) };
+
+            res.send({
+                friends: friends.map(delegate),
+                incoming: incoming.map(delegate),
+                outgoing: outgoing.map(delegate)
+            });
         })
         .catch(err => {
+            console.log(err);
             dispatchError(res,next,USER_ERRORS.NOT_FOUND,404);
         })
 }
+
+
+
 
 module.exports.getUserData = getUserData;
 module.exports.getUserFriendList = getList;

@@ -33,6 +33,32 @@ module.exports.validateUser = function(newUser){
 }
 
 
+module.exports.validatePublication = function(newPublication){
+    
+  
+    let validateStates = {
+        textValid: textValidation(newPublication.textBody, !newPublication.imageFile),
+        imageValid: imageValidation(newPublication.imageFile)
+    }
+
+ 
+    let forReturnState = {
+        isError: false
+    }
+
+    for(var state in validateStates) 
+    {
+        if(validateStates[state].isError){
+            forReturnState[state] = validateStates[state];
+            forReturnState.isError = true
+        }
+    }
+    return forReturnState;
+
+}
+
+
+
 function nameValidate(name, required, typeField) {
 
     let state = {
@@ -247,7 +273,42 @@ function rectValidation(rect, file) {
 }
 
 
+function textValidation(text, required){
+    let state = {
+        isError: false,
+        messages: []
+    }
+
+    let string = "string";
+    if(typeof text !== string  || typeof required !== 'boolean')
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.INVALIDATE_ENTRY_PARAM);
+        return state;
+    }
+    
+    if(text.length == 0)
+    {
+        state.isError = required;
+        state.messages.push((required) ? USER_ERRORS.REQUIRED : USER_ERRORS.NO_ERROR);
+        return state;
+    }
+       
+    if(text.length > 2048)
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.NAME_LENGTH);
+    }
+
+    if(!state.isError)
+        state.messages.push(USER_ERRORS.NO_ERROR);
+
+    return state;
+}
+
+
 module.exports.nameValidate = nameValidate;
 module.exports.sexValidate = sexValidate;
 module.exports.dateValidate = dateValidate;
 module.exports.rectValidation = rectValidation;
+module.exports.textValidation = textValidation;

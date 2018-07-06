@@ -3,11 +3,13 @@ const Cancel = "Отмена"
 const Save = "Сохранить"
 const Error = "Ошибка"
 const Edit = "Редактировать"
+const Send = "Отправить"
 
 export default {
     OK,
     Cancel,
     Save,
     Error,
-    Edit
+    Edit,
+    Send
 }

@@ -1,4 +1,4 @@
-
+var { MODEL_NAMES }  = require( '../constants/modelNames');
 var mongoose = require('mongoose');
 var crypto = require('crypto')
 var Schema = mongoose.Schema;
@@ -17,6 +17,7 @@ var  userScheme = new Schema({
     friends: { type: Array, default: []},
     incoming: { type: Array, default: []},
     outgoing: { type: Array, default: []},
+    publication: { type: Array, default: [] },
     salt: {
         type: String,
         required: true
@@ -61,5 +62,5 @@ userScheme.statics = {
 }
 
 
-exports.User = mongoose.model("User", userScheme);
+exports.User = mongoose.model(MODEL_NAMES.USER, userScheme);
 

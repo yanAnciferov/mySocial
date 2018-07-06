@@ -41,6 +41,10 @@ function deleteFilesByUrl(Urls){
 }
 
 
+function buildPathToImage(image, id){
+  return `${paths.FULL_PATH_TO_USER_DATA}${id.toString(16)}/${image}`;
+}
+
 function getPathToAvatars({minAvatar, avatar, _id}){
   let pathToImage = `${paths.FULL_PATH_TO_USER_DATA}${_id.toString(16)}/` 
   return {
@@ -73,3 +77,4 @@ module.exports.getPathToAvatars = getPathToAvatars;
 module.exports.updateUserAvatarPaths = updateUserAvatarPaths;
 module.exports.getPathForRemove = getPathForRemove;
 module.exports.deleteFilesByUrl = deleteFilesByUrl;
+module.exports.buildPathToImage = buildPathToImage;

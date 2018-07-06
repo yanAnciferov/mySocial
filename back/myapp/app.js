@@ -8,6 +8,7 @@ var logger = require('morgan');
 var account = require('./routes/account');
 var search = require('./routes/search')
 var usersRouter = require('./routes/users');
+var feedRouter = require('./routes/feed');
 var { API_ROUTERS_PATHS } = require("./constants/apiUrl")
 var app = express();
 var { checkDbConnection } = require('./scripts/midllewares/checkDbConnection')
@@ -31,6 +32,7 @@ app.use(checkDbConnection);
 app.use(API_ROUTERS_PATHS.SEARCH, search);
 app.use(API_ROUTERS_PATHS.ACCOUNT, account);
 app.use(API_ROUTERS_PATHS.USER, usersRouter);
+app.use(API_ROUTERS_PATHS.FEED, feedRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

@@ -1,16 +1,13 @@
 import io from 'socket.io-client';
-import { ACCEPT, OUTGOING, JOIN } from './constans/socketEvents';
+import { JOIN } from './constans/socketEvents';
 import { DOMAIN } from './constans/apiUrl';
-
 
 var socket = null;
 
-function connectToServer(user){
-    if(!user) return;
-
-    let test = JSON.parse(user);
+function connectToServer(id){
+    console.log(id);
     socket = io.connect(DOMAIN);
-    socket.emit(JOIN, { id: test._id });   
+    socket.emit(JOIN, { id });   
 }
 
 function socketOn(event,callback)
@@ -23,27 +20,18 @@ function socketOn(event,callback)
 }
 
 
-
-
-const onSubscribed = (id) => (dispatch, getState) => {
-    const { isAuthorize, authorizedUser } = getState().app;
-    
-    if(!isAuthorize)
-      return;
-  
-    socket.emit(OUTGOING, { response: { from: { id: authorizedUser._id }, to: { id } } })
-} 
-
-
-const onAccept = (id) => (dispatch, getState) => {
+const onChangeFriendState = (id, action) => (dispatch, getState) => {
     const { isAuthorize, authorizedUser } = getState().app;
     
     if(!isAuthorize)
       return;
     
-    socket.emit(ACCEPT, { response: { from: { id: authorizedUser._id }, to: { id } } })
-} 
-  
+    socket.emit(action, { 
+        response: { 
+            from: { id: authorizedUser._id }, to: { id }
+        } 
+    })
+}
   
 
 function disconnectToServer(){
@@ -53,7 +41,6 @@ function disconnectToServer(){
 export { 
     disconnectToServer,
     connectToServer,
-    onSubscribed,
     socketOn,
-    onAccept
+    onChangeFriendState
 }

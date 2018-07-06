@@ -1,12 +1,10 @@
 var { deleteFiles, getPathToAvatars, getPathForRemove, deleteFilesByUrl } = require("../utils");
-
 var { validateUser } = require("../validation");
-
 var { dispatchError } = require( "../errorHandlers/common");
-var { USER_ERRORS } = require( "../../constants/errors");
-
+var { USER_ERRORS, COMMON } = require( "../../constants/errors");
 var { User } = require ("../../models/User");
 var fs =  require("fs");
+
 function saveEditUser(req,res,next){
     let {user, body} = req;
 
@@ -22,8 +20,7 @@ function saveEditUser(req,res,next){
         }
         user.save(
             function (err, updatedUser) {
-                if (err) return dispatchError(res,next, USER_ERRORS.NOT_FOUND, 403);
-                //res.data = updatedUser;
+                if (err) dispatchError(res,next, COMMON.DB_SAVE_ERROR, 403);
                 next();
           });
       }
