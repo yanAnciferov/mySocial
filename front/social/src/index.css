@@ -661,3 +661,43 @@ button.pubcreate-submit{
 .unauthorized-menu button{
   color: white;
 }
+
+.settings-element{
+  margin-bottom: 1em;
+}
+
+.settings-element-content{
+  padding: 1em;
+}
+
+.settings-password-field{
+  width: 100%;
+}
+
+
+.settings-password-field > div{
+  width: 20em;
+  margin-top: 1em;
+}
+
+button.settings-submit{
+  margin-top: 3em;
+}
+
+.success{
+  padding: 1em;
+  background-color: rgba(49, 158, 67, 0.39);
+  color: rgb(46, 99, 16);
+}
+
+.papper-header{
+  background-color: rgb(222, 224, 236);
+  color: rgb(105, 112, 139);
+  font-size: 1.5em;
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+  padding: .4em 1em;
+  font-family: Arial;
+  border-bottom: 1px solid rgb(195, 197, 206);
+}

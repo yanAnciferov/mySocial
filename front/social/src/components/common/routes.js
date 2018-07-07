@@ -10,6 +10,7 @@ import Search from '../pages/search/search';
 import ProfileRoutes from "../pages/profile/profileRoute"
 import Feed from '../pages/feed/feed';
 import { MENU_LINKS } from '../../constans/common';
+import Settings from '../pages/settings/settings';
 
 
 class Routes extends Component {
@@ -35,6 +36,9 @@ class Routes extends Component {
           )}/>
             <Route path={MENU_LINKS.SEARCH} render={() => (
             isAuthorize ? (<Search/>) : (<Redirect from={MENU_LINKS.SEARCH} to={MENU_LINKS.LOGIN}/>)
+          )}/>
+          <Route path={MENU_LINKS.SETTINGS} render={() => (
+            isAuthorize ? (<Settings/>) : (<Redirect from="/settings" to={MENU_LINKS.LOGIN}/>)
           )}/>
           <Route path={MENU_LINKS.FEED} render={() => (
             isAuthorize ? (<Feed/>) : (<Redirect from={MENU_LINKS.FEED} to={MENU_LINKS.LOGIN}/>)

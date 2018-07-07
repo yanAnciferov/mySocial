@@ -1,5 +1,5 @@
 import { getAuthUserData } from "../../actions/Account";
-import { ACTION_FOR_APP, ACTION_FOR_LOGIN, ACTION_FOR_REGISTRATION, ACTION_FOR_EDIT, ACTION_FOR_PROFILE, ACTION_FOR_PUBLICATION } from "../../constans/ActionTypes";
+import { ACTION_FOR_APP, ACTION_FOR_LOGIN, ACTION_FOR_REGISTRATION, ACTION_FOR_EDIT, ACTION_FOR_PROFILE, ACTION_FOR_PUBLICATION, ACTION_FOR_PASSWORD } from "../../constans/ActionTypes";
 import { push } from "react-router-redux/actions";
 import { HideLoadingWindow } from "./common";
 
@@ -125,4 +125,13 @@ export function sendPublicationSuccess(dispatch,data){
 
 export function sendPublicationError(dispatch,err){
     console.log(err);
+}
+
+
+export function changePasswordSuccess(dispatch){
+    dispatch({type: ACTION_FOR_PASSWORD.PASSWORD_SUCCESS});
+}
+
+export function changePasswordError(dispatch,err){
+    dispatch({type: ACTION_FOR_PASSWORD.PASSWORD_ON_ERROR, err});
 }

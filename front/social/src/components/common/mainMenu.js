@@ -16,7 +16,7 @@ class MainMenu extends React.Component {
     }
   
     render() {
-        const { FEED, SEARCH, getUrlToMyFriends, getUrlToMyPage } = MENU_LINKS;
+        const { FEED, SEARCH, getUrlToMyFriends, SETTINGS, getUrlToMyPage } = MENU_LINKS;
         const { authorizedUser } = this.props.app;
                 
         if(!authorizedUser)
@@ -50,9 +50,11 @@ class MainMenu extends React.Component {
                             <ListItemText primary={PROFILE_CONTENT.MY_NEWS} />
                         </MenuItem>
                     </Link>
-                    <MenuItem>
-                        <ListItemText primary={PROFILE_CONTENT.SETTINGS} />
-                    </MenuItem>
+                    <Link to={SETTINGS}>
+                        <MenuItem>
+                            <ListItemText primary={PROFILE_CONTENT.SETTINGS} />
+                        </MenuItem>
+                    </Link>
                 </MenuList>
             </Paper>
             </div>

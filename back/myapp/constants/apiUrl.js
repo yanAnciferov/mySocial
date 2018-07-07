@@ -4,9 +4,10 @@ const DEFAULT_AVATAR_PATH = "/uploads/";
 
 
 const ACCOUNT = API + "/account";
-const REGISTRATION = "/registration"
-const LOGIN = "/login"
-const GET_AUTHORIZE_USER_DATA = "/getAuthUserData"
+const REGISTRATION = "/registration";
+const LOGIN = "/login";
+const GET_AUTHORIZE_USER_DATA = "/getAuthUserData";
+const CHANGE_PASSWORD = "/changePassword";
 
 const USER = API + "/user";
 const GET_USER_DATA = "/getUserData";
@@ -42,5 +43,6 @@ module.exports.API_METHODS_PATHS = {
     EDIT,
     UPDATE_AVATAR,
     GET_USER_FRIEND_LIST,
-    NEW_PUBLICATION
+    NEW_PUBLICATION,
+    CHANGE_PASSWORD
 }

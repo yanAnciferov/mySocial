@@ -24,6 +24,7 @@ const INCORRECT_PASSWORD_FOR_LOGIN = "incorrect password for login"
 const NOT_FOUND = "not found"
 const DB_SAVE_ERROR = "db save error"
 const PUBLICATION_VALIDATE_ERROR = "publication validate error"
+const OLD_PASSWORD_IS_DIFFERENT = "password is different"
 
 module.exports.USER_ERRORS = {
     ERROR_SEND_MESSAGE_TO_EMAIL,
@@ -59,5 +60,6 @@ module.exports.LOGIN = {
     INCORRECT_DATA_FOR_LOGIN,
     UNAUTHORIZED,
     INCORRECT_PASSWORD_FOR_LOGIN,
-    INCORRECT_EMAIL_FOR_LOGIN
+    INCORRECT_EMAIL_FOR_LOGIN,
+    OLD_PASSWORD_IS_DIFFERENT
 }

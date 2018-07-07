@@ -8,6 +8,7 @@ import avatar from './avatar'
 import search from './search'
 import publication from './publication'
 import feed from './feed'
+import password from './password'
 
 export default {
     register,
@@ -19,5 +20,6 @@ export default {
     avatar,
     search,
     publication,
-    feed
+    feed,
+    password
 }

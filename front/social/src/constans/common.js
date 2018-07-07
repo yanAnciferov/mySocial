@@ -15,6 +15,7 @@ const FRIENDS = "/friends";
 const SEARCH = "/search";
 const FEED = "/feed";
 const REGISTRATION = "/registration";
+const SETTINGS = "/settings";
 const LOGIN = "/login";
 const EDIT = "/edit";
 const ID = "/:id";
@@ -54,6 +55,7 @@ export const MENU_LINKS = {
     LOGIN,
     ID,
     DEFAULT,
+    SETTINGS,
     REGISTRATION,
     getUrlToMyPage,
     getUrlToMyFriends

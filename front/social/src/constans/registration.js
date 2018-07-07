@@ -29,6 +29,12 @@ const FAILED_SEND_MESSAGE_TO_EMAIL = "Не удалось отправить с�
 const USER_NOT_FOUND_ABOUT_EMAIL = "Пользователя с такой почтой не существует"
 const INCORRECT_PASSWORD = "Не верный пароль"
 
+const PASSWORD_LENGTH = "Длинна пароля должна быть от 6 до 32 символов";
+const PASSWORD_DIFFERENT = "Пароли не совпадают";
+const ENTER_NEW_PASSWORD = "Введите новый пароль";
+const ENTER_OLD_PASSWORD = "Введите старый пароль";
+const ENTER_CONFIRM_PASSWORD = "Подтвердите пароль";
+
 const EMAIL_REGEX = /[a-zA-Z0-9._%+-]{2,}@[a-zA-Z]{2,}(\.)[a-zA-Z]{1,}/
 const NAME_REGEX = /^[a-zA-Zа-яА-Я]+$/
 
@@ -44,6 +50,11 @@ const PASSWORD = "password"
 const ARRAY_FORMATS = ["image/jpeg", "image/jpg", "image/png"]
 const INVALIDATE_FORMAT = "Подходят только файлы формата .jpeg, .jpg, .png"
 const INVALIDATE_SIZE = "Размер файла должен быть от 40kb до 5mb"
+
+
+const OLD_PASSWORD = "oldPassword";
+const NEW_PASSWORD = "newPassword";
+const CONFIRM_PASSWORD = "confirmPassword";
 
 export const REGEX = {
     EMAIL_REGEX,
@@ -102,4 +113,19 @@ export const MESSAGE = {
     USER_NOT_FOUND_ABOUT_EMAIL,
     INCORRECT_PASSWORD
     
+}
+
+
+export const PASSWORD_MESSAGES = {
+    PASSWORD_LENGTH,
+    PASSWORD_DIFFERENT,
+    ENTER_NEW_PASSWORD,
+    ENTER_OLD_PASSWORD,
+    ENTER_CONFIRM_PASSWORD 
+}
+
+export const PASSWORD_FIELDS = {
+    OLD_PASSWORD,
+    NEW_PASSWORD,
+    CONFIRM_PASSWORD
 }

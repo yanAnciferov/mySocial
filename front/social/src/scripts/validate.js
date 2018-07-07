@@ -1,7 +1,63 @@
-import  { MESSAGE, REGEX, SEX_TYPES, IMAGE, DATE, MODEL_NAMES }   from '../constans/registration';
+import  { MESSAGE, REGEX, SEX_TYPES, IMAGE, DATE, MODEL_NAMES, PASSWORD_MESSAGES, PASSWORD_FIELDS }   from '../constans/registration';
 import { IMAGE_SIZE } from '../constans/common'
 import { isError } from 'assert/node_modules/util';
 
+
+export function passwordValidate(password, typeField) {
+
+
+    let messages = {
+        oldPassword: {
+            noError: PASSWORD_MESSAGES.ENTER_OLD_PASSWORD
+        },
+        newPassword: {
+            noError: PASSWORD_MESSAGES.ENTER_NEW_PASSWORD
+        },
+        confirmPassword: {
+            noError: PASSWORD_MESSAGES.ENTER_CONFIRM_PASSWORD
+        }
+    }
+
+    let state = {
+        isError: false,
+        message: []
+    }
+
+    let string = "string";
+    if(typeof password !== string || typeof typeField !== string)
+    {
+        state.isError = true;
+        state.message.push(MESSAGE.INVALIDATE_ENTRY_PARAM);
+        return state;
+    }
+
+    if([PASSWORD_FIELDS.CONFIRM_PASSWORD , PASSWORD_FIELDS.NEW_PASSWORD, PASSWORD_FIELDS.OLD_PASSWORD].indexOf(typeField) === -1)
+    {
+        state.isError = true;
+        state.message.push(MESSAGE.INVALIDATE_ENTRY_PARAM);
+        return state;
+    }
+
+    
+    if(password.length === 0)
+    {
+        state.isError = true;
+        state.message.push(MESSAGE.REQUIRED);
+        return state;
+    }
+
+    if(password.length < 6 || password.length > 32)
+    {
+        state.isError = true;
+        state.message.push(PASSWORD_MESSAGES.PASSWORD_LENGTH);
+    }
+
+
+    if(state.isError === false)
+        state.message.push(messages[typeField].noError);
+
+    return state;
+}
 
 export function nameValidate(name, required, typeField) {
 
@@ -219,6 +275,30 @@ export function imageValidation(file, isSubmit) {
 }
 
 
+export function passwordValidation(state){
+    let newValidateState = {
+        ...state.validateState,
+        confirmPassword: passwordValidate(state.confirmPassword, PASSWORD_FIELDS.CONFIRM_PASSWORD),
+        newPassword: passwordValidate(state.newPassword, PASSWORD_FIELDS.NEW_PASSWORD),
+        oldPassword: passwordValidate(state.oldPassword, PASSWORD_FIELDS.OLD_PASSWORD)
+
+    }
+
+        if(state.newPassword !== state.confirmPassword && !newValidateState.confirmPassword.isError)
+        {
+            newValidateState.confirmPassword.isError = true;
+            newValidateState.confirmPassword.message = [];
+            newValidateState.confirmPassword.message.push(PASSWORD_MESSAGES.PASSWORD_DIFFERENT)
+        }
+       
+
+    let isValid = checkValidateState(newValidateState);
+   
+    return {
+        newValidateState,
+        isValid
+    }
+}
 
 
 export function validate(state){
@@ -232,16 +312,22 @@ export function validate(state){
         [MODEL_NAMES.SEX]: sexValidate(state.sex)
     }
 
-    let isValid = true;
-
-    for(let field in newValidateState )
-    {
-        isValid = isValid && !newValidateState[field].isError
-        if(!isValid) break;
-    }
+    let isValid = checkValidateState(newValidateState);
 
     return {
         newValidateState,
         isValid
     }
+}
+
+function checkValidateState(newValidateState)
+{
+    let isValid = true;
+    for(let field in newValidateState )
+    {
+        isValid = isValid && !newValidateState[field].isError
+        if(!isValid) return isValid;
+    }
+    return isValid;
+    
 }

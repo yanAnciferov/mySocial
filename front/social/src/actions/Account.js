@@ -6,7 +6,7 @@ import { getUserModel } from "../scripts/userModel";
 import registrationContent from "../content/registration"
 import { PROFILE_CONTENT } from "../content/profile"
 import * as API from "../constans/apiUrl"
-import { registrationSuccess, loginSuccess, loginError, getAuthUserDataError, editSuccess, editError, updateAvatarSuccess, updateAvatarError, registrationError, getAuthUserDataSuccess, sendPublicationSuccess } from "../scripts/actionHandlers/account";
+import { registrationSuccess, loginSuccess, loginError, getAuthUserDataError, editSuccess, editError, updateAvatarSuccess, updateAvatarError, registrationError, getAuthUserDataSuccess, sendPublicationSuccess, changePasswordSuccess, changePasswordError } from "../scripts/actionHandlers/account";
 import { ShowLoadingWindow } from "../scripts/actionHandlers/common";
 import { getMyFriendsSuccess, getMyFriendsError } from "../scripts/actionHandlers/friends";
 
@@ -174,5 +174,28 @@ export const sendNewPublication = () => (dispatch, getState) => {
   })
   .catch((err) => {
     sendPublicationSuccess(dispatch, err);
+  })
+}
+
+
+export const changePassword = () => (dispatch, getState) => {
+  const { isAuthorize } = getState().app;
+  
+  if(!isAuthorize)
+    return;
+
+  const { newPassword, oldPassword, confirmPassword, isValid } = getState().password;
+  console.log(isValid, newPassword);
+  if(!isValid)
+    return;
+
+  axios.post("/api/account/changePassword", {
+    newPassword, oldPassword, confirmPassword
+  })
+  .then((res) => {
+    changePasswordSuccess(dispatch);
+  })
+  .catch((err) => {
+    changePasswordError(dispatch, err);
   })
 }

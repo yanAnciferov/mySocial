@@ -28,7 +28,7 @@ class SetUserInfo extends Component {
                     label={Content.NameLabel} 
                     message={firstname.message} 
                     onChange={(e) => fieldChange(MODEL_NAMES.FIRSTNAME,e)} 
-                    isError={firstname.isError} 
+                    error={firstname.isError} 
                     fullWidth/>
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -37,7 +37,7 @@ class SetUserInfo extends Component {
                         label={Content.SurameLabel} 
                         message={surname.message} 
                         onChange={(e) => fieldChange(MODEL_NAMES.SURNAME,e)} 
-                        isError={surname.isError} 
+                        error={surname.isError} 
                         fullWidth/>
                 </Grid>
             </Grid>
@@ -48,7 +48,7 @@ class SetUserInfo extends Component {
                         label={Content.ParrentnameLabel} 
                         message={parrentname.message} 
                         onChange={(e) => fieldChange(MODEL_NAMES.PARRENTNAME,e)} 
-                        isError={parrentname.isError} 
+                        error={parrentname.isError} 
                         fullWidth/>
                 </Grid>
                 <Grid item xs={12} sm={6}>
