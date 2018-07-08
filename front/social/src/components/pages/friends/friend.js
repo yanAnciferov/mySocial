@@ -4,6 +4,7 @@ import MyFriends from './myFriends';
 import AnotherUserFriends from './anotherUserFriends';
 import { getUserFriendList } from '../../../actions/Users';
 import { getAuthUserFriendList } from '../../../actions/Account';
+import translate from 'react-i18next/dist/commonjs/translate';
 class Friends extends Component {
 
     componentWillMount(){
@@ -26,13 +27,14 @@ class Friends extends Component {
     render() { 
         let forRender;
         let { 
+            t,
             id: paramsId, 
             app: { authorizedUser, authorizedUser: { _id: myId } },
             profile: { friends, incoming, userData }
         } = this.props;
         if(paramsId === myId)
-            forRender = <MyFriends user={authorizedUser}/>
-        else forRender = <AnotherUserFriends user={userData} friends={friends} incoming={incoming} />
+            forRender = <MyFriends t={t} user={authorizedUser}/>
+        else forRender = <AnotherUserFriends t={t} user={userData} friends={friends} incoming={incoming} />
         return (
         <div >
            {forRender}
@@ -44,7 +46,7 @@ class Friends extends Component {
 
 
 
-export default connect(
+export default translate("translations")(connect(
     state => ({
         app: state.app,
         profile: state.profile
@@ -57,4 +59,4 @@ export default connect(
             dispatch(getAuthUserFriendList(id));
         }
     })
-)(Friends);
+)(Friends));

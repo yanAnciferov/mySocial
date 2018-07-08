@@ -7,6 +7,7 @@ import { ACTION_FOR_APP } from '../../constans/ActionTypes';
 import Paper from '@material-ui/core/Paper/Paper';
 import { PROFILE_CONTENT } from '../../content/profile';
 import { MENU_LINKS } from '../../constans/common';
+import translate from 'react-i18next/dist/commonjs/translate';
 
 
 class MainMenu extends React.Component {
@@ -17,7 +18,7 @@ class MainMenu extends React.Component {
   
     render() {
         const { FEED, SEARCH, getUrlToMyFriends, SETTINGS, getUrlToMyPage } = MENU_LINKS;
-        const { authorizedUser } = this.props.app;
+        const {  app: { authorizedUser }, t } = this.props;
                 
         if(!authorizedUser)
             return null;
@@ -31,28 +32,28 @@ class MainMenu extends React.Component {
                 <MenuList>
                     <Link to={getUrlToMyPage(authorizedUser._id)}>
                         <MenuItem >
-                            <ListItemText primary={PROFILE_CONTENT.MY_PAGE} />
+                            <ListItemText primary={t(PROFILE_CONTENT.MY_PAGE)} />
                         </MenuItem>
                     </Link>
                     <Link to={getUrlToMyFriends(authorizedUser._id)}>
                         <MenuItem >
-                            <ListItemText primary={PROFILE_CONTENT.MY_FRIENDS} />
+                            <ListItemText primary={t(PROFILE_CONTENT.MY_FRIENDS)} />
                             { forFriendsRender }
                         </MenuItem>
                     </Link>
                     <Link to={SEARCH}>
                         <MenuItem >
-                            <ListItemText primary={PROFILE_CONTENT.SEARCH} />
+                            <ListItemText primary={t(PROFILE_CONTENT.SEARCH)} />
                         </MenuItem>
                     </Link>
                     <Link to={FEED}>
                         <MenuItem >
-                            <ListItemText primary={PROFILE_CONTENT.MY_NEWS} />
+                            <ListItemText primary={t(PROFILE_CONTENT.MY_NEWS)} />
                         </MenuItem>
                     </Link>
                     <Link to={SETTINGS}>
                         <MenuItem>
-                            <ListItemText primary={PROFILE_CONTENT.SETTINGS} />
+                            <ListItemText primary={t(PROFILE_CONTENT.SETTINGS)} />
                         </MenuItem>
                     </Link>
                 </MenuList>
@@ -63,7 +64,7 @@ class MainMenu extends React.Component {
   }
 
 
-  export default connect(
+  export default translate("translations")(connect(
     state => ({
         app: state.app
     }),
@@ -72,4 +73,4 @@ class MainMenu extends React.Component {
         dispatch({ type: ACTION_FOR_APP.LOGOUT});
       }
   })
-)(MainMenu);
+)(MainMenu));

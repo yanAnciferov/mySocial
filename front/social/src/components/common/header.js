@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { ACTION_FOR_APP } from '../../constans/ActionTypes';
 import CircleAvatar from "./circleAvatar"
 import { disconnectToServer } from '../../socket';
+import translate from 'react-i18next/dist/commonjs/translate';
 
 class Header extends React.Component {
 
@@ -17,8 +18,8 @@ class Header extends React.Component {
   
     render() {
 
-      const { authorizedUser } = this.props.app;
-      const forRightSide = (authorizedUser) ? <HeaderPopupMenu authorizedUser={authorizedUser} onLogoutClick={this.onLogoutClick}  /> : <UnauthorizedMenu/>
+      const { t, app: { authorizedUser } } = this.props;
+      const forRightSide = (authorizedUser) ? <HeaderPopupMenu t={t} authorizedUser={authorizedUser} onLogoutClick={this.onLogoutClick}  /> : <UnauthorizedMenu t={t}/>
       return (
         <div className="main-header">
           <AppBar position="static">
@@ -74,7 +75,7 @@ class HeaderPopupMenu extends React.Component {
 
   render()
   {
-    const { onLogoutClick, authorizedUser } = this.props; 
+    const { onLogoutClick, authorizedUser, t } = this.props; 
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
@@ -98,8 +99,8 @@ class HeaderPopupMenu extends React.Component {
           open={open}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>{content.ToMyPage}</MenuItem>
-          <MenuItem onClick={onLogoutClick}> {content.ToLogout}</MenuItem>
+          <MenuItem onClick={this.handleClose}>{t(content.ToMyPage)}</MenuItem>
+          <MenuItem onClick={onLogoutClick}> {t(content.ToLogout)}</MenuItem>
         </Menu>
       </div>
     )
@@ -107,7 +108,7 @@ class HeaderPopupMenu extends React.Component {
 }
 
 
-  export default connect(
+  export default translate("translations")(connect(
     state => ({
         app: state.app
     }),
@@ -117,4 +118,4 @@ class HeaderPopupMenu extends React.Component {
         disconnectToServer();
       }
   })
-)(Header);
+)(Header));

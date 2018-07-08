@@ -18,7 +18,6 @@ class SelectGenderControl extends Component {
                 onChange={fieldCange}
                 fullWidth
                 >
-
                 <MenuItem value="" disabled>{Content.SexLabel}</MenuItem>
                 <MenuItem value={SEX_TYPES.MALE}>{Content.Male}</MenuItem>
                 <MenuItem value={SEX_TYPES.FEMALE}>{Content.Female}</MenuItem>

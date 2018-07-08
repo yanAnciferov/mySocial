@@ -8,8 +8,8 @@ import { PROFILE_CONTENT } from '../../../content/profile';
 class MainInfo extends React.Component {
   
     render() {
-        var { user } = this.props;   
-        var forRender = (user !== null) ? (<MainInfoWithUser user={user}/>) : ( <MainInfoEmitter/>)
+        var { user, t } = this.props;   
+        var forRender = (user !== null) ? (<MainInfoWithUser t={t} user={user}/>) : ( <MainInfoEmitter/>)
         return (
             <div>
                 {forRender}
@@ -21,13 +21,14 @@ class MainInfo extends React.Component {
 class MainInfoWithUser extends React.Component {
 
    render() {
-        const { user,user: { birthdate, sex, email } } = this.props;
+        const { user, t, user: { birthdate, sex, email } } = this.props;
+        console.log(PROFILE_CONTENT.EMAIL_INFO, t(PROFILE_CONTENT.EMAIL_INFO))
         const items = [
             { key: PROFILE_CONTENT.BIRTHDATE_INFO, value: new Date(birthdate).toLocaleDateString(PROFILE_CONSTS.LOCAL_FORMAT, PROFILE_CONSTS.DATE_FORMAT)},
-            { key: PROFILE_CONTENT.SEX_INFO, value: PROFILE_CONTENT.getSex(sex) },
+            { key: PROFILE_CONTENT.SEX_INFO, value: t(PROFILE_CONTENT.getSex(sex)) },
             { key: PROFILE_CONTENT.EMAIL_INFO, value: email }
         ]
-        const itemsInfo = items.map((item) => <li key={item.key}><InfoItem item={item} /></li>);
+        const itemsInfo = items.map((item) => <li key={item.key}><InfoItem t={t} item={item} /></li>);
         return (
             <Paper className="main-info-wrapper">
                 <div className="main-info-header">
@@ -48,11 +49,11 @@ class MainInfoWithUser extends React.Component {
 
 class InfoItem extends React.Component{
     render(){
-        var { item } = this.props;
+        var { item, t } = this.props;
         return(
             <Grid key container spacing={24}>
                 <Grid className="info-key" item xs={4}>
-                    {item.key}
+                    {t(item.key)}:
                 </Grid>
                 <Grid className="info-value" item xs={8}>
                     {item.value}

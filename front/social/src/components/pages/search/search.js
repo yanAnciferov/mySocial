@@ -7,6 +7,7 @@ import { search } from '../../../actions/Search';
 import { push } from 'react-router-redux/actions';
 import { ACTION_FOR_SEARCH } from '../../../constans/ActionTypes';
 import { SearchContent } from '../../../content/search';
+import { translate, Trans } from "react-i18next";
 
 class Search extends Component {
 
@@ -24,17 +25,21 @@ class Search extends Component {
     }
 
     render() { 
-        
+        let { t, i18n } = this.props;
         let { result, query } = this.props.search;
         let forRender = result.length ? 
-            <UserList usersList={this.props.search.result} /> : 
+            <UserList t={t} usersList={this.props.search.result} /> : 
                 <div className="search-noresult">{SearchContent.notFound}</div>
         return (
         <div >
             <Paper className="search-wrapper">
-                <h3>{SearchContent.title}</h3>
+                <h3>{t(SearchContent.searchTitle)}</h3>
                 <form onSubmit={this.onSubmit}>
-                    <TextFormControl onChange={(e) => this.onChange(e)} value={query} label={SearchContent.enterLabel} fullWidth={true} />
+                    <TextFormControl 
+                        onChange={(e) => this.onChange(e)} 
+                        value={query} 
+                        label={t(SearchContent.enterLabel)} 
+                        fullWidth={true} />
                 </form>
                 {forRender}
             </Paper>
@@ -46,7 +51,9 @@ class Search extends Component {
 
 
 
-export default connect(
+export default 
+translate("translations")
+(connect(
     state => ({
         search: state.search
     }),
@@ -65,4 +72,4 @@ export default connect(
         }
 
     })
-)(Search);
+)(Search));

@@ -30,7 +30,8 @@ const initialState = {
     isAuthorize: localStorage.getItem("token") !== null,
     token: localStorage.getItem("token"),
     authorizedUser: getUserFromStorage(),
-    wallPublications: []
+    wallPublications: [],
+    currentLanguage: 'ua'
 }
 
 
@@ -59,6 +60,13 @@ export default function (state = initialState, action) {
     if(action.type === ACTION_COMMON.ON_ROUTE_LOCATION_CHANGE){
         return {
             ...state
+        }
+    }
+
+    if(action.type === ACTION_FOR_APP.LANGUAGE_CHANGE){
+        return {
+            ...state,
+            currentLanguage: action.payload
         }
     }
 

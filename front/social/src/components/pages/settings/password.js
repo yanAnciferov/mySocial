@@ -13,6 +13,7 @@ class Password extends Component {
         let {
             fieldChange, 
             onSubmit,
+            t,
             validateState: {
                 oldPassword,
                 newPassword,
@@ -25,10 +26,10 @@ class Password extends Component {
         }
         return (       
             <Paper className="settings-element">
-                <div className="papper-header">{SETTINGS.CHANGE_PASSWORD_TITTLE}</div>
+                <div className="papper-header">{t(SETTINGS.CHANGE_PASSWORD_TITTLE)}</div>
                 <div className="settings-element-content">
                 {state.isSuccess &&
-                   <div className="success">{SETTINGS.CHANGE_PASSWORD_SUCCES}</div>
+                   <div className="success">{t(SETTINGS.CHANGE_PASSWORD_SUCCES)}</div>
                 }
                 <form onSubmit={onSubmit}>
                     <FormControl className="settings-password-field">
@@ -36,29 +37,33 @@ class Password extends Component {
                             onChange={(e) => fieldChange(PASSWORD_FIELDS.OLD_PASSWORD,e)}
                             value={state.oldPassword}
                             type="password" 
-                            label={PASSWORD_MESSAGES.ENTER_OLD_PASSWORD}
+                            label={t(PASSWORD_MESSAGES.ENTER_OLD_PASSWORD)}
                             error={oldPassword.isError}
-                            helperText={oldPassword.message}/>
+                            helperText={t(oldPassword.message)}/>
                     </FormControl>
                     <FormControl className="settings-password-field">
                         <TextField
                             onChange={(e) => fieldChange(PASSWORD_FIELDS.NEW_PASSWORD,e)}
                             value={state.newPassword}
                             type="password" 
-                            label={PASSWORD_MESSAGES.ENTER_NEW_PASSWORD}
+                            label={t(PASSWORD_MESSAGES.ENTER_NEW_PASSWORD)}
                             error={newPassword.isError}
-                            helperText={newPassword.message}/>
+                            helperText={t(newPassword.message)}/>
                     </FormControl>
                     <FormControl className="settings-password-field">
                         <TextField 
                             value={state.confirmPassword}
                             onChange={(e) => fieldChange(PASSWORD_FIELDS.CONFIRM_PASSWORD,e)}
                             type="password" 
-                            label={PASSWORD_MESSAGES.ENTER_CONFIRM_PASSWORD}
+                            label={t(PASSWORD_MESSAGES.ENTER_CONFIRM_PASSWORD)}
                             error={confirmPassword.isError}
-                            helperText={confirmPassword.message}/>
+                            helperText={t(confirmPassword.message)}/>
                     </FormControl>                    
-                    <Button type="submit" className="settings-submit" variant="contained" color="primary">{SETTINGS.CHANGE_PASSWORD_SUBMIT}</Button>
+                    <Button 
+                        type="submit" 
+                        className="settings-submit" 
+                        variant="contained" 
+                        color="primary">{t(SETTINGS.CHANGE_PASSWORD_SUBMIT)}</Button>
                 </form>
                 </div>
                 

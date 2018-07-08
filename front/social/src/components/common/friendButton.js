@@ -5,11 +5,12 @@ import { SearchContent } from '../../content/search';
 import { connect } from 'react-redux';
 import { onChangeFriendState } from '../../socket';
 import { ACCEPT, OUTGOING, REMOVE, REJECT } from '../../constans/socketEvents';
+import translate from 'react-i18next/dist/commonjs/translate';
 
 class FriendButton extends Component {
 
     render(){
-      let { user, changeFriendState } = this.props;
+      let { user, changeFriendState, t } = this.props;
       
       if(user.itsMy)
         return null;
@@ -36,16 +37,16 @@ class FriendButton extends Component {
           default:
             return null;
         }
-        return <Button onClick={handler} variant="contained" color="primary">{content}</Button>
+        return <Button onClick={handler} variant="contained" color="primary">{t(content)}</Button>
     }
   }
   
-export default connect(
+export default translate("translations")(connect(
   state => ({}),
   dispatch => ({
     changeFriendState: (id, action) => {
         dispatch(onChangeFriendState(id, action));
       }
   })
-)(FriendButton);
+)(FriendButton));
   

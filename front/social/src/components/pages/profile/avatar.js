@@ -9,9 +9,11 @@ import FriendButton from "../../../components/common/friendButton"
 class Avatar extends React.Component {
 
     render() {
-      const { user, onLoadAvatarClick, isMyPage } = this.props;
+      const { user, onLoadAvatarClick, isMyPage, t } = this.props;
     
-      const forRender = user ? <AvatarImageControl isMyPage={isMyPage} onLoadAvatarClick={onLoadAvatarClick} user={user} /> : <div className="avatar-emitter" />
+      const forRender = user ? 
+        <AvatarImageControl t={t} isMyPage={isMyPage} onLoadAvatarClick={onLoadAvatarClick} user={user} /> 
+          : <div className="avatar-emitter" />
       return (
         <Paper className="avatar-wrapper">
             <div>{forRender}</div>
@@ -24,10 +26,10 @@ class Avatar extends React.Component {
 class AvatarButton extends React.Component
 {
   render() {
-    let { isMyPage, user } = this.props;
+    let { isMyPage, user, t } = this.props;
     let forRender = isMyPage ? 
       <Link to={`/edit`}>
-        <Button className="edit-button" variant="contained" color="primary">{CommonContent.Edit}</Button>
+        <Button className="edit-button" variant="contained" color="primary">{t(CommonContent.Edit)}</Button>
       </Link> : 
       <FriendButton user={user} className="edit-button" />
 
@@ -41,10 +43,10 @@ class AvatarButton extends React.Component
 class AvatarImageControl extends React.Component
 {
   render(){
-    let { user, onLoadAvatarClick, isMyPage } = this.props;
+    let { user, onLoadAvatarClick, isMyPage, t } = this.props;
     let forRenderLoadControl = isMyPage ? (
       <div className="load-avatar">
-        <span onClick={onLoadAvatarClick} className="toLoadAvatar">{PROFILE_CONTENT.UPDATE_AVATAR}</span>
+        <span onClick={onLoadAvatarClick} className="toLoadAvatar">{t(PROFILE_CONTENT.UPDATE_AVATAR)}</span>
       </div>
     ) : null
     
@@ -55,7 +57,7 @@ class AvatarImageControl extends React.Component
           {forRenderLoadControl}
         </div>
         <div className="edit-button-wrapper">
-          <AvatarButton user={user} isMyPage={isMyPage} />
+          <AvatarButton t={t} user={user} isMyPage={isMyPage} />
         </div>
       </div>
     )

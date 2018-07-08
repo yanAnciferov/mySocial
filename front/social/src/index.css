@@ -701,3 +701,10 @@ button.settings-submit{
   font-family: Arial;
   border-bottom: 1px solid rgb(195, 197, 206);
 }
+
+.languagePicker{
+  position: fixed;
+  bottom: 0;
+  right: 1em;
+  width: 4em;
+}

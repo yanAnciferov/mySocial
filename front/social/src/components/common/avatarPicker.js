@@ -62,7 +62,8 @@ class AvatarPicker extends React.Component {
             },
             validateState: { 
                 image
-            } 
+            },
+            t 
         } = this.props
     
       let editorComponent = model ? 
@@ -78,7 +79,7 @@ class AvatarPicker extends React.Component {
           onImageReady={this.logCallback.bind(this, 'onImageReady')}
           image={model}
           color={[255,255,255,128]}
-          />) : Content.LoadAvatar
+          />) : t(Content.LoadAvatar)
     
         return (
           <div className="create-avatar">
@@ -98,7 +99,7 @@ class AvatarPicker extends React.Component {
               <Grid item xs={4}>
                 <div className="avatar-controll">
                   <div className="avatar-zoom"> 
-                      <span>{Content.ScaleTitle}</span>
+                      <span>{t(Content.ScaleTitle)}:</span>
                       <Slider
                           min={1}
                           max={2}
@@ -119,7 +120,7 @@ class AvatarPicker extends React.Component {
                     <label htmlFor="contained-button-file" className="contained-button-file">
                         <span className="error">{(image.isError) ? image.message : ""}</span>
                         <Button variant="contained" component="span" >
-                            {Content.LoadFile}
+                            {t(Content.LoadFile)}
                         </Button>
                     </label>
                   </div>

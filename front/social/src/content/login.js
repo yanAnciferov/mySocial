@@ -1,6 +1,6 @@
-const LoginPageHeader = "Вход";
-const PasswordLabel = "Пароль"
-const EmailLabel = "Почта"
+const LoginPageHeader = "Login";
+const PasswordLabel = "Password"
+const EmailLabel = "Email"
 
 export default {
     LoginPageHeader,

@@ -1,11 +1,11 @@
 const onAddMessage = {
     message: " принял вашу заявку в друзья",
-    header: "Новый друг!"
+    header: "New friend"
 }
 
 const onIncomingMessage = {
     message: " хочет добавить вас в друзья",
-    header: "Новая заявка в друзья"
+    header: "New friend request"
 }
 
 export {

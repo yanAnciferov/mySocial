@@ -10,9 +10,15 @@ import Routes from './components/common/routes';
 import MainMenu from './components/common/mainMenu'
 import RegistrationSuccess from './components/pages/registration/registrationSuccess';
 import MessageQueue from "./components/common/messages/message"
+import translate from 'react-i18next/dist/commonjs/translate';
+import LanguagePicker from './components/common/languagePicker';
 
 class App extends Component {
   
+  componentWillMount = () => {
+    this.props.i18n.changeLanguage("ua");
+  }
+
   render() {
 
     let {
@@ -40,13 +46,16 @@ class App extends Component {
         <ErrorWindow onClose={onCloseErrorWindow} open={errorWindow.isVisible} value={errorWindow.message} />
         <LoaderWindow open={loadingWindow.isVisible} value={loadingWindow.message} />
         <RegistrationSuccess open={isSuccessWindowShow} value="Value"/>
+        <LanguagePicker />
      </div>
     );
   }
 }
 
 
-export default withRouter(connect(
+export default 
+translate("translations")(
+  withRouter(connect(
   state => ({
       app: state.app,
       catcher: state.catcher,
@@ -60,4 +69,4 @@ export default withRouter(connect(
       dispatch({ type: ACTION_FOR_APP.CLOSE_MESSAGE_WINDOW})
     }
   })
-)(App))
+)(App)))

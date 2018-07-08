@@ -18,18 +18,18 @@ class MyFriends extends Component {
     render() { 
         let { emptyMessages } = FriendContent;
         const { value } = this.state;
-        const { user } = this.props;
+        const { user, t } = this.props;
         const lists = [user.friends, user.outgoing, user.incoming];
         let forRender = lists[value].length ? 
             <UserList usersList={lists[value]} /> 
-            : <div className="friends-list-empty">{emptyMessages[value]}</div>
+            : <div className="friends-list-empty">{t(emptyMessages[value])}</div>
         return (
         <div className="friends-wrapper">
             <Paper className="friends-content">
             <Tabs value={value} onChange={this.handleChange}>
-                <Tab label={FriendContent.friendLabel}/>
-                <Tab label={FriendContent.outgoingLabel}/>
-                <Tab label={FriendContent.incomingLabel}/>
+                <Tab label={t(FriendContent.friendLabel)}/>
+                <Tab label={t(FriendContent.outgoingLabel)}/>
+                <Tab label={t(FriendContent.incomingLabel)}/>
             </Tabs>
             <div className="friends-list-wrapper">
                 {forRender}

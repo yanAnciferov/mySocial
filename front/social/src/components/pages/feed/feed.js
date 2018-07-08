@@ -5,6 +5,7 @@ import { getNews } from "../../../actions/Feed";
 import PublicationList from '../../pages/profile/publication';
 import Paper from '@material-ui/core/Paper/Paper';
 import { PROFILE_CONTENT } from '../../../content/profile';
+import translate from 'react-i18next/dist/commonjs/translate';
 
 class Feed extends Component {
     componentDidMount(){

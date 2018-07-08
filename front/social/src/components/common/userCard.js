@@ -7,7 +7,7 @@ class UserCard extends Component {
 
     render() {
       let { getFullName, getAge, getSex } = PROFILE_CONTENT;
-      let { user } = this.props;
+      let { user, t } = this.props;
       return (
         <div className="user-card">
           <div className="user-card-info">
@@ -20,8 +20,8 @@ class UserCard extends Component {
                     <span >{getFullName(user)} </span>
                   </Link>
                 </div>
-                <div className="user-card-field">{PROFILE_CONTENT.AGE_INFO} {getAge(user.birthdate)} </div>
-                <div className="user-card-field">{PROFILE_CONTENT.SEX_INFO} {getSex(user.sex)} </div>
+                <div className="user-card-field">{t(PROFILE_CONTENT.AGE_INFO)}: {getAge(user.birthdate)} </div>
+                <div className="user-card-field">{t(PROFILE_CONTENT.SEX_INFO)}: {t(getSex(user.sex))} </div>
             </div>
           </div>
           <div className="user-card-button"> 

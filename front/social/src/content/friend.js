@@ -1,19 +1,19 @@
-const noFriens = "У вас пока нет друзей"
-const noIncomings = "У вас пока нет подписчиков"
-const noOutgoings = "Вы ни на кого не подписаны"
-const title = "Друзья"
+const noFriens = "You do not have friends"
+const noIncomings = "You do not have subscribers"
+const noOutgoings = "You are not subscribed to anyone"
+const title = "Friends"
 
-const outgoing = "Исходящие"
-const incoming = "Входящие"
-const myFriends = "Мои друзья"
+const outgoing = "Outgoing"
+const incoming = "Incoming"
+const myFriends = "My friends"
 
-const friendLabel = "Мои друзья"
-const incomingLabel = "Входящие заявки"
-const outgoingLabel = "Исходящие заявки"
-const subscribersLabel = "Подписчики"
+const friendLabel = "My friends"
+const incomingLabel = "Incoming requests"
+const outgoingLabel = "Outgoing requests"
+const subscribersLabel = "Subscribers"
 
-const noAnotherFriens = "У пользователя пока нет друзей"
-const noAnotherIncomings = "У пользователя пока нет подписчиков"
+const noAnotherFriens = "User has no friends"
+const noAnotherIncomings = "User has no subscribers"
 
 const emptyMessages = [noFriens, noOutgoings, noIncomings];
 const anotherEmptyMessages = [noAnotherFriens, noAnotherIncomings];

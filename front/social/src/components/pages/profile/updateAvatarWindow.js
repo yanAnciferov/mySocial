@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { ACTION_FOR_EDIT } from '../../../constans/ActionTypes';
 import { updateAvatar } from '../../../actions/Account';
 import { PROFILE_CONTENT } from "../../../content/profile"
+import translate from 'react-i18next/dist/commonjs/translate';
 class UpdateAvatarWindow extends React.Component {
 
     handleClose= (event, value) => {
@@ -14,7 +15,7 @@ class UpdateAvatarWindow extends React.Component {
     };
 
     render() {
-        const { value, avatar, onClose, onSubmit, onImageLoad, onRectChange, ...other } = this.props;
+        const { value, avatar, onClose, onSubmit, onImageLoad, onRectChange, t, ...other } = this.props;
     
         return (
           <Dialog
@@ -23,16 +24,16 @@ class UpdateAvatarWindow extends React.Component {
             {...other}
             maxWidth={false}
           >
-            <DialogTitle>{PROFILE_CONTENT.PICK_AVATAR}</DialogTitle>
+            <DialogTitle>{t(PROFILE_CONTENT.PICK_AVATAR)}</DialogTitle>
             <DialogContent className="avatar-load-window">
-                <AvatarPicker onRectChange={onRectChange} onImageLoad={onImageLoad} {...avatar} />
+                <AvatarPicker onRectChange={onRectChange} t={t} onImageLoad={onImageLoad} {...avatar} />
           </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} color="primary">
-                    {Content.Cancel}
+                    {t(Content.Cancel)}
                 </Button>
                 <Button onClick={onSubmit} variant="contained" color="primary">
-                    {Content.OK}
+                    {t(Content.Ok)}
                 </Button>
             </DialogActions>
           </Dialog>
@@ -40,7 +41,7 @@ class UpdateAvatarWindow extends React.Component {
     }
 }
 
-export default connect(
+export default translate("translations")(connect(
     state => ({
         avatar: state.avatar
     }),
@@ -56,4 +57,4 @@ export default connect(
             dispatch(updateAvatar());
         }
     })
-)(UpdateAvatarWindow)
+)(UpdateAvatarWindow))
