@@ -7,7 +7,7 @@ import { ACTION_FOR_APP } from '../../constans/ActionTypes';
 import Paper from '@material-ui/core/Paper/Paper';
 import { PROFILE_CONTENT } from '../../content/profile';
 import { MENU_LINKS } from '../../constans/common';
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 
 class MainMenu extends React.Component {

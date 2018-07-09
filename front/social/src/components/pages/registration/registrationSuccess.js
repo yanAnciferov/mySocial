@@ -4,7 +4,7 @@ import content from "../../../content/registration"
 import commonContent from "../../../content/common"
 import { Dialog, DialogTitle, DialogActions, Button, DialogContent, DialogContentText} from "@material-ui/core"
 import { ACTION_FOR_REGISTRATION } from '../../../constans/ActionTypes';
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 class RegistrationSuccess extends React.Component {
 

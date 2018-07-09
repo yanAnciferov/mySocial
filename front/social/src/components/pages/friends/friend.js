@@ -4,7 +4,7 @@ import MyFriends from './myFriends';
 import AnotherUserFriends from './anotherUserFriends';
 import { getUserFriendList } from '../../../actions/Users';
 import { getAuthUserFriendList } from '../../../actions/Account';
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 class Friends extends Component {
 
     componentWillMount(){

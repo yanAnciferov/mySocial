@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import content from "../../../content/login"
 import LoginForm from "./loginForm"
 import { Paper } from "@material-ui/core"
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 class Login extends Component {
     render() {

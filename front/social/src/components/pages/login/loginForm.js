@@ -8,7 +8,7 @@ import { ACTION_FOR_LOGIN } from '../../../constans/ActionTypes'
 
 import Content from "../../../content/login"
 import { login } from "../../../actions/Account"
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 class LoginForm extends Component {
     

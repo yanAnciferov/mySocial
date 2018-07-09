@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import RegistrationSteps from './registrationSteps'
 import content from "../../../content/registration"
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 class Registration extends Component {
     render() {

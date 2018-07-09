@@ -3,7 +3,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { ACTION_FOR_APP } from '../../constans/ActionTypes';
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 import MenuList from '@material-ui/core/MenuList/MenuList';
 
 

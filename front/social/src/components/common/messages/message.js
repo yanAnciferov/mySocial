@@ -6,7 +6,7 @@ import { ACTION_FOR_APP, ACTION_FROM_SERVER } from '../../../constans/ActionType
 import { PROFILE_CONTENT } from '../../../content/profile';
 import { onAddMessage, onIncomingMessage } from '../../../content/message';
 import { INCOMING, ACCEPT, OUTGOING, ACCEPTED } from '../../../constans/socketEvents';
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 
 class MessageQueue extends React.Component {

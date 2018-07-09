@@ -10,7 +10,7 @@ import Routes from './components/common/routes';
 import MainMenu from './components/common/mainMenu'
 import RegistrationSuccess from './components/pages/registration/registrationSuccess';
 import MessageQueue from "./components/common/messages/message"
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 import LanguagePicker from './components/common/languagePicker';
 import { getAuthUserData } from './actions/Account';
 

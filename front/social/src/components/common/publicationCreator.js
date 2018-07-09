@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { sendNewPublication } from "../../actions/Account"
 import commonContent from '../../content/common';
 import { PROFILE_CONTENT } from '../../content/profile';
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 
 class PublicationCreator extends Component {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Paper } from "@material-ui/core";
 import Link from 'react-router-dom/Link';
 import { PROFILE_CONTENT } from '../../../content/profile';
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 class FriendsBlock extends Component {
 

@@ -5,7 +5,7 @@ import { SearchContent } from '../../content/search';
 import { connect } from 'react-redux';
 import { onChangeFriendState } from '../../socket';
 import { ACCEPT, OUTGOING, REMOVE, REJECT } from '../../constans/socketEvents';
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 class FriendButton extends Component {
 

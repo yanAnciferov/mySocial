@@ -6,7 +6,7 @@ import { registration } from "../../../actions/Account"
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import Content from "../../../content/registration"
 import AvatarPricker from "../../common/avatarPicker";
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 class RegistrationAvatar extends React.Component {
 

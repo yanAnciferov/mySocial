@@ -4,7 +4,7 @@ import Language from './language';
 import Password from './password';
 import { ACTION_FOR_PASSWORD, ACTION_FOR_APP } from '../../../constans/ActionTypes';
 import { changePassword, changeLanguage } from '../../../actions/Account';
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 class Setting extends Component {
 

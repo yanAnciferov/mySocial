@@ -9,7 +9,7 @@ import UpdateAvatarWindow from './updateAvatarWindow';
 import FriendsBlock from './friendsBlock';
 import PublicationOnProfile from "../../common/publicationOnProfile";
 import Wall from './wall';
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 class Profile extends Component {
 

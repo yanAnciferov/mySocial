@@ -7,7 +7,8 @@ import { ACTION_FOR_REGISTRATION } from '../../../constans/ActionTypes'
 
 import Content from "../../../content/registration"
 import SetUserInfo from '../../common/setUserInfo';
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
+
 class RegistrationForm extends Component {
     
     fieldChange = (type, event) => {

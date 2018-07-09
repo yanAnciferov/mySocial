@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import { ACTION_FOR_EDIT } from '../../../constans/ActionTypes';
 import { updateAvatar } from '../../../actions/Account';
 import { PROFILE_CONTENT } from "../../../content/profile"
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
+
 class UpdateAvatarWindow extends React.Component {
 
     handleClose= (event, value) => {

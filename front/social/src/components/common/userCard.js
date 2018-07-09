@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PROFILE_CONTENT } from "../../content/profile";
 import { Link } from 'react-router-dom';
 import FriendButton from './friendButton'
-import translate from 'react-i18next/dist/commonjs/translate';
+import { translate } from 'react-i18next';
 
 class UserCard extends Component {   
 
