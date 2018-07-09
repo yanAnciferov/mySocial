@@ -62,7 +62,7 @@ router.post(API_METHODS_PATHS.NEW_PUBLICATION, uploads.any(), [verifyToken, star
 router.post(API_METHODS_PATHS.CHANGE_PASSWORD,[verifyToken, validationPassword, changePassword])
         .use(simpleErrorHandler)
 
-router.post("/changeLanguage", [verifyToken, changeLanguage])
+router.post(API_METHODS_PATHS.CHANGE_LANGUAGE, [verifyToken, changeLanguage])
         .use(simpleErrorHandler);
 
 module.exports = router;

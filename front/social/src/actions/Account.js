@@ -190,7 +190,7 @@ export const changePassword = () => (dispatch, getState) => {
   if(!isValid)
     return;
 
-  axios.post("/api/account/changePassword", {
+  axios.post(API.CHANGE_PASSWORD, {
     newPassword, oldPassword, confirmPassword
   })
   .then((res) => {
@@ -209,7 +209,7 @@ export const changeLanguage = () => (dispatch, getState) => {
 
   const { currentLanguage } = getState().app;
 
-  axios.post("/api/account/changeLanguage", {
+  axios.post(API.CHANGE_LANGUAGE, {
     language: currentLanguage
   })
   .then((res) => {
