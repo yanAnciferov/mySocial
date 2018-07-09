@@ -7,6 +7,7 @@ import { ACTION_FOR_REGISTRATION } from '../../../constans/ActionTypes'
 
 import Content from "../../../content/registration"
 import SetUserInfo from '../../common/setUserInfo';
+import translate from 'react-i18next/dist/commonjs/translate';
 class RegistrationForm extends Component {
     
     fieldChange = (type, event) => {
@@ -25,18 +26,19 @@ class RegistrationForm extends Component {
 
     render() {
     
-    let { register, onChange } = this.props
+    let { register, onChange, t } = this.props
     
     return (
         <div className="formWrapper">
             <Typography variant="title" color="inherit">
-                {Content.StepCommonInfoHeader}
+                {t(Content.StepCommonInfoHeader)}
             </Typography>
             <SetUserInfo 
                     buttonText={Content.NextStep} 
                     onSubmit={this.onSubmit} 
                     onChange={onChange} 
                     fieldChange={this.fieldChange} 
+                    t={t}
                     {...register} />
         </div>
     );
@@ -45,7 +47,7 @@ class RegistrationForm extends Component {
 
 
 
-export default connect(
+export default translate("translations")(connect(
         state => ({
             register: state.register
         }),
@@ -61,4 +63,4 @@ export default connect(
             }
 
         })
-)(RegistrationForm)
+)(RegistrationForm))

@@ -20,6 +20,8 @@ const AGE_INFO = "Age";
 const PICK_AVATAR = "Load avatar";
 const NEWS_NOT_FOUND = "There is no news in your news feed";
 const WHATS_APP = "Whats app?";
+const yearsOld = "yearsOld";
+
 
 function getSex(sex){
     return sex === SEX_TYPES.MALE ? MAIL_CONTENT : FEMAIL_CONTENT
@@ -30,7 +32,7 @@ function getFullName({firstname, surname, parrentname}){
 }
 
 function getAge(date){
-    return `${((new Date().getTime() - new Date(date)) / (TIME.COUNT_MILLISECONDS_IN_YEAR)) | 0} лет`;
+    return `${((new Date().getTime() - new Date(date)) / (TIME.COUNT_MILLISECONDS_IN_YEAR)) | 0}`;
 }
 
 export const PROFILE_CONTENT = {
@@ -53,5 +55,6 @@ export const PROFILE_CONTENT = {
     WHATS_APP,
     getSex,
     getFullName,
-    getAge
+    getAge,
+    yearsOld
 }

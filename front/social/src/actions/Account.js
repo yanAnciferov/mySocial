@@ -6,7 +6,10 @@ import { getUserModel } from "../scripts/userModel";
 import registrationContent from "../content/registration"
 import { PROFILE_CONTENT } from "../content/profile"
 import * as API from "../constans/apiUrl"
-import { registrationSuccess, loginSuccess, loginError, getAuthUserDataError, editSuccess, editError, updateAvatarSuccess, updateAvatarError, registrationError, getAuthUserDataSuccess, sendPublicationSuccess, changePasswordSuccess, changePasswordError } from "../scripts/actionHandlers/account";
+import { registrationSuccess, loginSuccess, loginError, getAuthUserDataError,
+   editSuccess, editError, updateAvatarSuccess, updateAvatarError, registrationError,
+    getAuthUserDataSuccess, sendPublicationSuccess, changePasswordSuccess, changePasswordError,
+      changeLanguageSuccess, changeLanguageError} from "../scripts/actionHandlers/account";
 import { ShowLoadingWindow } from "../scripts/actionHandlers/common";
 import { getMyFriendsSuccess, getMyFriendsError } from "../scripts/actionHandlers/friends";
 
@@ -49,7 +52,6 @@ export const registration = () => (dispatch, getState) => {
 
   axios.post(API.REGISTRATION,params)
     .then((res) => {
-      console.log(res);
       registrationSuccess(dispatch,res.data);
     })
     .catch((err) => {
@@ -185,7 +187,6 @@ export const changePassword = () => (dispatch, getState) => {
     return;
 
   const { newPassword, oldPassword, confirmPassword, isValid } = getState().password;
-  console.log(isValid, newPassword);
   if(!isValid)
     return;
 
@@ -199,3 +200,23 @@ export const changePassword = () => (dispatch, getState) => {
     changePasswordError(dispatch, err);
   })
 }
+
+export const changeLanguage = () => (dispatch, getState) => {
+  const { isAuthorize } = getState().app;
+  
+  if(!isAuthorize)
+    return;
+
+  const { currentLanguage } = getState().app;
+
+  axios.post("/api/account/changeLanguage", {
+    language: currentLanguage
+  })
+  .then((res) => {
+    changeLanguageSuccess(dispatch);
+  })
+  .catch((err) => {
+    changeLanguageError(dispatch, err);
+  })
+}
+

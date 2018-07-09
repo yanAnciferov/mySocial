@@ -12,11 +12,21 @@ import RegistrationSuccess from './components/pages/registration/registrationSuc
 import MessageQueue from "./components/common/messages/message"
 import translate from 'react-i18next/dist/commonjs/translate';
 import LanguagePicker from './components/common/languagePicker';
+import { getAuthUserData } from './actions/Account';
 
 class App extends Component {
   
   componentWillMount = () => {
-    this.props.i18n.changeLanguage("ua");
+    let { i18n, app, onInit } = this.props;
+    i18n.changeLanguage(app.currentLanguage);
+    onInit();
+  }
+
+  componentWillReceiveProps = (newProps) => {
+    let { i18n, app } = this.props;
+    if(newProps.app.currentLanguage !== app.currentLanguage){
+      i18n.changeLanguage(newProps.app.currentLanguage);
+    }
   }
 
   render() {
@@ -24,7 +34,8 @@ class App extends Component {
     let {
       onCloseErrorWindow,
       app: {
-        loadingWindow
+        loadingWindow,
+        authorizedUser
       },
       catcher: {
         errorWindow
@@ -46,7 +57,7 @@ class App extends Component {
         <ErrorWindow onClose={onCloseErrorWindow} open={errorWindow.isVisible} value={errorWindow.message} />
         <LoaderWindow open={loadingWindow.isVisible} value={loadingWindow.message} />
         <RegistrationSuccess open={isSuccessWindowShow} value="Value"/>
-        <LanguagePicker />
+         { !authorizedUser ? <LanguagePicker /> : null }
      </div>
     );
   }
@@ -67,6 +78,9 @@ translate("translations")(
     },
     onCloseMessageWindow: () => {
       dispatch({ type: ACTION_FOR_APP.CLOSE_MESSAGE_WINDOW})
+    },
+    onInit: () => {
+      dispatch(getAuthUserData(false));
     }
   })
 )(App)))

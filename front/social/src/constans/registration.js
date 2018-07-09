@@ -5,35 +5,35 @@ const MIN = "1920-01-01"
 const MAX = "2017-12-31"
 
 
-const INVALIDATE_ENTRY_PARAM = "Не верный входящий параметр"
-const ENTER_NAME = "Укажите ваше имя"
-const ENTER_SURNAME = "Укажите вашу фамилию"
-const ENTER_PARRENTNAME = "Укажите ваше отчество(не обязательно)"
-const ENTER_EMAIL = "Укажите вашу почту"
-const ENTER_BIRTHDATE = "Укажите вашу дату рождения"
-const ENTER_SEX = "Укажите ваш пол"
-const ENTER_FILE = "Загрузите файл"
-const ENTER_PASSWORD = "Введите пароль"
-const SET_AVATAR = "Установка аватара"
+const INVALIDATE_ENTRY_PARAM = "Invalidate entry param"
+const ENTER_NAME = "Enter your name"
+const ENTER_SURNAME = "Enter your surname"
+const ENTER_PARRENTNAME = "Enter your parrentname(no require)"
+const ENTER_EMAIL = "Enter your email"
+const ENTER_BIRTHDATE = "Enter your birthdate"
+const ENTER_SEX = "Select your gender"
+const ENTER_FILE = "Upload file"
+const ENTER_PASSWORD = "Enter your password"
+const SET_AVATAR = "Load avatar"
 
-const REQUIRED = "Это поле должно быть заполнено"
-const MIN_DATE = "Минимальная дата - 1 января 1920 года"
-const MAX_DATE = "Максимальная дата - 31 декабря 2017 года"
-const NAME_LENGTH = "Значение поля должно быть длинной от 2 до 32 символов"
-const NAME_OPTION = "Это поле должно состоять из букв латинницы или крилицы и не содержать пробелов"
-const EMAIL_OPTION = "Email должен быть указан в формате domain@username.hostname"
-const EMAIL_BUSY = "Указанный email занят другим пользователем"
-const EMAIL_NOT_EXISTENCE = "Указанный email не действительный"
-const TECHNICAL_WORK_ON_SERVER = "Ведутся технические работы на сервере, простите за временные не удобства"
-const FAILED_SEND_MESSAGE_TO_EMAIL = "Не удалось отправить сообщение на эту почту"
-const USER_NOT_FOUND_ABOUT_EMAIL = "Пользователя с такой почтой не существует"
-const INCORRECT_PASSWORD = "Не верный пароль"
+const REQUIRED = "Field is require"
+const MIN_DATE = "The minimum date is January 1, 1920"
+const MAX_DATE = "The maximum date us December 31, 2017"
+const NAME_LENGTH = "The field value must be between 2 and 32 characters long"
+const NAME_OPTION = "This field must consist of letters of latin or clay and do not contain spaces"
+const EMAIL_OPTION = "Email must be specified in the format domain@username.hostname"
+const EMAIL_BUSY = "This email is being used by another user"
+const EMAIL_NOT_EXISTENCE = "This email is not exist"
+const TECHNICAL_WORK_ON_SERVER = "Technical work is carried out on the server, sorry for the convenience"
+const FAILED_SEND_MESSAGE_TO_EMAIL = "Could not send message to this mail"
+const USER_NOT_FOUND_ABOUT_EMAIL = "Incorrect email"
+const INCORRECT_PASSWORD = "Incorrect password"
 
-const PASSWORD_LENGTH = "Длинна пароля должна быть от 6 до 32 символов";
-const PASSWORD_DIFFERENT = "Пароли не совпадают";
-const ENTER_NEW_PASSWORD = "Введите новый пароль";
-const ENTER_OLD_PASSWORD = "Введите старый пароль";
-const ENTER_CONFIRM_PASSWORD = "Подтвердите пароль";
+const PASSWORD_LENGTH = "The password must be between 6 and 31 characters in length";
+const PASSWORD_DIFFERENT = "Passwords do not match";
+const ENTER_NEW_PASSWORD = "Enter new password";
+const ENTER_OLD_PASSWORD = "Enter your old password";
+const ENTER_CONFIRM_PASSWORD = "Confirm the password";
 
 const EMAIL_REGEX = /[a-zA-Z0-9._%+-]{2,}@[a-zA-Z]{2,}(\.)[a-zA-Z]{1,}/
 const NAME_REGEX = /^[a-zA-Zа-яА-Я]+$/
@@ -48,8 +48,8 @@ const BIRTHDATE = "birthdate"
 const AVATAR = "avatar"
 const PASSWORD = "password"
 const ARRAY_FORMATS = ["image/jpeg", "image/jpg", "image/png"]
-const INVALIDATE_FORMAT = "Подходят только файлы формата .jpeg, .jpg, .png"
-const INVALIDATE_SIZE = "Размер файла должен быть от 40kb до 5mb"
+const INVALIDATE_FORMAT = "Only .jpeg, .jpg, .png files"
+const INVALIDATE_SIZE = "The file size should be from 40kb to 5mb"
 
 
 const OLD_PASSWORD = "oldPassword";

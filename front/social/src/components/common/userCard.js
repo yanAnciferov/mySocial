@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { PROFILE_CONTENT } from "../../content/profile";
 import { Link } from 'react-router-dom';
 import FriendButton from './friendButton'
+import translate from 'react-i18next/dist/commonjs/translate';
 
 class UserCard extends Component {   
 
     render() {
-      let { getFullName, getAge, getSex } = PROFILE_CONTENT;
+      let { getFullName, getAge, getSex, yearsOld } = PROFILE_CONTENT;
       let { user, t } = this.props;
       return (
         <div className="user-card">
@@ -20,7 +21,7 @@ class UserCard extends Component {
                     <span >{getFullName(user)} </span>
                   </Link>
                 </div>
-                <div className="user-card-field">{t(PROFILE_CONTENT.AGE_INFO)}: {getAge(user.birthdate)} </div>
+                <div className="user-card-field">{t(PROFILE_CONTENT.AGE_INFO)}: {t(yearsOld, { year: getAge(user.birthdate) })} </div>
                 <div className="user-card-field">{t(PROFILE_CONTENT.SEX_INFO)}: {t(getSex(user.sex))} </div>
             </div>
           </div>
@@ -32,4 +33,4 @@ class UserCard extends Component {
     }
 }
 
-export default UserCard
+export default translate("translations")(UserCard)

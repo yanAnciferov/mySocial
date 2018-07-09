@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Paper, FormControl } from "@material-ui/core"
-import { connect } from 'react-redux';
 import Select from '@material-ui/core/Select/Select';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import Button from '@material-ui/core/Button/Button';
@@ -21,7 +20,7 @@ class Language extends Component {
                         value={currentLanguage}
                         fullWidth>
                         <MenuItem value="ru">Русский</MenuItem>
-                        <MenuItem value="ua">Український</MenuItem>
+                        <MenuItem value="uk">Український</MenuItem>
                         <MenuItem value="en">English</MenuItem>
                     </Select>
                 </FormControl>

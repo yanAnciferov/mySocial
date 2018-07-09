@@ -1,3 +1,5 @@
+var { changeLanguage } = require( '../scripts/midllewares/language');
+
 var { validatePublication, savePublication }  = require('../scripts/midllewares/publication');
 var { saveImageSimple }  = require('../scripts/image');
 var { startToCreatePublication }  = require('../scripts/midllewares/publication');
@@ -60,5 +62,7 @@ router.post(API_METHODS_PATHS.NEW_PUBLICATION, uploads.any(), [verifyToken, star
 router.post(API_METHODS_PATHS.CHANGE_PASSWORD,[verifyToken, validationPassword, changePassword])
         .use(simpleErrorHandler)
 
+router.post("/changeLanguage", [verifyToken, changeLanguage])
+        .use(simpleErrorHandler);
 
 module.exports = router;

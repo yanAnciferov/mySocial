@@ -41,16 +41,17 @@ class Header extends React.Component {
 
 class UnauthorizedMenu extends React.Component {
   render(){
+    let { t } = this.props;
     return (
       <div className="unauthorized-menu">
         <Link to="/login">
           <Button>
-              {content.ToLogin}
+              {t(content.ToLogin)}
           </Button>
         </Link>
         <Link to="/registration">
             <Button>
-                {content.ToRegistration}
+                {t(content.ToRegistration)}
             </Button>
         </Link>
       </div>

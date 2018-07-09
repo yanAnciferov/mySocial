@@ -24,14 +24,9 @@ const RegistrationLoad = "There is a registration"
 const FinalRegistration = "Final of registartion"
 const LoadAvatar = "Upload or drag the image file here"
 
-function MessageAboutSuccesRegistration(firstname){
-    return `Поздравляем вас, ${firstname}, вы успешно прошли регистрацию!`
-}
+const MessageAboutSuccesRegistration = "successRegistrationMessage";
 
-function MessageAboutSendPassToMail(email){
-    return `Пароль и логин был выслан вам на почту - ${email}`
-}
-
+const MessageAboutSendPassToMail = "messageAboutPassword";
 export default {
     RegistrationPageHeader,
     StepAvatarHeader,

@@ -3,13 +3,14 @@ import Paper from '@material-ui/core/Paper/Paper';
 import Grid from '@material-ui/core/Grid/Grid';
 import { PROFILE_CONSTS } from '../../../constans/profile';
 import { PROFILE_CONTENT } from '../../../content/profile';
+import { connect } from 'react-redux';
 
 
 class MainInfo extends React.Component {
   
     render() {
-        var { user, t } = this.props;   
-        var forRender = (user !== null) ? (<MainInfoWithUser t={t} user={user}/>) : ( <MainInfoEmitter/>)
+        var { user, app, t } = this.props;   
+        var forRender = (user !== null) ? (<MainInfoWithUser localeFormat={app.currentLanguage} t={t} user={user}/>) : ( <MainInfoEmitter/>)
         return (
             <div>
                 {forRender}
@@ -21,10 +22,9 @@ class MainInfo extends React.Component {
 class MainInfoWithUser extends React.Component {
 
    render() {
-        const { user, t, user: { birthdate, sex, email } } = this.props;
-        console.log(PROFILE_CONTENT.EMAIL_INFO, t(PROFILE_CONTENT.EMAIL_INFO))
+        const { user, localeFormat, t, user: { birthdate, sex, email } } = this.props;
         const items = [
-            { key: PROFILE_CONTENT.BIRTHDATE_INFO, value: new Date(birthdate).toLocaleDateString(PROFILE_CONSTS.LOCAL_FORMAT, PROFILE_CONSTS.DATE_FORMAT)},
+            { key: PROFILE_CONTENT.BIRTHDATE_INFO, value: new Date(birthdate).toLocaleDateString(localeFormat, PROFILE_CONSTS.DATE_FORMAT)},
             { key: PROFILE_CONTENT.SEX_INFO, value: t(PROFILE_CONTENT.getSex(sex)) },
             { key: PROFILE_CONTENT.EMAIL_INFO, value: email }
         ]
@@ -75,4 +75,8 @@ class MainInfoEmitter extends React.Component {
     }
 }
 
-export default MainInfo;
+export default connect(
+    state => ({
+        app: state.app
+    })
+)(MainInfo);

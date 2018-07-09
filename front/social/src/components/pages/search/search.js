@@ -7,7 +7,7 @@ import { search } from '../../../actions/Search';
 import { push } from 'react-router-redux/actions';
 import { ACTION_FOR_SEARCH } from '../../../constans/ActionTypes';
 import { SearchContent } from '../../../content/search';
-import { translate, Trans } from "react-i18next";
+import { translate } from "react-i18next";
 
 class Search extends Component {
 
@@ -25,7 +25,7 @@ class Search extends Component {
     }
 
     render() { 
-        let { t, i18n } = this.props;
+        let { t } = this.props;
         let { result, query } = this.props.search;
         let forRender = result.length ? 
             <UserList t={t} usersList={this.props.search.result} /> : 
@@ -52,8 +52,8 @@ class Search extends Component {
 
 
 export default 
-translate("translations")
-(connect(
+translate("translations")(
+    connect(
     state => ({
         search: state.search
     }),

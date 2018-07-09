@@ -495,7 +495,6 @@ div.edit-wrapper span.header{
 
 .friends-content{
   flex-grow: 1;
-  margin-right: 1em;
 }
 
 .friends-list-wrapper{
@@ -707,4 +706,16 @@ button.settings-submit{
   bottom: 0;
   right: 1em;
   width: 4em;
+}
+
+.languagePicker .focus{
+  background-color: #3F51B5;
+}
+
+.languagePicker .focus:hover{
+  background-color: rgb(103, 117, 197);
+}
+
+.languagePicker .focus *{
+  color: white;
 }

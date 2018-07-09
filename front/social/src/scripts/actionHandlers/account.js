@@ -135,3 +135,12 @@ export function changePasswordSuccess(dispatch){
 export function changePasswordError(dispatch,err){
     dispatch({type: ACTION_FOR_PASSWORD.PASSWORD_ON_ERROR, err});
 }
+
+
+export function changeLanguageSuccess(dispatch){
+    dispatch({type: ACTION_FOR_APP.LANGUAGE_SUCCESS});
+}
+
+export function changeLanguageError(dispatch,err){
+   console.log(err);
+}

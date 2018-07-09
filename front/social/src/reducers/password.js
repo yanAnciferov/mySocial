@@ -1,13 +1,7 @@
-import { ACTION_FOR_APP, ACTION_FOR_PASSWORD, ACTION_COMMON} from "../constans/ActionTypes"
-
-import {  ACTION_FOR_LOGIN } from "../constans/ActionTypes"
-import { errors } from "../constans/errors"
-
+import { ACTION_FOR_PASSWORD, ACTION_COMMON} from "../constans/ActionTypes"
 import { MESSAGE, PASSWORD_MESSAGES } from "../constans/registration"
 import { passwordValidation } from "../scripts/validate";
 import { MENU_LINKS } from "../constans/common";
-import login from "../content/login";
-
 
 const initialState = {
 
@@ -57,7 +51,7 @@ export default function (state = initialState, action) {
         }
     }
 
-    if(action.type === ACTION_FOR_PASSWORD.PASSWORD_ON_ERROR && action.err.response.data == "password is different"){
+    if(action.type === ACTION_FOR_PASSWORD.PASSWORD_ON_ERROR && action.err.response.data === "password is different"){
         
         let newOldPasswordState = state.validateState.oldPassword;
         newOldPasswordState.isError = true;

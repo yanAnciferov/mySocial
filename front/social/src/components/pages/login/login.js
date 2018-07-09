@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import content from "../../../content/login"
 import LoginForm from "./loginForm"
 import { Paper } from "@material-ui/core"
+import translate from 'react-i18next/dist/commonjs/translate';
 
 class Login extends Component {
     render() {
+    let { t } = this.props;
     return (
       <div className="login-page">
-         <h1 className="pageHeader">{content.LoginPageHeader}</h1>
+         <h1 className="pageHeader">{t(content.LoginPageHeader)}</h1>
          <Paper className="card">
           <LoginForm />
          </Paper>
@@ -17,4 +19,4 @@ class Login extends Component {
     }
 }
 
-export default Login
+export default translate("translations")(Login)

@@ -8,6 +8,7 @@ import { ACTION_FOR_LOGIN } from '../../../constans/ActionTypes'
 
 import Content from "../../../content/login"
 import { login } from "../../../actions/Account"
+import translate from 'react-i18next/dist/commonjs/translate';
 
 class LoginForm extends Component {
     
@@ -27,9 +28,9 @@ class LoginForm extends Component {
 
     render() {
     
-    var { email, password } = this.props.login.validateState
-
-    var state = {
+    let { email, password } = this.props.login.validateState
+    let { t } = this.props;
+    let state = {
         ...this.props.login
     }
     
@@ -40,8 +41,8 @@ class LoginForm extends Component {
                     <Grid container spacing={24}>
                         <FormControl className="registerControl" required fullWidth>
                             <TextField 
-                                label={Content.EmailLabel} 
-                                helperText={email.message}
+                                label={t(Content.EmailLabel)} 
+                                helperText={t(email.message)}
                                 onChange={(e) => this.fieldCange(MODEL_NAMES.EMAIL,e)}
                                 value={state.email}
                                 error={email.isError}
@@ -50,9 +51,9 @@ class LoginForm extends Component {
                         <FormControl className="registerControl" fullWidth>
                             <TextField 
                                 type="password"
-                                label={Content.PasswordLabel}  
+                                label={t(Content.PasswordLabel)}  
                                 fullWidth
-                                helperText={password.message}
+                                helperText={t(password.message)}
                                 value={state.password}
                                 onChange={(e) => this.fieldCange(MODEL_NAMES.PASSWORD,e)}
                                 error={password.isError}
@@ -60,7 +61,7 @@ class LoginForm extends Component {
                         </FormControl>
                     </Grid>
                     <Grid container justify="flex-end">
-                        <Button className="login-button" onClick={this.onSubmit} type="submit" variant="contained" color="primary">Далее</Button>
+                        <Button className="login-button" onClick={this.onSubmit} type="submit" variant="contained" color="primary">{t(Content.LoginPageHeader)}</Button>
                     </Grid> 
             </form>
         </div>
@@ -70,7 +71,7 @@ class LoginForm extends Component {
 
 
 
-export default connect(
+export default translate("translations")(connect(
         state => ({
             login: state.login
         }),
@@ -83,4 +84,4 @@ export default connect(
                 dispatch({ type: ACTION_FOR_LOGIN.LOGIN_ON_CHANGE, payload: newValue})
             }
         })
-)(LoginForm);
+)(LoginForm));

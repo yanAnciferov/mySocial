@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Paper } from "@material-ui/core"
-import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField/TextField';
 import Button from '@material-ui/core/Button/Button';
 import FormControl from '@material-ui/core/FormControl/FormControl';
-import { MODEL_NAMES, PASSWORD_FIELDS, PASSWORD_MESSAGES } from '../../../constans/registration';
+import { PASSWORD_FIELDS, PASSWORD_MESSAGES } from '../../../constans/registration';
 import { SETTINGS } from '../../../content/settings';
 
 class Password extends Component {

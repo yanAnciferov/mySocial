@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Language from './language';
 import Password from './password';
 import { ACTION_FOR_PASSWORD, ACTION_FOR_APP } from '../../../constans/ActionTypes';
-import { changePassword } from '../../../actions/Account';
+import { changePassword, changeLanguage } from '../../../actions/Account';
 import translate from 'react-i18next/dist/commonjs/translate';
 
 class Setting extends Component {
@@ -65,6 +65,7 @@ translate("translations")(connect(
        },
        languageChange(newLang){
         dispatch({type: ACTION_FOR_APP.LANGUAGE_CHANGE, payload: newLang});
+        dispatch(changeLanguage());
        }
     })
 )(Setting));

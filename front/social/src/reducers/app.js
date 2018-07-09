@@ -19,23 +19,23 @@ function getUserFromStorage(){
     }
 }
 
-
-
-const initialState = {
-
-    loadingWindow: {
-        isVisible: false,
-        message: ""
-    },
-    isAuthorize: localStorage.getItem("token") !== null,
-    token: localStorage.getItem("token"),
-    authorizedUser: getUserFromStorage(),
-    wallPublications: [],
-    currentLanguage: 'ua'
+function getInitialState(){
+    let user = getUserFromStorage();
+    return {
+        loadingWindow: {
+            isVisible: false,
+            message: ""
+        },
+        isAuthorize: localStorage.getItem("token") !== null,
+        token: localStorage.getItem("token"),
+        authorizedUser: user ,
+        wallPublications: [],
+        currentLanguage: user && user.language ? user.language : "en"
+    }
 }
 
 
-export default function (state = initialState, action) {
+export default function (state = getInitialState(), action) {
     
 
     if(action.type === ACTION_FOR_APP.SHOW_LOADING_WINDOW)
@@ -95,10 +95,12 @@ export default function (state = initialState, action) {
 
     
     if(action.type === ACTION_FOR_APP.SET_USER_DATA){
-        localStorage.setItem("userData", JSON.stringify(action.payload));
+        let user = action.payload;
+        localStorage.setItem("userData", JSON.stringify(user));
         return { 
             ...state,
-            authorizedUser: action.payload
+            authorizedUser: user,
+            currentLanguage: user.language
         }
     }
 

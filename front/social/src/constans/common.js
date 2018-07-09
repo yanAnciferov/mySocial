@@ -8,8 +8,8 @@ const COUNT_MILLISECONDS_IN_YEAR = 24 * 3600 * 365.25 * 1000;
 const MAX_TEXT_SIZE = 2048;
 const MIN_TEXT_SIZE = 1;
 
-const UNEXPECTED_ERROR_MESSAGE = "Не известная ошибка сервера"
-const ON_AUTHORIZATION = "Идет авторизация"
+const UNEXPECTED_ERROR_MESSAGE = "Unknown server error"
+const ON_AUTHORIZATION = "Authorization in progress";
 
 const FRIENDS = "/friends";
 const SEARCH = "/search";

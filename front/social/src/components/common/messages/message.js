@@ -6,13 +6,14 @@ import { ACTION_FOR_APP, ACTION_FROM_SERVER } from '../../../constans/ActionType
 import { PROFILE_CONTENT } from '../../../content/profile';
 import { onAddMessage, onIncomingMessage } from '../../../content/message';
 import { INCOMING, ACCEPT, OUTGOING, ACCEPTED } from '../../../constans/socketEvents';
+import translate from 'react-i18next/dist/commonjs/translate';
 
 
 class MessageQueue extends React.Component {
 
     componentWillMount(){
 
-        let { toIncoming, toOutgoing, toFriend, toNoFriend, onNewPublication } = this.props;
+        let { toIncoming, toOutgoing, toFriend, toNoFriend, onNewPublication} = this.props;
         socketOn(INCOMING,({user})=>{
             toIncoming(user);
             this.addMessage({
@@ -86,6 +87,7 @@ class MessageQueue extends React.Component {
     }
 
     render() {
+        let { t } = this.props;
       return (
        <div className="messageQueue">
            <ul>
@@ -93,7 +95,7 @@ class MessageQueue extends React.Component {
                this.state.messages.map((value, index) => {
                    return (
                     <li key={index}>
-                       <Message {...value} />
+                       <Message t={t} {...value} />
                     </li>
                     )
                })
@@ -108,11 +110,11 @@ class MessageQueue extends React.Component {
 
     render()
     {
-        let { header, link, textLink, imageUrl, message  } = this.props;
+        let { header, link, textLink, imageUrl, message, t  } = this.props;
         return (
             <div className="message">
                 <div className="message-header">
-                    {header}
+                    {t(header)}
                 </div>
                 <div className="message-body">
                     <div className="message-avatar">
@@ -122,7 +124,7 @@ class MessageQueue extends React.Component {
                         <Link to={`${link}`}>
                         {textLink}
                         </Link>
-                        {message}
+                        {t(message)}
                     </div>
                     
                 </div>
@@ -132,7 +134,7 @@ class MessageQueue extends React.Component {
 }
 
 
-  export default connect(
+  export default translate("translations")(connect(
     state => ({
         app: state.app
     }),
@@ -153,4 +155,4 @@ class MessageQueue extends React.Component {
         dispatch({ type: ACTION_FOR_APP.ON_ADD_PUBLICATION, payload: publication });
       }
   })
-)(MessageQueue);
+)(MessageQueue));
