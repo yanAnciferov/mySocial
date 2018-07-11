@@ -1,25 +1,27 @@
 import { SEX_TYPES } from "../constans/registration";
 import { TIME } from "../constans/common";
 
-const BIRTHDATE_INFO = "Дата рождения:";
-const SEX_INFO = "Пол:";
-const PAGE_NOT_FOUNT = "Страница не существует";
-const MY_PAGE = "Моя страница";
-const MY_FRIENDS = "Друзья";
-const MY_NEWS = "Новости";
-const SEARCH = "Поиск";
-const SETTINGS = "Настройки";
-const EMAIL_INFO = "Почта:";
-const UPDATE_DATA_LOAD = "Обновляем ваши данные";
-const UPDATE_AVATAR_LOAD = "Обновляем ваш аватар";
-const MAIL_CONTENT = "Мужской";
-const FEMAIL_CONTENT = "Женский";
-const MAIN_INFO = "Основная информация";
-const UPDATE_AVATAR = "Обновить аватар";
-const AGE_INFO = "Возраст: ";
-const PICK_AVATAR = "Выбор аватара";
-const NEWS_NOT_FOUND = "В вашей новостной ленте нет ни одной новости";
-const WHATS_APP = "Что у вас нового?";
+const BIRTHDATE_INFO = "Birthdate";
+const SEX_INFO = "Gender";
+const PAGE_NOT_FOUNT = "Page is not found";
+const MY_PAGE = "My page";
+const MY_FRIENDS = "Friends";
+const MY_NEWS = "News";
+const SEARCH = "Search";
+const SETTINGS = "Settings";
+const EMAIL_INFO = "Email";
+const UPDATE_DATA_LOAD = "Updating your data";
+const UPDATE_AVATAR_LOAD = "Updating your avatar";
+const MAIL_CONTENT = "Male";
+const FEMAIL_CONTENT = "Female";
+const MAIN_INFO = "Main information";
+const UPDATE_AVATAR = "Update avatar";
+const AGE_INFO = "Age";
+const PICK_AVATAR = "Load avatar";
+const NEWS_NOT_FOUND = "There is no news in your news feed";
+const WHATS_APP = "Whats app?";
+const yearsOld = "yearsOld";
+const FOR_DELETE_PUBLICATION = "Are you sure want to delete this entry?";
 
 function getSex(sex){
     return sex === SEX_TYPES.MALE ? MAIL_CONTENT : FEMAIL_CONTENT
@@ -30,7 +32,7 @@ function getFullName({firstname, surname, parrentname}){
 }
 
 function getAge(date){
-    return `${((new Date().getTime() - new Date(date)) / (TIME.COUNT_MILLISECONDS_IN_YEAR)) | 0} лет`;
+    return `${((new Date().getTime() - new Date(date)) / (TIME.COUNT_MILLISECONDS_IN_YEAR)) | 0}`;
 }
 
 export const PROFILE_CONTENT = {
@@ -51,7 +53,9 @@ export const PROFILE_CONTENT = {
     AGE_INFO,
     NEWS_NOT_FOUND,
     WHATS_APP,
+    FOR_DELETE_PUBLICATION,
     getSex,
     getFullName,
-    getAge
+    getAge,
+    yearsOld
 }

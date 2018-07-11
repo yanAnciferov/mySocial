@@ -1,9 +1,9 @@
-const ToRegistration = "Регистрация"
-const ToHome = "Домой"
-const ToLogin = "Вход"
-const ToLogout = "Выход"
+const ToRegistration = "Registration"
+const ToHome = "Home"
+const ToLogin = "Login"
+const ToLogout = "Logout"
 const SiteName = "My Social Network"
-const ToMyPage = "Моя страница"
+const ToMyPage = "My page"
 
 export default {
     ToRegistration,

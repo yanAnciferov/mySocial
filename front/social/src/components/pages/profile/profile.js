@@ -9,6 +9,7 @@ import UpdateAvatarWindow from './updateAvatarWindow';
 import FriendsBlock from './friendsBlock';
 import PublicationOnProfile from "../../common/publicationOnProfile";
 import Wall from './wall';
+import { translate } from 'react-i18next';
 
 class Profile extends Component {
 
@@ -18,17 +19,19 @@ class Profile extends Component {
         onLoadAvatarClose, 
         id,
         profile:{ userData, isNotFound, isShowAvatarPicker }, 
-        app: {authorizedUser } 
+        app: {authorizedUser },
+        t
       } = this.props;
       
       const isMyPage = id === authorizedUser._id;
-      const forRender = (isNotFound) ? <NotFound/> : 
+      const forRender = (isNotFound) ? <NotFound t={t}/> : 
         <Found
           onLoadAvatarOpen={onLoadAvatarOpen}  
-          user={userData}
+          user={isMyPage ? authorizedUser : userData}
           isMyPage={isMyPage}
           isShowAvatarPicker={isShowAvatarPicker}
-          onLoadAvatarClose={onLoadAvatarClose}/>
+          onLoadAvatarClose={onLoadAvatarClose}
+          t={t}/>
       
       return (
         <div >
@@ -46,19 +49,21 @@ class Found extends Component
         onLoadAvatarOpen,
         onLoadAvatarClose, 
         isShowAvatarPicker, 
-        isMyPage
+        isMyPage,
+        t
       } = this.props;
-    
+
+
       return (
         <div className="profile-page">
           <div className="left-side-profile">
-              <Avatar isMyPage={isMyPage} onLoadAvatarClick={onLoadAvatarOpen} user={user}/>
-              <FriendsBlock user={user}/>
+              <Avatar t={t} isMyPage={isMyPage} onLoadAvatarClick={onLoadAvatarOpen} user={user}/>
+              <FriendsBlock t={t} user={user}/>
           </div>
           <div className="right-side-profile">
-              <MainInfo isMyPage={isMyPage} user={user}/>
-              <PublicationOnProfile isMyPage={isMyPage} />
-              <Wall isMyPage={isMyPage} user={user}/>              
+              <MainInfo t={t} isMyPage={isMyPage} user={user}/>
+              <PublicationOnProfile t={t} user={user} isMyPage={isMyPage} />
+              <Wall t={t} isMyPage={isMyPage} user={user}/>              
           </div>
           <UpdateAvatarWindow onClose={onLoadAvatarClose} open={isShowAvatarPicker}/>
         </div>
@@ -69,17 +74,18 @@ class Found extends Component
 class NotFound extends Component
 {
   render(){
+    let { t } = this.props;
     return (
       <div className="not-found-wrapper">
         <Paper className="not-found-papper">
-          <span>{PROFILE_CONTENT.PAGE_NOT_FOUNT}</span>
+          <span>{t(PROFILE_CONTENT.PAGE_NOT_FOUNT)}</span>
         </Paper>
       </div>
     )
   }
 }
 
-export default connect(
+export default translate("translations")(connect(
   state => ({
       profile: state.profile,
       app: state.app
@@ -92,4 +98,4 @@ export default connect(
       dispatch({type: ACTION_FOR_PROFILE.LOAD_AVATAR_CLOSE})
     }
   })
-)(Profile);
+)(Profile));

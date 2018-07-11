@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux';
 import { ACTION_FOR_APP } from '../../constans/ActionTypes';
-import Paper from '@material-ui/core/Paper/Paper';
 import { PROFILE_CONTENT } from '../../content/profile';
 import { MENU_LINKS } from '../../constans/common';
+import { translate } from 'react-i18next';
 
 
 class MainMenu extends React.Component {
@@ -16,8 +16,8 @@ class MainMenu extends React.Component {
     }
   
     render() {
-        const { FEED, SEARCH, getUrlToMyFriends, getUrlToMyPage } = MENU_LINKS;
-        const { authorizedUser } = this.props.app;
+        const { FEED, SEARCH, getUrlToMyFriends, SETTINGS, getUrlToMyPage } = MENU_LINKS;
+        const {  app: { authorizedUser }, t } = this.props;
                 
         if(!authorizedUser)
             return null;
@@ -27,41 +27,58 @@ class MainMenu extends React.Component {
 
         return (
             <div className="main-menu">
-            <Paper className="main-menu-paper">
+            <div className="main-menu-paper papper">
                 <MenuList>
                     <Link to={getUrlToMyPage(authorizedUser._id)}>
-                        <MenuItem >
-                            <ListItemText primary={PROFILE_CONTENT.MY_PAGE} />
+                        <MenuItem className="main-menu-item">
+                            <div className="main-menu-icon">
+                                <img src="./icons/home.svg" alt="home"/>
+                            </div>
+                            <ListItemText className="main-menu-text" primary={t(PROFILE_CONTENT.MY_PAGE)} />
                         </MenuItem>
                     </Link>
                     <Link to={getUrlToMyFriends(authorizedUser._id)}>
-                        <MenuItem >
-                            <ListItemText primary={PROFILE_CONTENT.MY_FRIENDS} />
+                        <MenuItem className="main-menu-item">
+                            <div className="main-menu-icon">
+                                <img src="./icons/friends.svg" alt="home"/>
+                            </div>
+                            <ListItemText className="main-menu-text" primary={t(PROFILE_CONTENT.MY_FRIENDS)} />
                             { forFriendsRender }
                         </MenuItem>
                     </Link>
                     <Link to={SEARCH}>
-                        <MenuItem >
-                            <ListItemText primary={PROFILE_CONTENT.SEARCH} />
+                        <MenuItem className="main-menu-item">
+                            <div className="main-menu-icon">
+                                <img src="./icons/search.svg" alt="home"/>
+                            </div>
+                            <ListItemText className="main-menu-text" primary={t(PROFILE_CONTENT.SEARCH)} />
                         </MenuItem>
                     </Link>
                     <Link to={FEED}>
-                        <MenuItem >
-                            <ListItemText primary={PROFILE_CONTENT.MY_NEWS} />
+                        <MenuItem className="main-menu-item">
+                            <div className="main-menu-icon">
+                                <img src="./icons/newspaper.svg" alt="home"/>
+                            </div>
+                            <ListItemText className="main-menu-text" primary={t(PROFILE_CONTENT.MY_NEWS)} />
                         </MenuItem>
                     </Link>
-                    <MenuItem>
-                        <ListItemText primary={PROFILE_CONTENT.SETTINGS} />
-                    </MenuItem>
+                    <Link to={SETTINGS}>
+                        <MenuItem className="main-menu-item">
+                            <div className="main-menu-icon">
+                                <img src="./icons/settings.svg" alt="home"/>
+                            </div>
+                            <ListItemText className="main-menu-text" primary={t(PROFILE_CONTENT.SETTINGS)} />
+                        </MenuItem>
+                    </Link>
                 </MenuList>
-            </Paper>
+            </div>
             </div>
         );
     }
   }
 
 
-  export default connect(
+  export default translate("translations")(connect(
     state => ({
         app: state.app
     }),
@@ -70,4 +87,4 @@ class MainMenu extends React.Component {
         dispatch({ type: ACTION_FOR_APP.LOGOUT});
       }
   })
-)(MainMenu);
+)(MainMenu));

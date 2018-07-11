@@ -6,7 +6,10 @@ import { getUserModel } from "../scripts/userModel";
 import registrationContent from "../content/registration"
 import { PROFILE_CONTENT } from "../content/profile"
 import * as API from "../constans/apiUrl"
-import { registrationSuccess, loginSuccess, loginError, getAuthUserDataError, editSuccess, editError, updateAvatarSuccess, updateAvatarError, registrationError, getAuthUserDataSuccess, sendPublicationSuccess } from "../scripts/actionHandlers/account";
+import { registrationSuccess, loginSuccess, loginError, getAuthUserDataError,
+   editSuccess, editError, updateAvatarSuccess, updateAvatarError, registrationError,
+    getAuthUserDataSuccess, sendPublicationSuccess, changePasswordSuccess, changePasswordError,
+      changeLanguageSuccess, changeLanguageError, sendPublicationError, deletePublicationSuccess, deletePublicationError} from "../scripts/actionHandlers/account";
 import { ShowLoadingWindow } from "../scripts/actionHandlers/common";
 import { getMyFriendsSuccess, getMyFriendsError } from "../scripts/actionHandlers/friends";
 
@@ -49,7 +52,6 @@ export const registration = () => (dispatch, getState) => {
 
   axios.post(API.REGISTRATION,params)
     .then((res) => {
-      console.log(res);
       registrationSuccess(dispatch,res.data);
     })
     .catch((err) => {
@@ -164,7 +166,10 @@ export const sendNewPublication = () => (dispatch, getState) => {
   if(!isAuthorize)
     return;
 
-  const { text } = getState().publication;
+  const { text, isValid } = getState().publication;
+  if(!isValid)
+    return;
+    
   let params = new FormData();
   params.append("imageFile", null);
   params.append("textBody", text);
@@ -173,6 +178,65 @@ export const sendNewPublication = () => (dispatch, getState) => {
     sendPublicationSuccess(dispatch, res.data);
   })
   .catch((err) => {
-    sendPublicationSuccess(dispatch, err);
+    sendPublicationError(dispatch, err);
   })
 }
+
+
+export const deletePublication = (id) => (dispatch, getState) => {
+  const { isAuthorize } = getState().app;
+  
+  if(!isAuthorize)
+    return;
+
+  
+  axios.post(API.DELETE_PUBLICATION, { id })
+  .then((res) => {
+    deletePublicationSuccess(dispatch, id);
+  })
+  .catch((err) => {
+    deletePublicationError(dispatch, err);
+  })
+}
+
+
+export const changePassword = () => (dispatch, getState) => {
+  const { isAuthorize } = getState().app;
+  
+  if(!isAuthorize)
+    return;
+
+  const { newPassword, oldPassword, confirmPassword, isValid } = getState().password;
+  if(!isValid)
+    return;
+
+  axios.post(API.CHANGE_PASSWORD, {
+    newPassword, oldPassword, confirmPassword
+  })
+  .then((res) => {
+    changePasswordSuccess(dispatch);
+  })
+  .catch((err) => {
+    changePasswordError(dispatch, err);
+  })
+}
+
+export const changeLanguage = () => (dispatch, getState) => {
+  const { isAuthorize } = getState().app;
+  
+  if(!isAuthorize)
+    return;
+
+  const { currentLanguage } = getState().app;
+
+  axios.post(API.CHANGE_LANGUAGE, {
+    language: currentLanguage
+  })
+  .then((res) => {
+    changeLanguageSuccess(dispatch);
+  })
+  .catch((err) => {
+    changeLanguageError(dispatch, err);
+  })
+}
+

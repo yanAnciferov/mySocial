@@ -1,37 +1,32 @@
-const RegistrationPageHeader = "Регистрация";
-const StepAvatarHeader = "Установка аватара";
-const ScaleTitle = "Масштаб:";
-const LoadFile = "Загрузить файл";
-const SkipButton = "Пропустить";
-const NextButton = "Регистрация";
-const PrevButton = "Назад";
-const NextStep = "Далее";
-const StepCommonInfoHeader = "Общая информация"
+const RegistrationPageHeader = "Registration";
+const StepAvatarHeader = "Load avatar";
+const ScaleTitle = "Scale";
+const LoadFile = "Upload file";
+const SkipButton = "Skip";
+const NextButton = "Registration";
+const PrevButton = "Back";
+const NextStep = "Next";
+const StepCommonInfoHeader = "Common information"
 
-const NameLabel = "Имя"
-const SurameLabel = "Фамилия"
-const ParrentnameLabel = "Отчество"
-const EmailLabel = "Почта"
-const SexLabel = "Пол"
-const BirthdateLabel = "Дата рождения"
-const GoToProfile = "Перейти в профиль"
+const NameLabel = "Name"
+const SurameLabel = "Surname"
+const ParrentnameLabel = "Parrentname"
+const EmailLabel = "Email"
+const SexLabel = "Gender"
+const BirthdateLabel = "Birthdate"
+const GoToProfile = "Go to profile"
 
-const Male = "Мужской"
-const Female = "Женский"
+const Male = "Male"
+const Female = "Female"
 
-const RegistrationLoad = "Идет регистрация" 
+const RegistrationLoad = "There is a registration" 
 
-const FinalRegistration = "Завершение регистрации"
-const LoadAvatar = "Загрузите или перетащите файл с изображением сюда"
+const FinalRegistration = "Final of registartion"
+const LoadAvatar = "Upload or drag the image file here"
 
-function MessageAboutSuccesRegistration(firstname){
-    return `Поздравляем вас, ${firstname}, вы успешно прошли регистрацию!`
-}
+const MessageAboutSuccesRegistration = "successRegistrationMessage";
 
-function MessageAboutSendPassToMail(email){
-    return `Пароль и логин был выслан вам на почту - ${email}`
-}
-
+const MessageAboutSendPassToMail = "messageAboutPassword";
 export default {
     RegistrationPageHeader,
     StepAvatarHeader,

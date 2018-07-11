@@ -5,11 +5,11 @@ class UsersList extends Component {
 
     render() {
       
-      let { usersList } = this.props;
+      let { usersList, t } = this.props;
       return (
         <div >
            {usersList.map((value, index) => {
-               return <li key={index}><UserCard user={value}/></li>
+               return <li key={index}><UserCard t={t} user={value}/></li>
            })}
         </div>
       );

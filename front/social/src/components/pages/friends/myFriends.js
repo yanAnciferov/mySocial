@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Paper, Tabs, Tab } from "@material-ui/core"
+import { Tabs, Tab } from "@material-ui/core"
 import UserList from "../../common/usersList"
 import { FriendContent } from '../../../content/friend';
 
@@ -18,23 +18,23 @@ class MyFriends extends Component {
     render() { 
         let { emptyMessages } = FriendContent;
         const { value } = this.state;
-        const { user } = this.props;
+        const { user, t } = this.props;
         const lists = [user.friends, user.outgoing, user.incoming];
         let forRender = lists[value].length ? 
             <UserList usersList={lists[value]} /> 
-            : <div className="friends-list-empty">{emptyMessages[value]}</div>
+            : <div className="friends-list-empty">{t(emptyMessages[value])}</div>
         return (
         <div className="friends-wrapper">
-            <Paper className="friends-content">
-            <Tabs value={value} onChange={this.handleChange}>
-                <Tab label={FriendContent.friendLabel}/>
-                <Tab label={FriendContent.outgoingLabel}/>
-                <Tab label={FriendContent.incomingLabel}/>
+            <div className="friends-content papper">
+            <Tabs  className="friends-content-tab" value={value} onChange={this.handleChange}>
+                <Tab label={t(FriendContent.friendLabel)}/>
+                <Tab label={t(FriendContent.outgoingLabel)}/>
+                <Tab label={t(FriendContent.incomingLabel)}/>
             </Tabs>
             <div className="friends-list-wrapper">
                 {forRender}
             </div>
-            </Paper>
+            </div>
         </div>
       );
     }

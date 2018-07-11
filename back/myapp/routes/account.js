@@ -1,6 +1,7 @@
-var { validatePublication, savePublication }  = require('../scripts/midllewares/publication');
+var { changeLanguage } = require( '../scripts/midllewares/language');
+
+var { validatePublication, savePublication, startToCreatePublication, deletePublication }  = require('../scripts/midllewares/publication');
 var { saveImageSimple }  = require('../scripts/image');
-var { startToCreatePublication }  = require('../scripts/midllewares/publication');
 
 var { checkMailInDBForEdit, startUpdateAvatar, removeOldAvatars } = require('../scripts/account/edit');
 var { saveEditUser }  = require('../scripts/account/edit');
@@ -20,6 +21,9 @@ var { createAndSendToken, createToken } = require("../scripts/midllewares/token"
 var { verifyToken } = require('../scripts/midllewares/token')
 var { getAuthUserData, addFriendsToUser } = require('../scripts/account/account')
 var { API_METHODS_PATHS } = require('../constants/apiUrl')
+var { validationPassword, changePassword } = require('../scripts/account/password')
+
+
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -53,4 +57,14 @@ router.post(API_METHODS_PATHS.UPDATE_AVATAR, uploads.any(), [verifyToken, startU
 
 router.post(API_METHODS_PATHS.NEW_PUBLICATION, uploads.any(), [verifyToken, startToCreatePublication ,validatePublication, saveImageSimple, savePublication, finishSend ])
         .use(simpleErrorHandler);
+
+router.post(API_METHODS_PATHS.CHANGE_PASSWORD,[verifyToken, validationPassword, changePassword])
+        .use(simpleErrorHandler)
+
+router.post(API_METHODS_PATHS.CHANGE_LANGUAGE, [verifyToken, changeLanguage])
+        .use(simpleErrorHandler);
+
+router.post(API_METHODS_PATHS.DELETE_PUBLICATION , [verifyToken, deletePublication])
+        .use(simpleErrorHandler);
+
 module.exports = router;

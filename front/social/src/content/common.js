@@ -1,15 +1,16 @@
-const OK = "Ok";
-const Cancel = "Отмена"
-const Save = "Сохранить"
-const Error = "Ошибка"
-const Edit = "Редактировать"
-const Send = "Отправить"
-
+const Ok = "Ok";
+const Cancel = "Cancel";
+const Save = "Save";
+const Error = "Error";
+const Edit = "Edit";
+const Send = "Send";
+const Delete = "Delete"
 export default {
-    OK,
+    Ok,
     Cancel,
     Save,
     Error,
     Edit,
-    Send
+    Send,
+    Delete
 }

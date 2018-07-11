@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { ACTION_FOR_APP } from '../../constans/ActionTypes';
 import CircleAvatar from "./circleAvatar"
 import { disconnectToServer } from '../../socket';
+import { translate } from 'react-i18next';
 
 class Header extends React.Component {
 
@@ -17,11 +18,11 @@ class Header extends React.Component {
   
     render() {
 
-      const { authorizedUser } = this.props.app;
-      const forRightSide = (authorizedUser) ? <HeaderPopupMenu authorizedUser={authorizedUser} onLogoutClick={this.onLogoutClick}  /> : <UnauthorizedMenu/>
+      const { t, app: { authorizedUser } } = this.props;
+      const forRightSide = (authorizedUser) ? <HeaderPopupMenu t={t} authorizedUser={authorizedUser} onLogoutClick={this.onLogoutClick}  /> : <UnauthorizedMenu t={t}/>
       return (
         <div className="main-header">
-          <AppBar position="static">
+          <AppBar  className="main-header-bar" position="static">
             <Toolbar className="header-toolbar">
             <div>
                 <Typography variant="title" color="inherit" >
@@ -40,16 +41,17 @@ class Header extends React.Component {
 
 class UnauthorizedMenu extends React.Component {
   render(){
+    let { t } = this.props;
     return (
       <div className="unauthorized-menu">
         <Link to="/login">
           <Button>
-              {content.ToLogin}
+              {t(content.ToLogin)}
           </Button>
         </Link>
         <Link to="/registration">
             <Button>
-                {content.ToRegistration}
+                {t(content.ToRegistration)}
             </Button>
         </Link>
       </div>
@@ -74,7 +76,7 @@ class HeaderPopupMenu extends React.Component {
 
   render()
   {
-    const { onLogoutClick, authorizedUser } = this.props; 
+    const { onLogoutClick, authorizedUser, t } = this.props; 
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
@@ -82,7 +84,7 @@ class HeaderPopupMenu extends React.Component {
       <div className="header-menu-wrapper">
         <Typography className="header-name">{authorizedUser.firstname}</Typography>
         <div className="header-avatar" onClick={this.handleMenu}>
-          <CircleAvatar imageUrl={authorizedUser.minAvatar}/>
+          <CircleAvatar user={authorizedUser}/>
         </div>
         <Menu
           className="header-popap-menu"
@@ -98,8 +100,10 @@ class HeaderPopupMenu extends React.Component {
           open={open}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>{content.ToMyPage}</MenuItem>
-          <MenuItem onClick={onLogoutClick}> {content.ToLogout}</MenuItem>
+          <Link to="/">
+            <MenuItem onClick={this.handleClose}>{t(content.ToMyPage)}</MenuItem>
+          </Link>
+          <MenuItem onClick={onLogoutClick}> {t(content.ToLogout)}</MenuItem>
         </Menu>
       </div>
     )
@@ -107,7 +111,7 @@ class HeaderPopupMenu extends React.Component {
 }
 
 
-  export default connect(
+  export default translate("translations")(connect(
     state => ({
         app: state.app
     }),
@@ -117,4 +121,4 @@ class HeaderPopupMenu extends React.Component {
         disconnectToServer();
       }
   })
-)(Header);
+)(Header));

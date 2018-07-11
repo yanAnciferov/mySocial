@@ -1,7 +1,8 @@
-import { ACTION_FOR_APP, ACTION_FOR_PROFILE, ACTION_FROM_SERVER, ACTION_COMMON } from "../constans/ActionTypes"
+import { ACTION_FOR_APP, ACTION_FOR_PROFILE, ACTION_COMMON } from "../constans/ActionTypes"
 import { errors } from "../constans/errors";
 import { updateAxiosHeaderAuthorization } from "../axios";
 import { connectToServer } from "../socket"
+import { deletePublication, changeFriendsLists } from "./reducerUtils";
 
 function getUserFromStorage(){
     updateAxiosHeaderAuthorization(localStorage.getItem("token"));
@@ -19,23 +20,35 @@ function getUserFromStorage(){
     }
 }
 
-
-
-const initialState = {
-
-    loadingWindow: {
-        isVisible: false,
-        message: ""
-    },
-    isAuthorize: localStorage.getItem("token") !== null,
-    token: localStorage.getItem("token"),
-    authorizedUser: getUserFromStorage(),
-    wallPublications: []
+function getInitialState(){
+    let user = getUserFromStorage();
+    return {
+        loadingWindow: {
+            isVisible: false,
+            message: ""
+        },
+        isAuthorize: localStorage.getItem("token") !== null,
+        token: localStorage.getItem("token"),
+        authorizedUser: user ,
+        wallPublications: [],
+        currentLanguage: user && user.language ? user.language : "en"
+    }
 }
 
 
-export default function (state = initialState, action) {
+export default function (state = getInitialState(), action) {
     
+    if(action.type === ACTION_FOR_PROFILE.DELETE_PUBLICATION)
+    {
+        return {
+            ...state,
+            authorizedUser: {
+                ...state.authorizedUser,
+                publications: deletePublication(state.authorizedUser.publications, action.payload)
+            }
+        }
+         
+    }
 
     if(action.type === ACTION_FOR_APP.SHOW_LOADING_WINDOW)
         return {
@@ -59,6 +72,13 @@ export default function (state = initialState, action) {
     if(action.type === ACTION_COMMON.ON_ROUTE_LOCATION_CHANGE){
         return {
             ...state
+        }
+    }
+
+    if(action.type === ACTION_FOR_APP.LANGUAGE_CHANGE){
+        return {
+            ...state,
+            currentLanguage: action.payload
         }
     }
 
@@ -87,10 +107,12 @@ export default function (state = initialState, action) {
 
     
     if(action.type === ACTION_FOR_APP.SET_USER_DATA){
-        localStorage.setItem("userData", JSON.stringify(action.payload));
+        let user = action.payload;
+        localStorage.setItem("userData", JSON.stringify(user));
         return { 
             ...state,
-            authorizedUser: action.payload
+            authorizedUser: user,
+            currentLanguage: user.language
         }
     }
 
@@ -136,68 +158,14 @@ export default function (state = initialState, action) {
         
     }
 
-    if(action.type === ACTION_FROM_SERVER.TO_INCOMIG)
-    {
-        let { friends, incoming } = state.authorizedUser;
-        let user = action.payload;
-        let index = friends.findIndex(value => { return value._id === user._id })
-        incoming.push(user);
-        if(index !== -1) {
-            friends.splice(index ,1);
-        }
-
+    let changeFriendsRes = changeFriendsLists(action, state.authorizedUser);
+    if(changeFriendsRes)
         return {
-            ...state
+            ...state,
+            authorizedUser: {
+                ...state.authorizedUser,
+                ...changeFriendsRes
+            }
         }
-    }
-
-    if(action.type === ACTION_FROM_SERVER.TO_OUTGOING)
-    {
-        let { friends, outgoing } = state.authorizedUser;
-        let user = action.payload;
-        let index = friends.findIndex(value => { return value._id === user._id })
-
-        if(index !== -1) {
-            friends.splice(index ,1);
-        }
-
-        outgoing.push(user);
-        return {
-            ...state
-        }
-    }
-
-    if(action.type === ACTION_FROM_SERVER.TO_NO_FRIEND)
-    {
-        let { friends, incoming, outgoing } = state.authorizedUser;
-        let user = action.payload;
-        let delegate = value => { return value._id === user._id };
-        let friendIndex = friends.findIndex(delegate);
-        let outgoingIndex = outgoing.findIndex(delegate);
-        let incomingIndex = incoming.findIndex(delegate);
-        if(friendIndex !== -1) friends.splice(friendIndex ,1);
-        if(outgoingIndex !== -1) outgoing.splice(outgoingIndex ,1);
-        if(incomingIndex !== -1) incoming.splice(incomingIndex ,1);
-
-        return {
-            ...state
-        }
-    }
-
-    if(action.type === ACTION_FROM_SERVER.TO_FRIEND)
-    {
-        let { friends, incoming, outgoing } = state.authorizedUser;
-        let user = action.payload;
-        let delegate = value => { return value._id === user._id };
-        friends.push(user);
-        let forOut = outgoing.findIndex(delegate);
-        let forIn = incoming.findIndex(delegate)
-        if(forOut !== -1) outgoing.splice(forOut ,1);
-        if(forIn !== -1) incoming.splice(forIn ,1);
-        return {
-            ...state
-        }
-    }
-
     return state;
 }

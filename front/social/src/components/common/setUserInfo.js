@@ -11,22 +11,23 @@ class SetUserInfo extends Component {
     render() {
 
         let { 
+            validateState,
             validateState: { sex, email, firstname, surname, parrentname, birthdate },
-            onSubmit, fieldChange, buttonText,
+            onSubmit, fieldChange, buttonText, t
         } = this.props;
 
         let state = {
             ...this.props
         }
-
+        console.log(validateState);
         return (
         <form>
             <Grid container spacing={24}>
                 <Grid item xs={12} sm={6}>
                 <TextFormControl
                     value={state.firstname}
-                    label={Content.NameLabel} 
-                    message={firstname.message} 
+                    label={t(Content.NameLabel)} 
+                    message={t(firstname.message)} 
                     onChange={(e) => fieldChange(MODEL_NAMES.FIRSTNAME,e)} 
                     isError={firstname.isError} 
                     fullWidth/>
@@ -34,8 +35,8 @@ class SetUserInfo extends Component {
                 <Grid item xs={12} sm={6}>
                     <TextFormControl
                         value={state.surname}
-                        label={Content.SurameLabel} 
-                        message={surname.message} 
+                        label={t(Content.SurameLabel)} 
+                        message={t(surname.message)} 
                         onChange={(e) => fieldChange(MODEL_NAMES.SURNAME,e)} 
                         isError={surname.isError} 
                         fullWidth/>
@@ -45,8 +46,8 @@ class SetUserInfo extends Component {
                 <Grid item xs={12} sm={6}>
                 <TextFormControl
                         value={state.parrentname}
-                        label={Content.ParrentnameLabel} 
-                        message={parrentname.message} 
+                        label={t(Content.ParrentnameLabel)} 
+                        message={t(parrentname.message)} 
                         onChange={(e) => fieldChange(MODEL_NAMES.PARRENTNAME,e)} 
                         isError={parrentname.isError} 
                         fullWidth/>
@@ -59,8 +60,8 @@ class SetUserInfo extends Component {
                 <Grid item xs={12} sm={12}>
                 <TextFormControl 
                     value={state.email}
-                    label={Content.EmailLabel} 
-                    message={email.message} 
+                    label={t(Content.EmailLabel)} 
+                    message={t(email.message)} 
                     onChange={(e) => fieldChange(MODEL_NAMES.EMAIL,e)} 
                     isError={email.isError} 
                     fullWidth/>
@@ -70,7 +71,7 @@ class SetUserInfo extends Component {
                 <Grid item xs={12} sm={12}>
                 <TextFormControl
                     value={state.birthdate}
-                    message={birthdate.message} 
+                    message={t(birthdate.message)} 
                     onChange={(e) => fieldChange(MODEL_NAMES.BIRTHDATE,e)} 
                     isError={birthdate.isError} 
                     fullWidth
@@ -87,15 +88,16 @@ class SetUserInfo extends Component {
                 <SelectGenderControl 
                 isError={sex.isError} 
                 value={state.sex} 
+                t={t}
                 fieldCange={(e) => fieldChange(MODEL_NAMES.SEX,e)} 
-                message={sex.message} />
+                message={t(sex.message)} />
 
                 </Grid>
             </Grid>
                 
             
             <Grid container justify="flex-end">
-                <Button onClick={onSubmit} type="submit" variant="contained" color="primary">{buttonText}</Button>
+                <Button onClick={onSubmit} type="submit" variant="contained" color="primary">{t(buttonText)}</Button>
             </Grid> 
         </form>
         )

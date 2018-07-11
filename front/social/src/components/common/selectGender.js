@@ -7,7 +7,7 @@ class SelectGenderControl extends Component {
     
     render() {
 
-        let { isError, value, fieldCange, message} = this.props;
+        let { isError, value, fieldCange, message, t} = this.props;
 
         return (
         <FormControl fullWidth error={isError} >
@@ -18,12 +18,11 @@ class SelectGenderControl extends Component {
                 onChange={fieldCange}
                 fullWidth
                 >
-
-                <MenuItem value="" disabled>{Content.SexLabel}</MenuItem>
-                <MenuItem value={SEX_TYPES.MALE}>{Content.Male}</MenuItem>
-                <MenuItem value={SEX_TYPES.FEMALE}>{Content.Female}</MenuItem>
+                <MenuItem value="" disabled>{t(Content.SexLabel)}</MenuItem>
+                <MenuItem value={SEX_TYPES.MALE}>{t(Content.Male)}</MenuItem>
+                <MenuItem value={SEX_TYPES.FEMALE}>{t(Content.Female)}</MenuItem>
             </Select>
-            <FormHelperText>{message}</FormHelperText>
+            <FormHelperText>{t(message)}</FormHelperText>
         </FormControl>
         )
     }

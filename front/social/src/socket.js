@@ -5,7 +5,6 @@ import { DOMAIN } from './constans/apiUrl';
 var socket = null;
 
 function connectToServer(id){
-    console.log(id);
     socket = io.connect(DOMAIN);
     socket.emit(JOIN, { id });   
 }

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Paper, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import Button from '@material-ui/core/Button/Button';
 import { ACTION_FOR_PUBLICATION } from '../../constans/ActionTypes';
 import { connect } from 'react-redux';
 import { sendNewPublication } from "../../actions/Account"
 import commonContent from '../../content/common';
 import { PROFILE_CONTENT } from '../../content/profile';
+import { translate } from 'react-i18next';
 
 
 class PublicationCreator extends Component {
@@ -39,9 +40,9 @@ class PublicationCreator extends Component {
     
     render() {
         let { onFocus, onLostFocus, onChange, 
-            props: { publication: { text } }  } = this;
+            props: { t, publication: { text } }  } = this;
         return (
-        <Paper className="pubcreate-wrapper">
+        <div className="pubcreate-wrapper papper">
             <form onSubmit={this.onSubmit}>
                 <TextField 
                     className="pubcreate-area"
@@ -50,19 +51,23 @@ class PublicationCreator extends Component {
                     onFocus={onFocus} 
                     onBlur={onLostFocus}
                     onChange={onChange}
-                    placeholder={PROFILE_CONTENT.WHATS_APP} 
+                    placeholder={t(PROFILE_CONTENT.WHATS_APP)} 
                     value={text}
                     />
                 <div className="pubcreate-submit-wrapper">
-                    <Button type="submit" className="pubcreate-submit" variant="contained" color="primary">{commonContent.Send}</Button>
+                    <Button 
+                        type="submit" 
+                        className="pubcreate-submit" 
+                        variant="contained" 
+                        color="primary">{t(commonContent.Send)}</Button>
                 </div>
             </form>
-        </Paper>
+        </div>
       );
     }
 }
 
-export default connect(
+export default translate("translations")(connect(
 
     state =>({
         publication: state.publication
@@ -76,4 +81,4 @@ export default connect(
             dispatch(sendNewPublication());
         }
     })
-)(PublicationCreator);
+)(PublicationCreator));

@@ -20,6 +20,7 @@ const FULL_PATH_TO_USER_DATA = SERVER_DOMAIN + PATH_TO_USER_DATA_FOR_CLIENT;
 const PATH_TO_DEFAULT_AVATAR = FULL_PATH_TO_USER_DATA + "default_avatar.png";
 
 
+const authUserQuery = "firstname email outgoing incoming friends surname parrentname birthdate sex minAvatar avatar language";
 const commonUserQuery = "firstname email outgoing incoming friends surname parrentname birthdate sex minAvatar avatar";
 const minUserQuery = "firstname email surname parrentname birthdate sex minAvatar avatar";
 const titleUserQuery = "firstname surname parrentname minAvatar avatar";
@@ -79,7 +80,8 @@ module.exports.userQueries = {
     titleUserQuery,
     friends,
     DEC_DATE_PUBLICATE_SORT,
-    LIMIT_ON_COUNT_PUBLICATION
+    LIMIT_ON_COUNT_PUBLICATION,
+    authUserQuery
 }
 
 

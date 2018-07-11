@@ -2,42 +2,40 @@ import React from 'react'
 import { Button, Typography } from "@material-ui/core"
 import { connect } from 'react-redux'
 import { ACTION_FOR_REGISTRATION } from "../../../constans/ActionTypes"
-import { registration } from "../../../actions/Account"
-import Toolbar from '@material-ui/core/Toolbar/Toolbar';
+import { registration } from "../../../actions/Account";
 import Content from "../../../content/registration"
 import AvatarPricker from "../../common/avatarPicker";
+import { translate } from 'react-i18next';
 
 class RegistrationAvatar extends React.Component {
 
   render() {
 
-    let { onRectChange, onImageLoad, register, skip, registration, prevStep } = this.props;
-   
+    let { onRectChange, onImageLoad, register, skip, registration, prevStep, t } = this.props;
     return (
       <div className="create-avatar">
-        <Toolbar>
-          <Typography variant="headline" className="stepHeader" color="inherit">
-          {Content.StepAvatarHeader}
+        <div className="papper-header">
+          <Typography variant="headline" color="inherit">
+          {t(Content.StepAvatarHeader)}
           </Typography>
-        </Toolbar>
-        
-        <AvatarPricker onRectChange={onRectChange} onImageLoad={onImageLoad} {...register} />
-       
-        <div className="avatar-buttons">
-            <Button variant="contained" onClick={prevStep} color="primary">{Content.PrevButton}</Button>
-            <div>
-              <Button color="primary" onClick={skip}>{Content.SkipButton}</Button>
-              <Button variant="contained" onClick={registration} color="primary">{Content.NextButton}</Button>
-            </div>
         </div>
-
-       
+        <div className="papper-content">
+          <AvatarPricker t={t} onRectChange={onRectChange} onImageLoad={onImageLoad} {...register} />
+        
+          <div className="avatar-buttons">
+              <Button variant="contained" onClick={prevStep} color="primary">{t(Content.PrevButton)}</Button>
+              <div>
+                <Button color="primary" onClick={skip}>{t(Content.SkipButton)}</Button>
+                <Button variant="contained" onClick={registration} color="primary">{t(Content.NextButton)}</Button>
+              </div>
+          </div>
+        </div>       
       </div>
     )
   }
 }
 
-export default connect(
+export default translate("translations")(connect(
         state => ({
             register: state.register
         }),
@@ -60,4 +58,4 @@ export default connect(
               dispatch(registration());
             }
         })
-)(RegistrationAvatar);
+)(RegistrationAvatar));

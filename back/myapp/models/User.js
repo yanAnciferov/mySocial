@@ -18,6 +18,7 @@ var  userScheme = new Schema({
     incoming: { type: Array, default: []},
     outgoing: { type: Array, default: []},
     publication: { type: Array, default: [] },
+    language: { type: String, default: "en" },
     salt: {
         type: String,
         required: true

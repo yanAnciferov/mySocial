@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PublicationCreator from '../../common/publicationCreator';
 import { getNews } from "../../../actions/Feed";
 import PublicationList from '../../pages/profile/publication';
-import Paper from '@material-ui/core/Paper/Paper';
 import { PROFILE_CONTENT } from '../../../content/profile';
 
 class Feed extends Component {
@@ -22,7 +21,7 @@ class Feed extends Component {
     render() {
         let { feed } = this.props;
         return (
-            <div>
+            <div className="feed-wrapper">
                 <PublicationCreator />
                 <FeedPublicationList publications={feed.publications} />
             </div>
@@ -34,7 +33,7 @@ class FeedPublicationList extends Component {
     render() {
         let { props: { publications } } = this;
         let forRender = publications.length ? <PublicationList publications={publications}  /> 
-            : <Paper className="no-news">{PROFILE_CONTENT.NEWS_NOT_FOUND}</Paper>
+            : <div className="no-news papper">{PROFILE_CONTENT.NEWS_NOT_FOUND}</div>
         
         return forRender;
     }

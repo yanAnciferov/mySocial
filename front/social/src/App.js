@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ErrorWindow from "./components/common/errorWindow";
-import LoaderWindow from "./components/common/loadingWindow"
+import LoaderWindow from "./components/common/loadingWindow";
+import MessageBox from "./components/common/messageBox";
 
 import Header from "./components/common/header";
 import { connect } from 'react-redux';
@@ -10,15 +11,32 @@ import Routes from './components/common/routes';
 import MainMenu from './components/common/mainMenu'
 import RegistrationSuccess from './components/pages/registration/registrationSuccess';
 import MessageQueue from "./components/common/messages/message"
+import { translate } from 'react-i18next';
+import LanguagePicker from './components/common/languagePicker';
+import { getAuthUserData } from './actions/Account';
 
 class App extends Component {
   
+  componentWillMount = () => {
+    let { i18n, app, onInit } = this.props;
+    i18n.changeLanguage(app.currentLanguage);
+    onInit();
+  }
+
+  componentWillReceiveProps = (newProps) => {
+    let { i18n, app } = this.props;
+    if(newProps.app.currentLanguage !== app.currentLanguage){
+      i18n.changeLanguage(newProps.app.currentLanguage);
+    }
+  }
+
   render() {
 
     let {
       onCloseErrorWindow,
       app: {
-        loadingWindow
+        loadingWindow,
+        authorizedUser
       },
       catcher: {
         errorWindow
@@ -40,13 +58,17 @@ class App extends Component {
         <ErrorWindow onClose={onCloseErrorWindow} open={errorWindow.isVisible} value={errorWindow.message} />
         <LoaderWindow open={loadingWindow.isVisible} value={loadingWindow.message} />
         <RegistrationSuccess open={isSuccessWindowShow} value="Value"/>
+        <MessageBox />
+         { !authorizedUser ? <LanguagePicker /> : null }
      </div>
     );
   }
 }
 
 
-export default withRouter(connect(
+export default 
+translate("translations")(
+  withRouter(connect(
   state => ({
       app: state.app,
       catcher: state.catcher,
@@ -58,6 +80,9 @@ export default withRouter(connect(
     },
     onCloseMessageWindow: () => {
       dispatch({ type: ACTION_FOR_APP.CLOSE_MESSAGE_WINDOW})
+    },
+    onInit: () => {
+      dispatch(getAuthUserData(false));
     }
   })
-)(App))
+)(App)))

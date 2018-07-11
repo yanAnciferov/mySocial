@@ -4,12 +4,13 @@ import content from "../../../content/registration"
 import commonContent from "../../../content/common"
 import { Dialog, DialogTitle, DialogActions, Button, DialogContent, DialogContentText} from "@material-ui/core"
 import { ACTION_FOR_REGISTRATION } from '../../../constans/ActionTypes';
+import { translate } from 'react-i18next';
 
 class RegistrationSuccess extends React.Component {
 
   render() {
 
-    const { app: {authorizedUser}, open, onClose } = this.props;
+    const { app: {authorizedUser}, open, onClose, t } = this.props;
     if(authorizedUser)
       return (
         <Dialog
@@ -18,18 +19,18 @@ class RegistrationSuccess extends React.Component {
         maxWidth="md"
         open={open}
       >
-          <DialogTitle>{content.FinalRegistration}</DialogTitle>
+          <DialogTitle>{t(content.FinalRegistration)}</DialogTitle>
           <DialogContent>
               <DialogContentText>
-                  {content.MessageAboutSuccesRegistration(authorizedUser.firstname)}
+                  {t(content.MessageAboutSuccesRegistration, { name: authorizedUser.firstname})}
               </DialogContentText>
               <DialogContentText>
-                  {content.MessageAboutSendPassToMail(authorizedUser.email)}
+                  {t(content.MessageAboutSendPassToMail, { email: authorizedUser.email})}
               </DialogContentText>
         </DialogContent>
           <DialogActions>
-              <Button onClick={onClose} color="primary">
-                {commonContent.OK}
+              <Button onClick={onClose} variant="contained" color="primary">
+                {t(commonContent.Ok)}
               </Button>
           </DialogActions>
         </Dialog>
@@ -39,7 +40,7 @@ class RegistrationSuccess extends React.Component {
 }
 
 
-export default connect(
+export default translate("translations")(connect(
   state => ({
       app: state.app,
       register: state.register
@@ -50,4 +51,4 @@ export default connect(
       }
 
   })
-)(RegistrationSuccess); 
+)(RegistrationSuccess)); 

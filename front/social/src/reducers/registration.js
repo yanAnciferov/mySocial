@@ -127,7 +127,7 @@ export default function (state = initialState, action) {
         if(imageValide.isError)
             isValid = false        
         else isValid = true
-        console.log(state)
+        
         return {
             ...state,
             isValid,

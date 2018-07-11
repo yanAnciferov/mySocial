@@ -17,7 +17,7 @@ var { changeUserForSearchRes, updateAvatarsForArrayUsers, updateUserArrayForSend
 function getAuthUserData(req, res, next){
   let { user } = req;
   let querie = [ 
-                User.findById(user._id, userQueries.commonUserQuery)
+                User.findById(user._id, userQueries.authUserQuery)
                 .populate({
                   path: userQueries.friends,
                   select: userQueries.minUserQuery,

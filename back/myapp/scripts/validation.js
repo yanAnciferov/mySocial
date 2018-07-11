@@ -4,6 +4,8 @@ var { USER } = require("../constants/modelNames");
 var { USER_ERRORS } = require("../constants/errors");
 var fs = require("fs");
 
+
+
 module.exports.validateUser = function(newUser){
     
     let validateStates = {
@@ -16,19 +18,8 @@ module.exports.validateUser = function(newUser){
         rectValid: rectValidation(newUser.imageRect,newUser.imageFile)
     }
 
- 
-    var forReturnState = {
-        isError: false
-    }
 
-    for(var state in validateStates) 
-    {
-        if(validateStates[state].isError){
-            forReturnState[state] = validateStates[state];
-            forReturnState.isError = true
-        }
-    }
-    return forReturnState;
+    return checkValidateState(validateStates);
 
 }
 
@@ -42,21 +33,64 @@ module.exports.validatePublication = function(newPublication){
     }
 
  
-    let forReturnState = {
-        isError: false
-    }
-
-    for(var state in validateStates) 
-    {
-        if(validateStates[state].isError){
-            forReturnState[state] = validateStates[state];
-            forReturnState.isError = true
-        }
-    }
-    return forReturnState;
+    return checkValidateState(validateStates);
 
 }
 
+
+module.exports.validatePassword = function(oldPassword, newPassword, confirmPassword){
+    let validateStates = {
+        newValid: passwordFieldValidate(newPassword),
+        oldValid: passwordFieldValidate(oldPassword),
+        confirmValid: passwordFieldValidate(confirmPassword) 
+    }
+
+    if(newPassword !== confirmPassword && !validateStates.confirmValid.isError)
+    {
+        validateStates.confirmPassword.isError = true;
+        validateStates.confirmPassword.messages = [];
+        validateStates.confirmPassword.messages.push(PASSWORD_MESSAGES.PASSWORD_DIFFERENT)
+    }
+       
+
+    return checkValidateState(validateStates);
+}
+
+
+function passwordFieldValidate(password){
+    let state = {
+        isError: false,
+        messages: []
+    }
+
+    let string = "string";
+    if(typeof password !== string)
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.INVALIDATE_ENTRY_PARAM);
+        return state;
+    }
+
+    if(password.length == 0)
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.REQUIRED);
+        return state;
+    }
+       
+        
+
+    if(password.length < 6 || password.length > 32)
+    {
+        state.isError = true;
+        state.messages.push(USER_ERRORS.NAME_LENGTH);
+    }
+
+    if(!state.isError)
+        state.messages.push(USER_ERRORS.NO_ERROR);
+
+    return state;
+}
 
 
 function nameValidate(name, required, typeField) {
@@ -304,6 +338,22 @@ function textValidation(text, required){
         state.messages.push(USER_ERRORS.NO_ERROR);
 
     return state;
+}
+
+
+function checkValidateState(validateStates){
+    var forReturnState = {
+        isError: false
+    }
+
+    for(var state in validateStates) 
+    {
+        if(validateStates[state].isError){
+            forReturnState[state] = validateStates[state];
+            forReturnState.isError = true
+        }
+    }
+    return forReturnState;
 }
 
 
