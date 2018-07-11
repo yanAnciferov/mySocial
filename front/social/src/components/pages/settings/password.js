@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Paper } from "@material-ui/core"
 import TextField from '@material-ui/core/TextField/TextField';
 import Button from '@material-ui/core/Button/Button';
 import FormControl from '@material-ui/core/FormControl/FormControl';
@@ -24,8 +23,8 @@ class Password extends Component {
             ...this.props
         }
         return (       
-            <Paper className="settings-element">
-                <div className="papper-header">{t(SETTINGS.CHANGE_PASSWORD_TITTLE)}</div>
+            <div className="settings-element papper">
+                <div className="papper-header">{t(SETTINGS.CHANGE_PASSWORD_SUBMIT)}</div>
                 <div className="settings-element-content">
                 {state.isSuccess &&
                    <div className="success">{t(SETTINGS.CHANGE_PASSWORD_SUCCES)}</div>
@@ -62,11 +61,11 @@ class Password extends Component {
                         type="submit" 
                         className="settings-submit" 
                         variant="contained" 
-                        color="primary">{t(SETTINGS.CHANGE_PASSWORD_SUBMIT)}</Button>
+                        color="primary">{t(SETTINGS.CHANGE_PASSWORD_TITTLE)}</Button>
                 </form>
                 </div>
                 
-            </Paper>
+            </div>
       );
     }
 }

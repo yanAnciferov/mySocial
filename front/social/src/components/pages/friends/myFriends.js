@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Paper, Tabs, Tab } from "@material-ui/core"
+import { Tabs, Tab } from "@material-ui/core"
 import UserList from "../../common/usersList"
 import { FriendContent } from '../../../content/friend';
 
@@ -25,8 +25,8 @@ class MyFriends extends Component {
             : <div className="friends-list-empty">{t(emptyMessages[value])}</div>
         return (
         <div className="friends-wrapper">
-            <Paper className="friends-content">
-            <Tabs value={value} onChange={this.handleChange}>
+            <div className="friends-content papper">
+            <Tabs  className="friends-content-tab" value={value} onChange={this.handleChange}>
                 <Tab label={t(FriendContent.friendLabel)}/>
                 <Tab label={t(FriendContent.outgoingLabel)}/>
                 <Tab label={t(FriendContent.incomingLabel)}/>
@@ -34,7 +34,7 @@ class MyFriends extends Component {
             <div className="friends-list-wrapper">
                 {forRender}
             </div>
-            </Paper>
+            </div>
         </div>
       );
     }

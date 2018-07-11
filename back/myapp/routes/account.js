@@ -1,8 +1,7 @@
 var { changeLanguage } = require( '../scripts/midllewares/language');
 
-var { validatePublication, savePublication }  = require('../scripts/midllewares/publication');
+var { validatePublication, savePublication, startToCreatePublication, deletePublication }  = require('../scripts/midllewares/publication');
 var { saveImageSimple }  = require('../scripts/image');
-var { startToCreatePublication }  = require('../scripts/midllewares/publication');
 
 var { checkMailInDBForEdit, startUpdateAvatar, removeOldAvatars } = require('../scripts/account/edit');
 var { saveEditUser }  = require('../scripts/account/edit');
@@ -63,6 +62,9 @@ router.post(API_METHODS_PATHS.CHANGE_PASSWORD,[verifyToken, validationPassword, 
         .use(simpleErrorHandler)
 
 router.post(API_METHODS_PATHS.CHANGE_LANGUAGE, [verifyToken, changeLanguage])
+        .use(simpleErrorHandler);
+
+router.post(API_METHODS_PATHS.DELETE_PUBLICATION , [verifyToken, deletePublication])
         .use(simpleErrorHandler);
 
 module.exports = router;

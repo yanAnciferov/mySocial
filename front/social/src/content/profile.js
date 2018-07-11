@@ -21,7 +21,7 @@ const PICK_AVATAR = "Load avatar";
 const NEWS_NOT_FOUND = "There is no news in your news feed";
 const WHATS_APP = "Whats app?";
 const yearsOld = "yearsOld";
-
+const FOR_DELETE_PUBLICATION = "Are you sure want to delete this entry?";
 
 function getSex(sex){
     return sex === SEX_TYPES.MALE ? MAIL_CONTENT : FEMAIL_CONTENT
@@ -53,6 +53,7 @@ export const PROFILE_CONTENT = {
     AGE_INFO,
     NEWS_NOT_FOUND,
     WHATS_APP,
+    FOR_DELETE_PUBLICATION,
     getSex,
     getFullName,
     getAge,

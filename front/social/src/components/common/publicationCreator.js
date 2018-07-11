@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Paper, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import Button from '@material-ui/core/Button/Button';
 import { ACTION_FOR_PUBLICATION } from '../../constans/ActionTypes';
 import { connect } from 'react-redux';
@@ -42,7 +42,7 @@ class PublicationCreator extends Component {
         let { onFocus, onLostFocus, onChange, 
             props: { t, publication: { text } }  } = this;
         return (
-        <Paper className="pubcreate-wrapper">
+        <div className="pubcreate-wrapper papper">
             <form onSubmit={this.onSubmit}>
                 <TextField 
                     className="pubcreate-area"
@@ -62,7 +62,7 @@ class PublicationCreator extends Component {
                         color="primary">{t(commonContent.Send)}</Button>
                 </div>
             </form>
-        </Paper>
+        </div>
       );
     }
 }

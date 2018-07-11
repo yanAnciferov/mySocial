@@ -9,7 +9,7 @@ import * as API from "../constans/apiUrl"
 import { registrationSuccess, loginSuccess, loginError, getAuthUserDataError,
    editSuccess, editError, updateAvatarSuccess, updateAvatarError, registrationError,
     getAuthUserDataSuccess, sendPublicationSuccess, changePasswordSuccess, changePasswordError,
-      changeLanguageSuccess, changeLanguageError} from "../scripts/actionHandlers/account";
+      changeLanguageSuccess, changeLanguageError, sendPublicationError, deletePublicationSuccess, deletePublicationError} from "../scripts/actionHandlers/account";
 import { ShowLoadingWindow } from "../scripts/actionHandlers/common";
 import { getMyFriendsSuccess, getMyFriendsError } from "../scripts/actionHandlers/friends";
 
@@ -166,7 +166,10 @@ export const sendNewPublication = () => (dispatch, getState) => {
   if(!isAuthorize)
     return;
 
-  const { text } = getState().publication;
+  const { text, isValid } = getState().publication;
+  if(!isValid)
+    return;
+    
   let params = new FormData();
   params.append("imageFile", null);
   params.append("textBody", text);
@@ -175,7 +178,24 @@ export const sendNewPublication = () => (dispatch, getState) => {
     sendPublicationSuccess(dispatch, res.data);
   })
   .catch((err) => {
-    sendPublicationSuccess(dispatch, err);
+    sendPublicationError(dispatch, err);
+  })
+}
+
+
+export const deletePublication = (id) => (dispatch, getState) => {
+  const { isAuthorize } = getState().app;
+  
+  if(!isAuthorize)
+    return;
+
+  
+  axios.post(API.DELETE_PUBLICATION, { id })
+  .then((res) => {
+    deletePublicationSuccess(dispatch, id);
+  })
+  .catch((err) => {
+    deletePublicationError(dispatch, err);
   })
 }
 

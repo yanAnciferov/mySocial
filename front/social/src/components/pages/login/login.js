@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import content from "../../../content/login"
-import LoginForm from "./loginForm"
-import { Paper } from "@material-ui/core"
+import LoginForm from "./loginForm";
 import { translate } from 'react-i18next';
 
 class Login extends Component {
@@ -10,9 +9,9 @@ class Login extends Component {
     return (
       <div className="login-page">
          <h1 className="pageHeader">{t(content.LoginPageHeader)}</h1>
-         <Paper className="card">
+         <div className="card papper">
           <LoginForm />
-         </Paper>
+         </div>
       </div>
 
     );

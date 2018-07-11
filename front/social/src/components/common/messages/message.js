@@ -13,7 +13,7 @@ class MessageQueue extends React.Component {
 
     componentWillMount(){
 
-        let { toIncoming, toOutgoing, toFriend, toNoFriend, onNewPublication} = this.props;
+        let { toIncoming, toOutgoing, toFriend, toNoFriend, onNewPublication, app} = this.props;
         socketOn(INCOMING,({user})=>{
             toIncoming(user);
             this.addMessage({
@@ -26,16 +26,16 @@ class MessageQueue extends React.Component {
         });
 
         socketOn(ACCEPT,({user})=>{
-            toFriend(user);          
+            toFriend(user, app.authorizedUser);          
         });
 
 
         socketOn(OUTGOING,({user})=>{
-           toOutgoing(user);
+           toOutgoing(user, app.authorizedUser);
         });
 
         socketOn(ACCEPTED,({user})=>{
-            toFriend(user);
+            toFriend(user, app.authorizedUser);
             this.addMessage({
                 header: onAddMessage.header,
                 imageUrl: user.minAvatar,
@@ -46,19 +46,19 @@ class MessageQueue extends React.Component {
         });
 
         socketOn('rejected',({user})=>{
-            toNoFriend(user)
+            toNoFriend(user, app.authorizedUser)
          });
  
          socketOn('removed',({user})=>{
-            toIncoming(user);
+            toIncoming(user, app.authorizedUser);
          });
 
          socketOn('reject',({user})=>{
-            toNoFriend(user);
+            toNoFriend(user, app.authorizedUser);
          });
  
          socketOn('remove',({user})=>{
-            toOutgoing(user);
+            toOutgoing(user, app.authorizedUser);
          });
 
         socketOn("newPublication", (data) => {
@@ -139,17 +139,17 @@ class MessageQueue extends React.Component {
         app: state.app
     }),
     dispatch => ({
-      toFriend: (user) => {
-        dispatch({ type: ACTION_FROM_SERVER.TO_FRIEND, payload: user });
+      toFriend: (user, sender) => {
+        dispatch({ type: ACTION_FROM_SERVER.TO_FRIEND, payload: user, sender });
       },
-      toOutgoing: (user) => {
-        dispatch({ type: ACTION_FROM_SERVER.TO_OUTGOING, payload: user });
+      toOutgoing: (user, sender) => {
+        dispatch({ type: ACTION_FROM_SERVER.TO_OUTGOING, payload: user, sender });
       },
-      toIncoming: (user) => {
-        dispatch({ type: ACTION_FROM_SERVER.TO_INCOMIG, payload: user });
+      toIncoming: (user, sender) => {
+        dispatch({ type: ACTION_FROM_SERVER.TO_INCOMIG, payload: user, sender });
       },
-      toNoFriend: (user) => {
-        dispatch({ type: ACTION_FROM_SERVER.TO_NO_FRIEND, payload: user });
+      toNoFriend: (user, sender) => {
+        dispatch({ type: ACTION_FROM_SERVER.TO_NO_FRIEND, payload: user, sender });
       },
       onNewPublication: (publication) => {
         dispatch({ type: ACTION_FOR_APP.ON_ADD_PUBLICATION, payload: publication });

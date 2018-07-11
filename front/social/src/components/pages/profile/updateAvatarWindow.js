@@ -16,14 +16,15 @@ class UpdateAvatarWindow extends React.Component {
     };
 
     render() {
-        const { value, avatar, onClose, onSubmit, onImageLoad, onRectChange, t, ...other } = this.props;
+        const { avatar, onClose, onSubmit, onImageLoad, onRectChange, t, open } = this.props;
     
         return (
           <Dialog
             disableBackdropClick
             disableEscapeKeyDown
-            {...other}
+            onClose={onClose}
             maxWidth={false}
+            open={open}
           >
             <DialogTitle>{t(PROFILE_CONTENT.PICK_AVATAR)}</DialogTitle>
             <DialogContent className="avatar-load-window">

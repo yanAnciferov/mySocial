@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Paper } from "@material-ui/core"
 import { connect } from 'react-redux';
-import TextFormControl from "../../common/textFormControl"
-import UserList from "../../common/usersList"
+import TextFormControl from "../../common/textFormControl";
+import UserList from "../../common/usersList";
 import { search } from '../../../actions/Search';
 import { push } from 'react-router-redux/actions';
 import { ACTION_FOR_SEARCH } from '../../../constans/ActionTypes';
@@ -32,17 +31,22 @@ class Search extends Component {
                 <div className="search-noresult">{SearchContent.notFound}</div>
         return (
         <div >
-            <Paper className="search-wrapper">
-                <h3>{t(SearchContent.searchTitle)}</h3>
-                <form onSubmit={this.onSubmit}>
-                    <TextFormControl 
-                        onChange={(e) => this.onChange(e)} 
-                        value={query} 
-                        label={t(SearchContent.enterLabel)} 
-                        fullWidth={true} />
-                </form>
-                {forRender}
-            </Paper>
+            <div className="search-wrapper papper">
+                <div className="papper-header">
+                    <span>{t(SearchContent.searchTitle)}</span>
+                </div>
+                
+                <div className="papper-content">
+                    <form onSubmit={this.onSubmit}>
+                        <TextFormControl 
+                            onChange={(e) => this.onChange(e)} 
+                            value={query} 
+                            label={t(SearchContent.enterLabel)} 
+                            fullWidth={true} />
+                    </form>
+                    {forRender}
+                </div>
+            </div>
         </div>
       );
     }

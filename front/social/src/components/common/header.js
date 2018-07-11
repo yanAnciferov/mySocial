@@ -22,7 +22,7 @@ class Header extends React.Component {
       const forRightSide = (authorizedUser) ? <HeaderPopupMenu t={t} authorizedUser={authorizedUser} onLogoutClick={this.onLogoutClick}  /> : <UnauthorizedMenu t={t}/>
       return (
         <div className="main-header">
-          <AppBar position="static">
+          <AppBar  className="main-header-bar" position="static">
             <Toolbar className="header-toolbar">
             <div>
                 <Typography variant="title" color="inherit" >
@@ -84,7 +84,7 @@ class HeaderPopupMenu extends React.Component {
       <div className="header-menu-wrapper">
         <Typography className="header-name">{authorizedUser.firstname}</Typography>
         <div className="header-avatar" onClick={this.handleMenu}>
-          <CircleAvatar imageUrl={authorizedUser.minAvatar}/>
+          <CircleAvatar user={authorizedUser}/>
         </div>
         <Menu
           className="header-popap-menu"
@@ -100,7 +100,9 @@ class HeaderPopupMenu extends React.Component {
           open={open}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>{t(content.ToMyPage)}</MenuItem>
+          <Link to="/">
+            <MenuItem onClick={this.handleClose}>{t(content.ToMyPage)}</MenuItem>
+          </Link>
           <MenuItem onClick={onLogoutClick}> {t(content.ToLogout)}</MenuItem>
         </Menu>
       </div>

@@ -103,7 +103,9 @@
     "messageAboutPassword": "The password and login was sent to your e-mail - {{email}}",
     " accepted your request to friends" : " accepted your request to friends",
     " wants to add you as a friend" : " wants to add you as a friend",
-    "yearsOld" : "{{year}} y. o."
+    "yearsOld" : "{{year}} y. o.",
+    "Delete": "Delete",
+    "Are you sure want to delete this entry?" : "Are you sure want to delete this publication?"
 
 }
 

@@ -91,8 +91,8 @@
     "Incorrect password" : "Не верный пароль",
     "The password must be between 6 and 31 characters in length" : "Длинна пароля должна быть от 6 до 32 символов",
     "Passwords do not match" : "Пароли не совпадают",
-    "Enter your old password" : "Введите новый пароль",
-    "Enter new password" : "Введите старый пароль",
+    "Enter your old password" : "Введите старый пароль",
+    "Enter new password" : "Введите новый  пароль",
     "Confirm the password" : "Подтвердите пароль",
     "Only .jpeg, .jpg, .png files": "Подходят только файлы формата .jpeg, .jpg, .png",
     "The file size should be from 40kb to 5mb" : "Размер файла должен быть от 40kb до 5mb",
@@ -102,6 +102,8 @@
     "messageAboutPassword": "Пароль и логин был выслан вам на почту - {{email}}",
     " accepted your request to friends" : " принял вашу заявку в друзья",
     " wants to add you as a friend" : " хочет добавить вас в друзья",
-    "yearsOld" : "{{year}} лет"
+    "yearsOld" : "{{year}} лет",
+    "Delete": "Удалить",
+    "Are you sure want to delete this entry?" : "Вы действительно хотите удалить эту запись?"
 }
 

@@ -31,16 +31,20 @@ class RegistrationForm extends Component {
     
     return (
         <div className="formWrapper">
-            <Typography variant="title" color="inherit">
-                {t(Content.StepCommonInfoHeader)}
-            </Typography>
-            <SetUserInfo 
+            <div className="papper-header"> 
+                <Typography variant="title" color="inherit">
+                    {t(Content.StepCommonInfoHeader)}
+                </Typography>
+            </div>
+            <div className="papper-content">
+                <SetUserInfo 
                     buttonText={Content.NextStep} 
                     onSubmit={this.onSubmit} 
                     onChange={onChange} 
                     fieldChange={this.fieldChange} 
                     t={t}
                     {...register} />
+            </div>
         </div>
     );
     }

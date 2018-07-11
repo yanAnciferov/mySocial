@@ -144,3 +144,12 @@ export function changeLanguageSuccess(dispatch){
 export function changeLanguageError(dispatch,err){
    console.log(err);
 }
+
+
+export function deletePublicationSuccess(dispatch, data){
+    dispatch({type: ACTION_FOR_PROFILE.DELETE_PUBLICATION, payload: data});
+}
+
+export function deletePublicationError(dispatch, err){
+    console.log(err);
+}

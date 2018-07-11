@@ -27,7 +27,7 @@ class Profile extends Component {
       const forRender = (isNotFound) ? <NotFound t={t}/> : 
         <Found
           onLoadAvatarOpen={onLoadAvatarOpen}  
-          user={userData}
+          user={isMyPage ? authorizedUser : userData}
           isMyPage={isMyPage}
           isShowAvatarPicker={isShowAvatarPicker}
           onLoadAvatarClose={onLoadAvatarClose}
@@ -52,7 +52,8 @@ class Found extends Component
         isMyPage,
         t
       } = this.props;
-    
+
+
       return (
         <div className="profile-page">
           <div className="left-side-profile">
@@ -61,10 +62,10 @@ class Found extends Component
           </div>
           <div className="right-side-profile">
               <MainInfo t={t} isMyPage={isMyPage} user={user}/>
-              <PublicationOnProfile t={t} isMyPage={isMyPage} />
+              <PublicationOnProfile t={t} user={user} isMyPage={isMyPage} />
               <Wall t={t} isMyPage={isMyPage} user={user}/>              
           </div>
-          <UpdateAvatarWindow t={t} onClose={onLoadAvatarClose} open={isShowAvatarPicker}/>
+          <UpdateAvatarWindow onClose={onLoadAvatarClose} open={isShowAvatarPicker}/>
         </div>
       )
     }

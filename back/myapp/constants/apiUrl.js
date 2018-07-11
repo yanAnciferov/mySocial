@@ -9,6 +9,7 @@ const LOGIN = "/login";
 const GET_AUTHORIZE_USER_DATA = "/getAuthUserData";
 const CHANGE_PASSWORD = "/changePassword";
 const CHANGE_LANGUAGE = "/changeLanguage";
+const DELETE_PUBLICATION = "/deletePublication";
 
 const USER = API + "/user";
 const GET_USER_DATA = "/getUserData";
@@ -46,5 +47,6 @@ module.exports.API_METHODS_PATHS = {
     GET_USER_FRIEND_LIST,
     NEW_PUBLICATION,
     CHANGE_PASSWORD,
-    CHANGE_LANGUAGE
+    CHANGE_LANGUAGE,
+    DELETE_PUBLICATION
 }

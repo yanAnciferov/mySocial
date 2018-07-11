@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Paper, Tabs, Tab } from "@material-ui/core"
+import { Tabs, Tab } from "@material-ui/core"
 import UserList from "../../common/usersList"
 import { FriendContent } from '../../../content/friend';
 import { Link } from 'react-router-dom';
@@ -25,9 +25,9 @@ class AnotherUserFriends extends Component {
              : <div className="friends-list-empty">{t(anotherEmptyMessages[value])}</div>
         return (
         <div className="friends-wrapper">
-            <Paper className="friends-content">
+            <div className="friends-content papper">
             <div className="friends-content-header"> 
-                <Tabs value={value} onChange={this.handleChange}>
+                <Tabs className="friends-content-tab" value={value} onChange={this.handleChange}>
                     <Tab label={t(FriendContent.title)} />
                     <Tab label={t(FriendContent.subscribersLabel)} />
                 </Tabs>
@@ -37,7 +37,7 @@ class AnotherUserFriends extends Component {
             <div className="friends-list-wrapper">
                 {forRender}
             </div>
-            </Paper>
+            </div>
         </div>
       );
     }

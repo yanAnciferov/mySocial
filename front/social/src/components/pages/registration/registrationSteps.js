@@ -2,7 +2,6 @@ import React from "react";
 import RegistrationForm from "./registrationForm"
 import RegistrationAvatar from "./registrationAvatar"
 import { connect } from 'react-redux';
-import {  Paper  } from '@material-ui/core'; 
 
 
 class RegistrationStepper extends React.Component {
@@ -21,11 +20,11 @@ class RegistrationStepper extends React.Component {
     const { step } = this.props.register
     return (
       <div className="steps-wrapper"> 
-        <Paper className="card">
+        <div className="card papper">
           <div>
               {registrationSteps[step].component}
           </div>
-        </Paper>
+        </div>
       </div>
     );
   }

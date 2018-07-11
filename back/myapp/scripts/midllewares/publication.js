@@ -39,6 +39,20 @@ function savePublication(req,res,next){
         })
 } 
 
+
+function deletePublication(req,res,next){
+
+    let { user, body } = req;
+    Publication.deleteOne({ _id: body.id, user: user._id }, function (err) {
+        if(!err)
+        {
+            res.sendStatus(200);
+        } else { 
+            res.sendStatus(403);
+        }
+    });
+} 
+
 function startToCreatePublication(req, res, next){
     req.publication = req.body;
     next();
@@ -47,3 +61,4 @@ function startToCreatePublication(req, res, next){
 module.exports.validatePublication = validatingPublication;
 module.exports.savePublication = savePublication;
 module.exports.startToCreatePublication = startToCreatePublication;
+module.exports.deletePublication = deletePublication;

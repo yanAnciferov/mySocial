@@ -18,6 +18,8 @@ import {
 } from "react-router-redux";
 
 import Reducers from "./reducers/index"; 
+import { MuiThemeProvider } from "@material-ui/core";
+import { createMuiTheme } from "@material-ui/core";
 
 const history = createHistory();
 
@@ -31,13 +33,21 @@ const store = createStore(
   applyMiddleware(middleware, thunk)
 );
 
+const theme = createMuiTheme({
+  palette: {
+    primary: { main: '#00838F' }, // Purple and green play nicely together.
+    secondary: { main: '#00838F' }, // This is just green.A700 as hex.
+  },
+});
 
 
 ReactDOM.render(
   <I18nextProvider i18n={i18n}>
     <Provider store={store}>
       <ConnectedRouter history={history}>
+        <MuiThemeProvider theme={theme}>
           <App />
+        </MuiThemeProvider>
       </ConnectedRouter>
     </Provider>
   </I18nextProvider>,

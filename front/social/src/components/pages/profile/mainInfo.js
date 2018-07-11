@@ -1,5 +1,4 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper/Paper';
 import Grid from '@material-ui/core/Grid/Grid';
 import { PROFILE_CONSTS } from '../../../constans/profile';
 import { PROFILE_CONTENT } from '../../../content/profile';
@@ -30,7 +29,7 @@ class MainInfoWithUser extends React.Component {
         ]
         const itemsInfo = items.map((item) => <li key={item.key}><InfoItem t={t} item={item} /></li>);
         return (
-            <Paper className="main-info-wrapper">
+            <div className="main-info-wrapper papper">
                 <div className="main-info-header">
                     <h2 className="main-info-name">{PROFILE_CONTENT.getFullName(user)}</h2>
                 </div>
@@ -41,7 +40,7 @@ class MainInfoWithUser extends React.Component {
                         </ul>
                     </Grid>
                 </div>
-            </Paper>
+            </div>
         )
     }
 }
@@ -68,9 +67,36 @@ class MainInfoEmitter extends React.Component {
 
     render() {
         return (
-            <Paper className="main-info-wrapper">
-                
-            </Paper>
+            <div className="main-info-wrapper papper">
+                <div className="emmit-name">
+                    <div className="emmit-block"></div>
+                    <div className="emmit-block"></div>
+                </div>
+                <Grid container spacing={24}>
+                    <Grid className="info-key" item xs={4}>
+                        <div className="emmit-block" style={{width: "55%"}}></div>
+                    </Grid>
+                    <Grid className="info-value" item xs={8}>
+                        <div className="emmit-block" style={{width: "25%"}}></div>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={24}>
+                    <Grid className="info-key" item xs={4}>
+                        <div className="emmit-block" style={{width: "95%"}}></div>
+                    </Grid>
+                    <Grid className="info-value" item xs={8}>
+                        <div className="emmit-block" style={{width: "15%"}}></div>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={24}>
+                    <Grid className="info-key" item xs={4}>
+                        <div className="emmit-block" style={{width: "75%"}}></div>
+                    </Grid>
+                    <Grid className="info-value" item xs={8}>
+                        <div className="emmit-block"></div>
+                    </Grid>
+                </Grid>
+            </div>
         )
     }
 }

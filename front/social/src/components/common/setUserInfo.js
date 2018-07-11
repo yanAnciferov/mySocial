@@ -11,6 +11,7 @@ class SetUserInfo extends Component {
     render() {
 
         let { 
+            validateState,
             validateState: { sex, email, firstname, surname, parrentname, birthdate },
             onSubmit, fieldChange, buttonText, t
         } = this.props;
@@ -18,7 +19,7 @@ class SetUserInfo extends Component {
         let state = {
             ...this.props
         }
-
+        console.log(validateState);
         return (
         <form>
             <Grid container spacing={24}>
@@ -28,7 +29,7 @@ class SetUserInfo extends Component {
                     label={t(Content.NameLabel)} 
                     message={t(firstname.message)} 
                     onChange={(e) => fieldChange(MODEL_NAMES.FIRSTNAME,e)} 
-                    error={firstname.isError} 
+                    isError={firstname.isError} 
                     fullWidth/>
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -37,7 +38,7 @@ class SetUserInfo extends Component {
                         label={t(Content.SurameLabel)} 
                         message={t(surname.message)} 
                         onChange={(e) => fieldChange(MODEL_NAMES.SURNAME,e)} 
-                        error={surname.isError} 
+                        isError={surname.isError} 
                         fullWidth/>
                 </Grid>
             </Grid>
@@ -48,7 +49,7 @@ class SetUserInfo extends Component {
                         label={t(Content.ParrentnameLabel)} 
                         message={t(parrentname.message)} 
                         onChange={(e) => fieldChange(MODEL_NAMES.PARRENTNAME,e)} 
-                        error={parrentname.isError} 
+                        isError={parrentname.isError} 
                         fullWidth/>
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -96,7 +97,7 @@ class SetUserInfo extends Component {
                 
             
             <Grid container justify="flex-end">
-                <Button onClick={onSubmit} type="submit" variant="contained" color="primary">{buttonText}</Button>
+                <Button onClick={onSubmit} type="submit" variant="contained" color="primary">{t(buttonText)}</Button>
             </Grid> 
         </form>
         )

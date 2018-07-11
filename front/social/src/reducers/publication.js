@@ -17,6 +17,7 @@ export default function (state = initialState, action) {
 
 
     if(action.type === ACTION_FOR_PUBLICATION.ON_PUB_SUBMIT){
+        state.text = state.text.trim();
         return {
             ...state,
             isValid: state.text > TEXT_PARAMS.MIN_TEXT_SIZE && state.text < TEXT_PARAMS.MAX_TEXT_SIZE

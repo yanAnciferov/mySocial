@@ -91,8 +91,8 @@
     "Incorrect password" : "Невірний пароль",
     "The password must be between 6 and 31 characters in length" : "Довжина пароля повинна бути від 6 до 32 символів",
     "Passwords do not match" : "Паролі не співпадають",
-    "Enter your old password" : "Введіть новий пароль",
-    "Enter new password" : "Введіть старий пароль",
+    "Enter your old password" : "Введіть старий пароль",
+    "Enter new password" : "Введіть новий пароль",
     "Confirm the password" : "Підтвердіть пароль",
     "Only .jpeg, .jpg, .png files": "Підходять тільки файли формату .jpeg, .jpg, .png",
     "The file size should be from 40kb to 5mb" : "Розмір файлу повинен бути від 40kb до 5mb",
@@ -102,6 +102,7 @@
     "messageAboutPassword": "Пароль і логін був висланий вам на пошту - {{email}}",
     " accepted your request to friends" : " прийняв вашу заявку в друзі",
     " wants to add you as a friend" : " хоче додати вас у друзі",
-    "yearsOld" : "{{year}} років"
-
+    "yearsOld" : "{{year}} років",
+    "Delete": "Видалити",
+    "Are you sure want to delete this entry?" : "Ви дійсно хочете видалити цей запис?"
 }

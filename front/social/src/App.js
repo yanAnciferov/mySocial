@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ErrorWindow from "./components/common/errorWindow";
-import LoaderWindow from "./components/common/loadingWindow"
+import LoaderWindow from "./components/common/loadingWindow";
+import MessageBox from "./components/common/messageBox";
 
 import Header from "./components/common/header";
 import { connect } from 'react-redux';
@@ -57,6 +58,7 @@ class App extends Component {
         <ErrorWindow onClose={onCloseErrorWindow} open={errorWindow.isVisible} value={errorWindow.message} />
         <LoaderWindow open={loadingWindow.isVisible} value={loadingWindow.message} />
         <RegistrationSuccess open={isSuccessWindowShow} value="Value"/>
+        <MessageBox />
          { !authorizedUser ? <LanguagePicker /> : null }
      </div>
     );

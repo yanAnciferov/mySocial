@@ -1,5 +1,4 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper/Paper';
 import Button from '@material-ui/core/Button/Button';
 import { Link } from 'react-router-dom';
 import CommonContent  from "../../../content/common"
@@ -15,9 +14,9 @@ class Avatar extends React.Component {
         <AvatarImageControl t={t} isMyPage={isMyPage} onLoadAvatarClick={onLoadAvatarClick} user={user} /> 
           : <div className="avatar-emitter" />
       return (
-        <Paper className="avatar-wrapper">
+        <div className="avatar-wrapper papper">
             <div>{forRender}</div>
-        </Paper>
+        </div>
       )
     }
   }
